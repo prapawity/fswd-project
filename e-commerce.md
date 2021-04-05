@@ -68,5 +68,5 @@
 - Admin update order status
 - Admin cancel order
 - Update product stock when Customer make order
-### 3. Implement Froneend, Backend and Database support pages and features
+### 3. Implement Frontend, Backend and Database support pages and features
 ### 4. Deploy Frontend, Backend and Database to server
