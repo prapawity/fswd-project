@@ -1,14 +1,31 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { SearchIcon, ShoppingCartIcon, MenuIcon } from '@heroicons/react/solid'
 import ProductDropdown from './ProductDropdown'
 import UserDropdown from "./UserDropdown";
+import { useHistory } from 'react-router-dom'
 
-const UserNavBar = () => {
+const UserNavBar = (props) => {
+    const history = useHistory()
     const [navbarOpen, setNavbarOpen] = useState(false);
-    const [state, setData] = useState(false)
+
+    const redirectToRegister = useCallback(
+        () => {
+            history.push('/register')
+        },
+        [history],
+    )
+
+    const redirectToLogin = useCallback(
+        () => {
+            history.push('/login')
+        },
+        [history],
+    )
+
     const userBox = useMemo(
         () => {
-            if (state) {
+            console.log("Check isGuest", props.isGuest)
+            if (props.isGuest) {
                 return (
                     <div className={"lg:flex flex-grow items-center" + (navbarOpen ? " block" : " hidden")}>
                         <ul className="flex flex-col lg:flex-row list-none ml-auto">
@@ -16,15 +33,17 @@ const UserNavBar = () => {
                                 <button
                                     className="bg-white text-black active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
                                     type="button"
+                                    onClick={redirectToLogin}
                                 >
-                                     Log in</button>
+                                    Log in</button>
                             </li>
                             <li className="nav-item">
                                 <button
                                     className="bg-gray-800 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
                                     type="button"
+                                    onClick={redirectToRegister}
                                 >
-                                Sign up</button>
+                                    Sign up</button>
                             </li>
                         </ul>
                     </div>
@@ -51,7 +70,7 @@ const UserNavBar = () => {
                 )
             }
         },
-        [state],
+        [props.isGuest],
     )
 
 
@@ -97,4 +116,4 @@ const UserNavBar = () => {
 
 }
 
-export default UserNavBar;
+export default UserNavBar
