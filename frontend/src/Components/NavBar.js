@@ -1,29 +1,33 @@
 import { Fragment, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSession } from '../contexts/SessionContext'
+import UserNavBar from './UserNavBar'
 
 const Navbar = () => {
-  const [loading, setLoading] = useState(true)
-  const userBox = useMemo(
+  const { loading, user } = useSession()
+
+  const NavBarType = useMemo(
     () => {
-      if (loading) {
+      console.log("check data", user)
+      
+      if (user) {
+        console.log("Should Update Navbar")
         return (
-          <span className="Navbar-user">Loading ...</span>
+          <UserNavBar isGuest={false}/>
+        )
+      } else {
+        return (
+          <UserNavBar isGuest={true}/>
         )
       }
-      else {
-          return(
-              <span>NotLoading</span>
-          )
-      }
     },
-    [loading],
+    [loading, user],
   )
+
   return (
-    <nav className="Navbar-nav">
-      <Link className="Navbar-title" to="/">Facecook</Link>
-      <div className="Navbar-space" />
-      {userBox}
-    </nav>
+    <Fragment>
+      {NavBarType}
+    </Fragment>
   )
 }
 

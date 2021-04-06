@@ -2,12 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { createPopper } from "@popperjs/core";
 import { UserIcon } from '@heroicons/react/solid'
+import { useSession } from "../contexts/SessionContext";
 
 const UserDropdown = () => {
-  // dropdown props
+  const { logout: handleLogout } = useSession()
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
+
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
@@ -17,6 +19,11 @@ const UserDropdown = () => {
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
+
+  const handleActionLogout = () => {
+    console.log("logout")
+    handleLogout()
+  }
 
   return (
     <>
@@ -53,8 +60,9 @@ const UserDropdown = () => {
           Orders
         </Link>
         <Link
-          to="/admin/tables"
+          to="/"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          onClick={handleActionLogout}
         >
           Log out
         </Link>
