@@ -5,7 +5,7 @@ import UserDropdown from "./UserDropdown";
 
 const UserNavBar = () => {
     const [navbarOpen, setNavbarOpen] = useState(false);
-    const [state, setData] = useState(true)
+    const [state, setData] = useState(false)
     const userBox = useMemo(
         () => {
             if (state) {
