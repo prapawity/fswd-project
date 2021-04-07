@@ -1,13 +1,16 @@
 import { useCallback, useState } from "react"
 import { useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
-import { CREATE_CUSTOMER_USER } from '../graphql/registerMutation'
+import { CREATE_CUSTOMER_USER, CREATE_ADMIN_USER } from '../graphql/registerMutation'
 import { useSession } from "../contexts/SessionContext"
-const Registerpage = () => {
+const Registerpage = (props) => {
     const { login } = useSession()
     const history = useHistory()
     const [newUser, setNewUser] = useState({ name_surname: '', username: '', password: '' })
-    const [createUser] = useMutation(CREATE_CUSTOMER_USER)
+    const isCustomerType = () => {
+        return !(props.location.pathname.includes('admin'))
+    }
+    const [createUser] = useMutation(isCustomerType() ? CREATE_CUSTOMER_USER : CREATE_ADMIN_USER)
     const handleInputChange = useCallback(
         (e) => {
             const { name, value } = e.target
@@ -15,6 +18,7 @@ const Registerpage = () => {
         },
         [],
     )
+
     const handleRegister = useCallback(
         async (e) => {
             e.preventDefault()

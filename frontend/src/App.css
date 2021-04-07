@@ -40,5 +40,11 @@
 .footer-custom {
   position: absolute;
   bottom: 0;
+  left: 0;
   width: 100%;
+}
+
+.main-dom {
+  min-height: 100vh;
+  position: relative;
 }

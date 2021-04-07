@@ -7,3 +7,11 @@ mutation ($record: CreateOneCustomerInput!) {
       }
   }
 `
+
+export const CREATE_ADMIN_USER = gql`
+mutation ($record: CreateOneAdminInput!) {
+    createAdmin(record: $record) {
+        recordId
+      }
+  }
+`
