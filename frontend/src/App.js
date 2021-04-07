@@ -7,6 +7,7 @@ import { Component, Fragment, Suspense } from 'react';
 import LoginPage from './Views/LoginPage';
 import Registerpage from './Views/RegisterPage';
 import CustomerInfo from './Views/CustomerInfo';
+import CustomerOrder from './Views/CustomerOrder';
 import { useSession } from './contexts/SessionContext';
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
               </Route>
               <Route path="/register" exact>
                 <Registerpage />
+              </Route>
+              <Route path="/info" exact>
+                <CustomerInfo />
               </Route>
               <PrivateRoute authed={passAuthen} path="/customer/info" component={CustomerInfo} />
               {/* <Route path="/customer/info" exact>
