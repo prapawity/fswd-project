@@ -21,20 +21,18 @@ const UserSchema = new Schema({
   username: {
     type: String, required: true, index: true, unique: true,
   },
-  password: { type: String, require: true, bcrypt: true }
+  password: { type: String, require: true, bcrypt: true },
+  name_surname: {
+    type: String, required: true,
+  }
 })
 UserSchema.plugin(bcrypt)
 
 const AdminSchema = new Schema({
-  name: {
-    type: String, required: true,
-  }
+
 })
 
 const CustomerSchema = new Schema({
-  name_surname: {
-    type: String, required: true,
-  },
   email: { type: String },
   tel: { type: String },
   address: { type: String }
