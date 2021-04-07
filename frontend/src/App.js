@@ -11,7 +11,7 @@ import CustomerOrder from './Views/CustomerOrder';
 import { useSession } from './contexts/SessionContext';
 
 function App() {
-  const {user} = useSession()
+  const { user } = useSession()
   // MARK: - How to call someting in SesstionContext this is example
   // const handleLogin = useCallback(
   //   async (e) => {
@@ -21,12 +21,12 @@ function App() {
   //   },
   //   [login, password, username],
   // )
-  const PrivateRoute = ({ component: Component, authed, ...rest }) => {
+  const PrivateRoute = ({ component: Component, authed, redirectTo, ...rest }) => {
     return (
-      <Route 
-      {...rest}
-      render={(props) => (authed === true) ? <Component {...props} /> : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
-      exact
+      <Route
+        {...rest}
+        render={(props) => (authed === true) ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
+        exact
       />
     )
   }
@@ -37,32 +37,32 @@ function App() {
 
   return (
     <Fragment>
-      <Navbar />
-      <div className="App-page">
-        <div className="App-content">
-          <Suspense fallback="Loading ...">
-            <Switch>
-              <Route path="/" exact>
-                <Home />
-              </Route>
-              <Route path="/login" exact>
-                <LoginPage />
-              </Route>
-              <Route path="/register" exact>
-                <Registerpage />
-              </Route>
-              <Route path="/info" exact>
-                <CustomerInfo />
-              </Route>
-              <PrivateRoute authed={passAuthen} path="/customer/info" component={CustomerInfo} />
-              {/* <Route path="/customer/info" exact>
+      <div className="main-dom">
+        <Navbar />
+        <div className="App-page">
+          <div className="App-content">
+            <Suspense fallback="Loading ...">
+              <Switch>
+                <Route path="/" exact>
+                  <Home />
+                </Route>
+                <PrivateRoute authed={!passAuthen()} path="/login"
+                  redirectTo="/" component={LoginPage} />
+                <PrivateRoute authed={!passAuthen()} path="/register/admin"
+                  redirectTo="/" component={Registerpage} />
+                <PrivateRoute authed={!passAuthen()} path="/register" redirectTo="/" component={Registerpage} />
+                <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
+                <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
+                <PrivateRoute authed={passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
+                {/* <Route path="/customer/info" exact>
                 <CustomerInfo />
               </Route> */}
-            </Switch>
-          </Suspense>
+              </Switch>
+            </Suspense>
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
     </Fragment>
   );
 }
