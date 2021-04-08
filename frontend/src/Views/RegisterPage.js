@@ -62,9 +62,9 @@ const Registerpage = (props) => {
                                             Fullname
                   </label>
                                         <input
-                                            type="email"
+                                            type="text"
                                             className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                                            name="fullName" value={newUser.name_surname} placeholder="Name - Surname" onChange={handleInputChange}
+                                            name="name_surname" value={newUser.name_surname} placeholder="Name - Surname" onChange={handleInputChange}
                                             style={{ transition: "all .15s ease" }}
                                         />
                                     </div>
@@ -76,7 +76,7 @@ const Registerpage = (props) => {
                                             Username
                   </label>
                                         <input
-                                            type="email"
+                                            type="text"
                                             className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                                             name="username" value={newUser.username} placeholder="Username" onChange={handleInputChange}
                                             style={{ transition: "all .15s ease" }}
@@ -104,7 +104,7 @@ const Registerpage = (props) => {
                                             type="submit"
                                             style={{ transition: "all .15s ease" }}
                                         >
-                                            Sign In
+                                            Register
                   </button>
                                     </div>
                                 </form>

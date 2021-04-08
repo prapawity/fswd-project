@@ -50,7 +50,7 @@ const LoginPage = () => {
                       Username
                   </label>
                     <input
-                      type="email"
+                      type="text"
                       className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                       name="username" value={username} placeholder="Username" onChange={handleUsernameChange}
                       style={{ transition: "all .15s ease" }}
@@ -78,7 +78,7 @@ const LoginPage = () => {
                       type="submit"
                       style={{ transition: "all .15s ease" }}
                     >
-                      Sign In
+                      Login
                   </button>
                   </div>
                 </form>
