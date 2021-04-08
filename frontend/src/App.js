@@ -36,7 +36,6 @@ function App() {
   }
 
   return (
-    <Fragment>
       <div className="main-dom">
         <Navbar />
         <div className="App-page">
@@ -51,6 +50,7 @@ function App() {
                 <PrivateRoute authed={!passAuthen()} path="/register/admin"
                   redirectTo="/" component={Registerpage} />
                 <PrivateRoute authed={!passAuthen()} path="/register" redirectTo="/" component={Registerpage} />
+                
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
@@ -63,7 +63,6 @@ function App() {
         </div>
         <Footer />
       </div>
-    </Fragment>
   );
 }
 
