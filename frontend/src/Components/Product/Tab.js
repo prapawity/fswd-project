@@ -1,12 +1,16 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 const Tabs = (props) => {
-    const [openTab, setOpenTab] = useState(props.index);
+    const index = props.index ?? 0
+    const [openTab, setOpenTab] = useState(index);
 
     const handleTab = (index) => {
         setOpenTab(index)
         props.updateIndex(index)
     }
+    useEffect(() => {
+        setOpenTab(index)
+    }, [index])
     return (
         <div className="flex flex-wrap mb-5">
             <div className="w-full">

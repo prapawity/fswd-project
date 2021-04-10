@@ -10,9 +10,10 @@ import CustomerInfo from './Views/CustomerInfo';
 import CustomerOrder from './Views/CustomerOrder';
 import { useSession } from './contexts/SessionContext';
 import ProductPage from './Views/ProductPage';
+import { useCookies } from 'react-cookie';
 
 function App() {
-  const { user } = useSession()
+  const { userCookies } = useSession()
   // MARK: - How to call someting in SesstionContext this is example
   // const handleLogin = useCallback(
   //   async (e) => {
@@ -33,7 +34,7 @@ function App() {
   }
 
   const passAuthen = () => {
-    return !(user === null)
+    return !(userCookies.user === undefined)
   }
 
   return (
@@ -55,8 +56,7 @@ function App() {
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
-                <PrivateRoute authed={!passAuthen()} path="/product" redirectTo="/login" component={ProductPage} />
-
+                <PrivateRoute authed={passAuthen()} path="/product/:type" redirectTo="/login" component={ProductPage} />
                 {/* <Route path="/customer/info" exact>
                 <CustomerInfo />
               </Route> */}

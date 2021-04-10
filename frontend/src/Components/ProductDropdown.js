@@ -39,31 +39,31 @@ const ProductDropdown = () => {
       >
         
         <Link
-          to="/admin/dashboard"
+          to="/product/running"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Running
         </Link>
         <Link
-          to="/admin/settings"
+          to="/product/casual"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Casual
         </Link>
         <Link
-          to="/admin/tables"
+          to="/product/football"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Football
         </Link>
         <Link
-          to="/admin/tables"
+          to="/product/basketball"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Basketball
         </Link>
         <Link
-          to="/admin/tables"
+          to="/product/sandals"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Sandals
