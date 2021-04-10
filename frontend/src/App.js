@@ -1,14 +1,15 @@
 import { Switch, Route, Redirect } from 'react-router-dom'
 import './App.css';
 import Home from './Views/Home';
-import Navbar from './Components/NavBar';
-import Footer from './Components/Footer'
+import Navbar from './Components/General/NavBar';
+import Footer from './Components/General/Footer'
 import { Component, Fragment, Suspense } from 'react';
 import LoginPage from './Views/LoginPage';
 import Registerpage from './Views/RegisterPage';
 import CustomerInfo from './Views/CustomerInfo';
 import CustomerOrder from './Views/CustomerOrder';
 import { useSession } from './contexts/SessionContext';
+import ProductPage from './Views/ProductPage';
 
 function App() {
   const { user } = useSession()
@@ -54,6 +55,8 @@ function App() {
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
+                <PrivateRoute authed={!passAuthen()} path="/product" redirectTo="/login" component={ProductPage} />
+
                 {/* <Route path="/customer/info" exact>
                 <CustomerInfo />
               </Route> */}

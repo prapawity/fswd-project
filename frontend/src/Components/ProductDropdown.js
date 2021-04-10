@@ -1,13 +1,13 @@
-import React from "react";
+import { createRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { createPopper } from "@popperjs/core";
 import { ChevronDownIcon } from '@heroicons/react/solid'
 
 const ProductDropdown = () => {
   // dropdown props
-  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+  const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false);
+  const btnDropdownRef = createRef()
+  const popoverDropdownRef = createRef();
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",

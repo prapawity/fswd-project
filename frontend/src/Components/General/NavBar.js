@@ -1,6 +1,6 @@
 import { Fragment, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useSession } from '../contexts/SessionContext'
+import { useSession } from '../../contexts/SessionContext'
+
 import UserNavBar from './UserNavBar'
 
 const Navbar = () => {

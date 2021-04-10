@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { SearchIcon, ShoppingCartIcon, MenuIcon } from '@heroicons/react/solid'
-import ProductDropdown from './ProductDropdown'
-import UserDropdown from "./UserDropdown";
+import ProductDropdown from '../ProductDropdown'
+import UserDropdown from "../UserDropdown";
 import { useHistory } from 'react-router-dom'
 
 const UserNavBar = (props) => {

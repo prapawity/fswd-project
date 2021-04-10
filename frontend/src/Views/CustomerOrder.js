@@ -1,4 +1,3 @@
-import Footer from "../Components/Footer"
 import CardOrder from "../Components/CardOrder"
 
 const CustomerOrder = () => {
