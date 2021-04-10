@@ -1,14 +1,10 @@
 import { SparklesIcon } from "@heroicons/react/solid"
+import Jumbotron from "../Components/General/Jumbotron"
 
 const Home = () => {
     return (
         <main>
-            <div className="relative pb-25 flex content-center items-center justify-center min-h-screen-75">
-                <img
-                    src={(process.env.PUBLIC_URL + '/img/Banner2.jpeg')}
-                    alt="..."
-                />
-            </div>
+            <Jumbotron img={(process.env.PUBLIC_URL + '/img/Banner2.jpeg')} />
 
             <div className="relative pt-10 pb-32 flex content-center items-center justify-center min-h-screen-75">
                 <div className="items-center flex flex-wrap">
