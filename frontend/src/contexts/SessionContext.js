@@ -13,6 +13,7 @@ export const SessionProvider = (props) => {
   const { children } = props
   const [user, setUser] = useState(null)
   const [, setCookie, removeCookie] = useCookies(['token'])
+  const [userCookies, setCookieUser, removeCookieUser] = useCookies(['user'])
   const [loadMe, { loading, data }] = useLazyQuery(ME_QUERY, { fetchPolicy: 'network-only' })
   const [login] = useMutation(LOGIN_MUTATION)
   const handleLogin = useCallback(
@@ -21,26 +22,30 @@ export const SessionProvider = (props) => {
         const res = await login({ variables: { username, password } })
         if (res?.data?.login?.token) {
           setCookie('token', res?.data?.login?.token, { maxAge: 86400 })
+          setCookieUser('user', res?.data?.login?.user, { maxAge: 86400 })
           setUser(res?.data?.login?.user)
         }
       } catch (err) {
         console.log("Error form Login: ", err)
         removeCookie('token', { maxAge: 86400 })
+        removeCookieUser('user', { maxAge: 86400 })
       }
     },
-    [login, removeCookie, setCookie],
+    [login, removeCookie, setCookie, setCookieUser, removeCookieUser],
   )
   const handleLogout = useCallback(
     () => {
       setUser(null)
       removeCookie('token', { maxAge: 86400 })
+      removeCookieUser('user', { maxAge: 86400 })
     },
-    [removeCookie],
+    [removeCookie, removeCookieUser],
   )
   useEffect(
     () => {
       if (data?.me) {
         setUser(data?.me)
+        setCookieUser('user', data?.me, { maxAge: 86400 })
       }
     },
     [data],
@@ -49,20 +54,26 @@ export const SessionProvider = (props) => {
     () => {
       const loadData = async () => {
         try {
-          await loadMe()
+          const res = loadMe()
+          if (res?.data?.login?.token) {
+            setCookie('token', res?.data?.login?.token, { maxAge: 86400 })
+            setCookieUser('user', res?.data?.login?.user, { maxAge: 86400 })
+            setUser(res?.data?.login?.user)
+          }
         } catch (err) {
           removeCookie('token', { maxAge: 86400 })
+          removeCookieUser('user', { maxAge: 86400 })
         }
       }
       loadData()
     },
-    [loadMe, removeCookie],
+    [loadMe, removeCookie, removeCookieUser],
   )
   console.log("Session Checking....")
   return (
     <SessionContext.Provider
       value={{
-        loading, user, login: handleLogin, logout: handleLogout,
+        loading, user, login: handleLogin, logout: handleLogout, userCookies: userCookies,
       }}
     >
       {children}

@@ -73,7 +73,6 @@ const UserNavBar = (props) => {
         [props.isGuest],
     )
 
-
     return (
         <div>
             <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-500 mb-0">
