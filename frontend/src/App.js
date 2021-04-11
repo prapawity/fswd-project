@@ -47,16 +47,16 @@ function App() {
                 <Route path="/" exact>
                   <Home />
                 </Route>
+                <Route path="/product" component={ProductPage} exact />
+                <Route path="/product/:type" component={ProductPage} exact/>
+                
                 <PrivateRoute authed={!passAuthen()} path="/login"
                   redirectTo="/" component={LoginPage} />
                 <PrivateRoute authed={!passAuthen()} path="/register/admin"
                   redirectTo="/" component={Registerpage} />
                 <PrivateRoute authed={!passAuthen()} path="/register" redirectTo="/" component={Registerpage} />
-                
-                <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
-                <PrivateRoute authed={passAuthen()} path="/product/:type" redirectTo="/login" component={ProductPage} />
                 {/* <Route path="/customer/info" exact>
                 <CustomerInfo />
               </Route> */}

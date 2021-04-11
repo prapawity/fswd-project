@@ -6,21 +6,24 @@ import Tabs from "../Components/Product/Tab"
 
 const ProductPage = (props) => {
     const history = useHistory()
-    const typeOfTab = ["Running", "Casual", "Football", "Basketball", "Sandals"]
-    const pathName = props.match.params.type.replace('/product/', '')
+    const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
+    const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
     const handleIndex = useMemo(() => {
         let currentIndex = 0
-        typeOfTab.map((type, index) => {
-            if (type.toLowerCase() == pathName || type.toLowerCase().includes(pathName)) {
-                currentIndex = index
-            }
-        })
+        if (pathName !== undefined) {
+            typeOfTab.map((type, index) => {
+                if (type.toLowerCase() == pathName) {
+                    currentIndex = index
+                }
+                console.log(pathName, props.match.params.type, currentIndex, index)
+            })
+        }
         return currentIndex
     }, [pathName])
     const indexFromPath = handleIndex
     const redirectToState = useCallback(
         (index) => {
-            history.push('/product/' + typeOfTab[index].toLowerCase())
+            history.push('/product' + (index === 0 ? "" : ("/" + typeOfTab[index].toLowerCase())))
         },
         [history],
     )
@@ -28,7 +31,7 @@ const ProductPage = (props) => {
     const [stateIndex, setIndex] = useState(indexFromPath)
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     const dataShow = useMemo(() => {
-        return data.filter((_, index) => (index % stateIndex) === 0)
+        return data.filter((_, index) => (index % (stateIndex + 1)) === 0)
     }, [stateIndex, data])
 
     const handleUpdateIndex = (index) => {
