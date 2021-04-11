@@ -9,6 +9,7 @@ import Registerpage from './Views/RegisterPage';
 import CustomerInfo from './Views/CustomerInfo';
 import CustomerOrder from './Views/CustomerOrder';
 import { useSession } from './contexts/SessionContext';
+import CustomerOrderDetail from './Views/CustomerOrderDetail';
 import ProductPage from './Views/ProductPage';
 import { useCookies } from 'react-cookie';
 
@@ -47,16 +48,26 @@ function App() {
                 <Route path="/" exact>
                   <Home />
                 </Route>
-                <Route path="/product" component={ProductPage} exact />
-                <Route path="/product/:type" component={ProductPage} exact/>
                 
+                {/* MARK:- Authentication */}
                 <PrivateRoute authed={!passAuthen()} path="/login"
                   redirectTo="/" component={LoginPage} />
                 <PrivateRoute authed={!passAuthen()} path="/register/admin"
                   redirectTo="/" component={Registerpage} />
                 <PrivateRoute authed={!passAuthen()} path="/register" redirectTo="/" component={Registerpage} />
+
+                {/* MARK:- Customer Zone */}
+                <Route path="/product" component={ProductPage} exact />
+                <Route path="/product/:type" component={ProductPage} exact/>
+
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
+                <PrivateRoute authed={passAuthen()} path="/customer/order/detail/:id" redirectTo="/login" component={CustomerOrderDetail} />
+
+                {/* MARK:- Admin Zone */}
+
+                {/* MARK:- Other URL */}
+                <Route render={() => <Redirect to={{pathname: "/"}} />} />
                 {/* <Route path="/customer/info" exact>
                 <CustomerInfo />
               </Route> */}
