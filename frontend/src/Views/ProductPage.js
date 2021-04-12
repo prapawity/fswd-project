@@ -45,7 +45,7 @@ const ProductPage = (props) => {
     return (
         <Fragment>
             <Jumbotron img={(process.env.PUBLIC_URL + '/img/Banner2.jpeg')} />
-            <div className="mr-10 ml-10 pb-20">
+            <div className="mr-10 ml-10 ">
                 <Tabs index={stateIndex} updateIndex={handleUpdateIndex} type={typeOfTab} />
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-10 md:mb-0">
                     {dataShow.map((index) => {

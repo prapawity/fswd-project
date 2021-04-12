@@ -3,7 +3,7 @@ import './App.css';
 import Home from './Views/Home';
 import Navbar from './Components/General/NavBar';
 import Footer from './Components/General/Footer'
-import { Component, Fragment, Suspense } from 'react';
+import { Suspense } from 'react';
 import LoginPage from './Views/LoginPage';
 import Registerpage from './Views/RegisterPage';
 import CustomerInfo from './Views/CustomerInfo';
@@ -11,7 +11,7 @@ import CustomerOrder from './Views/CustomerOrder';
 import { useSession } from './contexts/SessionContext';
 import CustomerOrderDetail from './Views/CustomerOrderDetail';
 import ProductPage from './Views/ProductPage';
-import { useCookies } from 'react-cookie';
+import ProductDetail from './Views/ProductDetail';
 
 function App() {
   const { userCookies } = useSession()
@@ -41,7 +41,7 @@ function App() {
   return (
       <div className="main-dom">
         <Navbar />
-        <div className="App-page">
+        <div className="App-page pb-105 md:pb-77">
           <div className="App-content">
             <Suspense fallback="Loading ...">
               <Switch>
@@ -59,6 +59,7 @@ function App() {
                 {/* MARK:- Customer Zone */}
                 <Route path="/product" component={ProductPage} exact />
                 <Route path="/product/:type" component={ProductPage} exact/>
+                <Route path="/product/detail/:id" component={ProductDetail} />
 
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
                 <PrivateRoute authed={passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
