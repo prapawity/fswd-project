@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react"
+import Accordion from "../Components/General/Accordion"
 const typeStyle = {
     fontSize: '22px'
 }
@@ -63,7 +64,7 @@ const ProductDetail = (props) => {
         <Fragment>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
-                    <img className="mb-5" src={image} style={imageStyle}/>
+                    <img className="mb-5" src={image} style={imageStyle} />
                 </div>
                 <div className="pr-0 md:pr-10 mt-0 md:mt-5 pl-10 pr-10 md:pl-0 md:pr-0">
                     <div className="grid grid-cols-2 gap-5 w-full">
@@ -114,6 +115,12 @@ const ProductDetail = (props) => {
                     <p>Nike Air Zoom G.T.Cut คือรองเท้าสำหรับสเปซเมกเกอร์ ผู้เล่นที่ใช้ลีลาทักษะเพื่อสร้างพื้นที่ในการทำเกมให้ตัวเองและเพื่อนในทีมซิลลูเอทของรองเท้าออกแบบให้มีน้ำหนักเบาและแนบชิดติดพื้น ซึ่งจะลดการสัมผัสพื้นให้น้อยที่สุด ทำให้คุณควบคุมฝีเท้าได้ดั่งใจและมีเสถียรภาพในการเคลื่อนไหวไปด้านข้างนอกจากนี้ Air Zoom G.T. Cut ยังมีการติดตั้งพื้นรองเท้าแบบลาดลงของ React แบบเต็มความยาวเท้า โดยซ้อนทับเหนือส่วนโค้งพาราโบลิกของ Air Zoom Strobel และส่วน Air Zoom ที่ส้นเพื่อสร้างสัมผัสที่ฉับไวและตอบสนองได้ดี
 
                     </p>
+                    <Accordion
+                        title="Free Delivery and Return"
+                        content="Free delivery for orders valued at THB 5500 or more.<br>
+                        <br>Orders will be processed and delivered Monday - Friday. Except public holidays
+Except for the holiday season for Nike members free shipping in case of return. Exceptions to the return policy"
+                    />
                 </div>
             </div>
         </Fragment>
