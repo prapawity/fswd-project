@@ -2,23 +2,23 @@ import { createRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { createPopper } from "@popperjs/core";
 import { ChevronDownIcon } from '@heroicons/react/solid'
-
+import { useDetectClickOutside } from 'react-detect-click-outside'
 const ProductDropdown = () => {
-  // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false);
   const btnDropdownRef = createRef()
   const popoverDropdownRef = createRef();
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
-    });
-    setDropdownPopoverShow(true);
-  };
+    })
+    setDropdownPopoverShow(true)
+  }
   const closeDropdownPopover = () => {
-    setDropdownPopoverShow(false);
-  };
+    setDropdownPopoverShow(false)
+  }
+  const ref = useDetectClickOutside({ onTriggered: closeDropdownPopover })
   return (
-    <>
+    <div ref={ref}>
       <a
         className="hover:text-blueGray-500 text-white px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
         href="#pablo"
@@ -70,7 +70,7 @@ const ProductDropdown = () => {
         </Link>
         
       </div>
-    </>
+    </div>
   );
 };
 
