@@ -1,4 +1,4 @@
-import { ProductTC, PromotionTC } from "../../models";
+import { BaseTC, ProductTC, PromotionTC } from "../../models";
 
 PromotionTC.addRelation(
     'productDetail', {
@@ -6,6 +6,6 @@ PromotionTC.addRelation(
     prepareArgs: {
         _id: (source) => source.productID
     },
-    projection: { _id: 1 }
+    projection: { productID: true }
 }
 )

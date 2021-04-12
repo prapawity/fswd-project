@@ -41,7 +41,8 @@ const ProductSchema = new Schema({
   },
   imageList: {
     type: [String]
-  }
+  },
+  timestamp: { type: Date, default: Date.now },
 })
 
 const PromotionSchema = new Schema({
