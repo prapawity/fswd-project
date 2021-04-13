@@ -4,11 +4,11 @@ import { useHistory } from "react-router"
 import Jumbotron from "../Components/General/Jumbotron"
 import CardProduct from "../Components/Product/CardProduct"
 import Tabs from "../Components/Product/Tab"
-import { PRODUCT_QUERTY } from "../graphql/productQuery"
+import { PRODUCTS_QUERTY } from "../graphql/productQuery"
 
 const ProductPage = (props) => {
     const history = useHistory()
-    const { loading, data } = useQuery(PRODUCT_QUERTY)
+    const { loading, data } = useQuery(PRODUCTS_QUERTY)
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
     const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
     const handleIndex = useMemo(() => {
@@ -25,7 +25,7 @@ const ProductPage = (props) => {
     const indexFromPath = handleIndex
     const redirectToState = useCallback(
         (index) => {
-            history.push('/product' + (index === 0 ? "" : ("/" + typeOfTab[index].toLowerCase())))
+            history.push('/product' + (index === 0 ? "s" : ("/" + typeOfTab[index].toLowerCase())))
         },
         [history],
     )

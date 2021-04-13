@@ -57,7 +57,7 @@ function App() {
                 <PrivateRoute authed={!passAuthen()} path="/register" redirectTo="/" component={Registerpage} />
 
                 {/* MARK:- Customer Zone */}
-                <Route path="/product" component={ProductPage} exact />
+                <Route path="/products" component={ProductPage} exact />
                 <Route path="/product/:type" component={ProductPage} exact/>
                 <Route path="/product/detail/:id" component={ProductDetail} />
 
