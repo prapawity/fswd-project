@@ -43,6 +43,12 @@ const ProductSchema = new Schema({
     type: [String]
   },
   timestamp: { type: Date, default: Date.now },
+  size: {
+    type: [String], index: true
+  },
+  description: {
+    type: String
+  }
 })
 
 const PromotionSchema = new Schema({
