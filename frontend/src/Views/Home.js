@@ -9,15 +9,15 @@ const Home = () => {
 
       <div className="relative pt-10 pb-32 flex content-center items-center justify-center min-h-screen-75">
         <div className="items-center flex flex-wrap">
-          <div className="w-full md:w-4/12 ml-auto mr-10 px-4">
+          <div className="w-full md:w-4/12 ml-auto sm:mr-10 px-4 mr-auto">
             <img
               alt="..."
               className="max-w-full rounded-lg shadow-lg"
               src={process.env.PUBLIC_URL + "/img/sale.png"}
             />
           </div>
-          <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
-            <div className="md:pr-12">
+          <div className="w-full md:w-6/12 ml-auto mr-auto px-4">
+            <div className="md:pr-12 mt-5 sm:mt-0">
               <div className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-300">
                 <SparklesIcon className="h-7 w-7 text-white-500" />
               </div>

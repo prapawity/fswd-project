@@ -27,3 +27,13 @@ code {
 .pb-77 {
   padding-bottom: 77px;
 }
+
+.text-xs {
+  font-size: 0.83rem;
+}
+.text-sm {
+  font-size: 0.9rem;
+}
+.text-sm {
+  font-size: 1rem;
+}

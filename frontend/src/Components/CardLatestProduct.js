@@ -9,11 +9,11 @@ const CardLatestProduct = () => {
             className="shadow-lg rounded-full mx-auto max-w-120-px"
           />
           <div className="pt-6 text-center">
-            <h5 className="text-xl font-bold">Nike Ryz 365 2</h5>
+            <h5 className="text-xl ">Nike Ryz 365 2</h5>
             <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-gray-600 bg-gray-200 uppercase last:mr-0 mr-1">
               Casual
             </span>
-            <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
+            <p className="mt-1 text-sm text-Grays-400 uppercase">
               ฿3,100
             </p>
           </div>
