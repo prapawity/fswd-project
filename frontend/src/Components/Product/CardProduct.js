@@ -1,4 +1,5 @@
-import { Fragment } from "react"
+import { useCallback } from "react"
+import { useHistory } from "react-router"
 
 const newLabelStyle = {
     color: "rgb(250, 84, 0)",
@@ -19,18 +20,32 @@ const imageStyle = {
     borderRadius: "5px"
 }
 
+const buttonStyle = {
+    textAlign: 'inherit'
+}
+
 const CardProduct = (props) => {
+    const history = useHistory()
     const image = props.img
+    const detail = props?.detail ?? {}
+    
+    const redirectToProductDetail = useCallback(
+        () => {
+            history.push(`/product/detail/${detail._id}`)
+        },
+        [history],
+    )
+    console.log(detail)
     return (
-        <Fragment>
+        <button className="focus:outline-none" style={buttonStyle}  onClick={redirectToProductDetail}>
             <div className="shadow-md p-5">
                 <img className="mb-5" src={image} style={imageStyle} />
                 <p style={newLabelStyle}>New Arrival</p>
-                <p style={productNameTextStyle}>Product Name</p>
-                <p style={productTypeTextStyle}>Product Type</p>
-                <p>Price</p>
+                <p style={productNameTextStyle}>{detail.name}</p>
+                <p style={productTypeTextStyle}>{detail.category}</p>
+                <p>฿{detail.price}</p>
             </div>
-        </Fragment>
+        </button>
     )
 }
 
