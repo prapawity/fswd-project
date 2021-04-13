@@ -1,4 +1,4 @@
-const { default: CardOrderDetailPdt } = require("./CardOrderDeatilPdt");
+const { default: CardOrderDetailPdt } = require("./CardOrderDetail-row");
 
 const CardOrderDetail = () => {
   return (

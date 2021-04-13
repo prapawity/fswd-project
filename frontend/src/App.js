@@ -12,6 +12,7 @@ import { useSession } from './contexts/SessionContext';
 import CustomerOrderDetail from './Views/CustomerOrderDetail';
 import ProductPage from './Views/ProductPage';
 import ProductDetail from './Views/ProductDetail';
+import AdminOrder from './Views/Admin/AdminOrder';
 
 function App() {
   const { userCookies } = useSession()
@@ -62,8 +63,10 @@ function App() {
                 <Route path="/product/detail/:id" component={ProductDetail} />
 
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
-                <PrivateRoute authed={passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
+                <PrivateRoute authed={!passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
                 <PrivateRoute authed={passAuthen()} path="/customer/order/detail/:id" redirectTo="/login" component={CustomerOrderDetail} />
+
+                <PrivateRoute authed={passAuthen()} path="/admin/order" redirectTo="/login" component={AdminOrder} />
 
                 {/* MARK:- Admin Zone */}
 
