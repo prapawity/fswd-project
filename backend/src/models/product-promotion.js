@@ -21,7 +21,7 @@ const Category = {
 
 const ProductSchema = new Schema({
   name: {
-    type: String, required: true, index: true,
+    type: String, required: true, index: true, unique: true
   },
   price: {
     type: String, required: true, index: true
@@ -42,10 +42,17 @@ const ProductSchema = new Schema({
   imageList: {
     type: [String]
   },
-  timestamp: { type: Date, default: Date.now },
-  size: {
-    type: [String], index: true
-  },
+  timestamp: { type: Date, default: Date.now, index: true },
+  size: [{
+    size_number: {
+      type: String,
+      index: true
+    },
+    stock: {
+      type: Number,
+      index: true
+    }
+  }],
   description: {
     type: String
   }
@@ -53,7 +60,7 @@ const ProductSchema = new Schema({
 
 const PromotionSchema = new Schema({
   productID: {
-      type: String, required: true, index: true, ref: 'Product'
+    type: String, required: true, index: true, ref: 'Product'
   },
   discount: {
     type: Number, required: true, index: true
@@ -65,13 +72,13 @@ const PromotionSchema = new Schema({
   },
   status: {
     type: Boolean,
-    required: true
+    default: false
   }
 })
 
 const discriminatorOptions = {
   fields: {
-    remove: ['category', 'imageList', 'thumnail']
+    remove: ['category', 'imageList', 'thumnail', 'size']
   }
 }
 

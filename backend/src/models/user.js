@@ -24,12 +24,18 @@ const UserSchema = new Schema({
   password: { type: String, require: true, bcrypt: true },
   name_surname: {
     type: String, required: true,
+  },
+  img: {
+    type: String
   }
 })
 UserSchema.plugin(bcrypt)
 
 const AdminSchema = new Schema({
-
+  company_name: {
+    type: String,
+    default: "ITKMITL"
+  }
 })
 
 const CustomerSchema = new Schema({
