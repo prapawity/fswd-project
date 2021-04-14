@@ -4,12 +4,14 @@ import { createPopper } from "@popperjs/core";
 import { UserIcon } from '@heroicons/react/solid'
 import { useSession } from "../contexts/SessionContext";
 import { useDetectClickOutside } from "react-detect-click-outside";
+import AlertModal from "./General/AlertModal";
 
 const UserDropdown = () => {
   const { logout: handleLogout } = useSession()
   const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false)
   const btnDropdownRef = createRef()
   const popoverDropdownRef = createRef()
+  const [showAlert, setShowAlert] = useState(false)
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
@@ -21,13 +23,23 @@ const UserDropdown = () => {
   };
 
   const handleActionLogout = () => {
-    handleLogout()
-  }
+    setShowAlert(!showAlert)
+    console.log("check here", showAlert)
+}
+
+  const alertProps = {
+    title: "Do you want to Logout?",
+    description: "",
+    confirm: handleLogout,
+    cancle: handleActionLogout,
+    show: showAlert
+}
 
   const ref = useDetectClickOutside({ onTriggered: closeDropdownPopover })
 
   return (
     <div ref={ref}>
+      <AlertModal {...alertProps}/>
       <a
         className="hover:text-blueGray-500 text-black px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
         style={{ paddingTop: '0px' }}

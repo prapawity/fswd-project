@@ -25,11 +25,12 @@ function App() {
   //   },
   //   [login, password, username],
   // )
-  const PrivateRoute = ({ component: Component, authed, redirectTo, ...rest }) => {
+  const PrivateRoute = ({ component: Component, authed, redirectTo, isAdminPath, ...rest }) => {
+    const adminPath = isAdminPath ?? false
     return (
       <Route
         {...rest}
-        render={(props) => (authed === true) ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
+        render={(props) => (authed === true) ? adminPath ? userCookies.user.type === "Admin" ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} /> : <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
         exact
       />
     )
@@ -66,7 +67,7 @@ function App() {
                 <PrivateRoute authed={!passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
                 <PrivateRoute authed={passAuthen()} path="/customer/order/detail/:id" redirectTo="/login" component={CustomerOrderDetail} />
 
-                <PrivateRoute authed={passAuthen()} path="/admin/order" redirectTo="/login" component={AdminOrder} />
+                <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/order" redirectTo="/" component={AdminOrder} />
 
                 {/* MARK:- Admin Zone */}
 
