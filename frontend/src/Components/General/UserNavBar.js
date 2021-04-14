@@ -27,50 +27,7 @@ const UserNavBar = (props) => {
 
     const userBox = useMemo(
         () => {
-            if (props.isGuest) {
-                return (
-                    <div className={"lg:flex flex-grow items-center" + (navbarOpen ? " block" : " hidden")}>
-                        <ul className="flex flex-col lg:flex-row list-none ml-auto">
-                            <li className="nav-item">
-                                <button
-                                    className="bg-white text-black active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
-                                    type="button"
-                                    onClick={redirectToLogin}
-                                >
-                                    Log in</button>
-                            </li>
-                            <li className="nav-item">
-                                <button
-                                    className="bg-gray-800 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
-                                    type="button"
-                                    onClick={redirectToRegister}
-                                >
-                                    Sign up</button>
-                            </li>
-                        </ul>
-                    </div>
-                )
-            }
-            else {
-                return (
-                    <div className={"lg:flex flex-grow items-center" + (navbarOpen ? " block" : " hidden")}>
-                        <ul className="flex flex-col lg:flex-row list-none ml-auto">
-                            <li className="nav-item" style={{ paddingRight: '15px' }}>
-                                <SearchIcon className="h-7 w-7 text-white-500" />
-                            </li>
-                            <li className="nav-item" style={{ paddingRight: '15px' }}>
-                                <UserDropdown />
-                            </li>
-                            <li className="nav-item" style={{ paddingRight: '5px' }}>
-                                <ShoppingCartIcon className="h-7 w-7 text-white-500" />
-                            </li>
-                            <li className="nav-item">
-                                <span style={{ padding: '0px 5px', borderRadius: '5px', color: '#000', background: 'white' }}>{cart.length}</span>
-                            </li>
-                        </ul>
-                    </div>
-                )
-            }
+
         },
         [props.isGuest],
     )
@@ -109,7 +66,49 @@ const UserNavBar = (props) => {
                             </li>
                         </ul>
                     </div>
-                    {userBox}
+                    {props.isGuest ?
+                        (
+                            <div className={"lg:flex flex-grow items-center" + (navbarOpen ? " block" : " hidden")}>
+                                <ul className="flex flex-col lg:flex-row list-none ml-auto">
+                                    <li className="nav-item">
+                                        <button
+                                            className="bg-white text-black active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={redirectToLogin}
+                                        >
+                                            Log in</button>
+                                    </li>
+                                    <li className="nav-item">
+                                        <button
+                                            className="bg-gray-800 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={redirectToRegister}
+                                        >
+                                            Sign up</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <div className={"lg:flex flex-grow items-center" + (navbarOpen ? " block" : " hidden")}>
+                                <ul className="flex flex-col lg:flex-row list-none ml-auto">
+                                    <li className="nav-item" style={{ marginRight: '15px' }}>
+                                        <SearchIcon className="h-7 w-7 text-white-500" />
+                                    </li>
+                                    <li className="nav-item" style={{ marginRight: '15px' }}>
+                                        <UserDropdown />
+                                    </li>
+                                    <li className="nav-item" style={{ marginRight: '15px' }}>
+                                        <div className="w-full">
+                                        <span class="relative inline-block">
+                                            <ShoppingCartIcon className="h-7 w-7 text-white-500" />
+                                            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{cart.length}</span>
+                                        </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        )
+                    }
                 </div>
             </nav>
         </div>
