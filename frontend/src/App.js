@@ -8,6 +8,7 @@ import LoginPage from './Views/LoginPage';
 import Registerpage from './Views/RegisterPage';
 import CustomerInfo from './Views/CustomerInfo';
 import CustomerOrder from './Views/CustomerOrder';
+import AdminProduct from './Views/Admin/AdminProduct';
 import { useSession } from './contexts/SessionContext';
 import CustomerOrderDetail from './Views/CustomerOrderDetail';
 import ProductPage from './Views/ProductPage';
@@ -81,7 +82,8 @@ function App() {
               {/* MARK:- Admin Zone */}
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/orders" redirectTo="/login" component={AdminOrder} exact/>
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/order-detail/:id" redirectTo="/login" component={AdminOrderDetail} exact/>
-
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products" redirectTo="/login" component={AdminProduct} exact/>
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products/:type" redirectTo="/login" component={AdminProduct} exact/>
               {/* MARK:- Other URL */}
               <Route render={() => <Redirect to={{ pathname: "/" }} />} />
             </Switch>
