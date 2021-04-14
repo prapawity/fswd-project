@@ -13,6 +13,7 @@ import CustomerOrderDetail from './Views/CustomerOrderDetail';
 import ProductPage from './Views/ProductPage';
 import ProductDetail from './Views/ProductDetail';
 import AdminOrder from './Views/Admin/AdminOrder';
+import AdminOrderDetail from './Views/Admin/AdminOrderDetail';
 
 function App() {
   const { userCookies } = useSession()
@@ -64,12 +65,12 @@ function App() {
                 <Route path="/product/detail/:id" component={ProductDetail} />
 
                 <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} />
-                <PrivateRoute authed={!passAuthen()} path="/customer/order" redirectTo="/login" component={CustomerOrder} />
-                <PrivateRoute authed={passAuthen()} path="/customer/order/detail/:id" redirectTo="/login" component={CustomerOrderDetail} />
-
-                <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/order" redirectTo="/" component={AdminOrder} />
+                <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} />
+                <PrivateRoute authed={passAuthen()} path="/customer/order-detail/:id" redirectTo="/login" component={CustomerOrderDetail} />
 
                 {/* MARK:- Admin Zone */}
+                <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/orders" redirectTo="/login" component={AdminOrder} />
+                <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/order-detail/:id" redirectTo="/login" component={AdminOrderDetail} />
 
                 {/* MARK:- Other URL */}
                 <Route render={() => <Redirect to={{pathname: "/"}} />} />

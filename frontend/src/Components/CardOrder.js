@@ -1,6 +1,5 @@
 import { useSession } from "../contexts/SessionContext";
 import { useEffect } from "react";
-import AdminOrder from "../Views/Admin/AdminOrder";
 
 const { default: CardOrderRow } = require("./CardOrder-row");
 
@@ -37,8 +36,8 @@ const CardOrder = (props) => {
           </tr>
         </thead>
         <tbody>
-           {adminDetail.map((colDetail) => {
-               return <CardOrderRow column={isCustomer ? adminHeader : adminHeader} dataColumn={colDetail} key={colDetail} />
+           {customerDetail.map((colDetail) => {
+               return <CardOrderRow column={isCustomer ? customerHeader : adminHeader} dataColumn={colDetail} key={colDetail} />
            })}
         </tbody>
       </table>
