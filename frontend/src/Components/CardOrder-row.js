@@ -3,7 +3,6 @@ import { PencilIcon } from "@heroicons/react/solid";
 const CardOrderRow = (props) => {
   const typeOfColumn = props?.column ?? [];
   const dataOfColumn = props.dataColumn ?? [];
-  console.log(typeOfColumn, dataOfColumn)
   return (
     <tr>
       {dataOfColumn.map((data, index) => {

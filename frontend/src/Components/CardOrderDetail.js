@@ -1,6 +1,22 @@
 const { default: CardOrderDetailPdt } = require("./CardOrderDetail-row");
 
-const CardOrderDetail = () => {
+const CardOrderDetail = (props) => {
+  const detail = [
+    [
+      "Nike Joyride Run Flykni",
+      "White/University Red/Pure Platinum/Midnight",
+      "37",
+      "$2,500 USD",
+      "1",
+    ],
+    [
+      "Nike Joyride Run Flykni",
+      "White/University Red/Pure Platinum/Midnight",
+      "37",
+      "$2,500 USD",
+      "1",
+    ],
+  ];
   return (
     <>
       <div
@@ -22,37 +38,27 @@ const CardOrderDetail = () => {
           <table className="items-center w-full bg-transparent border-collapse">
             <thead>
               <tr>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100"
-                  }
-                >
-                  Product
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100"
-                  }
-                >
-                  Details
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100"
-                  }
-                >
-                  Price
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100"
-                  }
-                >
-                  Quantity
-                </th>
+                {props.type.map((data) => {
+                  return (
+                    <th
+                      key={data}
+                      className={
+                        "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100"
+                      }
+                    >
+                      {data}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
-            <CardOrderDetailPdt />
+            <tbody>
+              {detail.map((colDetail) => {
+                return (
+                  <CardOrderDetailPdt dataColumn={colDetail} key={colDetail} />
+                );
+              })}
+            </tbody>
           </table>
         </div>
       </div>

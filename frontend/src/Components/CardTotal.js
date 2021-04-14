@@ -1,4 +1,4 @@
-import { TicketIcon, ReceiptTaxIcon } from "@heroicons/react/outline";
+import { TicketIcon, ReceiptTaxIcon, CreditCardIcon } from "@heroicons/react/outline";
 
 const CardTotal = () => {
     return (
@@ -10,11 +10,9 @@ const CardTotal = () => {
                             Order Summary
                         </h3>
                         <div className="mb-2 text-blueGray-600 mt-6 text-left">
-                            <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
                             Subtotal:
                             </div>
                         <div className="mb-2 text-blueGray-600 text-left">
-                            <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
                             Shipping fee:
                         </div>
                         <div className="mb-2 text-blueGray-600 text-left">
@@ -29,10 +27,11 @@ const CardTotal = () => {
                             <ReceiptTaxIcon className="text-white-600 h-6 w-6 mr-1" />
                                 Total:
                         </div>
-                        <button className="bg-gray-800 text-white active:bg-lightBlue-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-2 mt-6 ease-linear transition-all duration-150"
-                                type="button">
-                                Place Order
-                        </button>
+                        <div className="mb-2 text-blueGray-600 text-left flex flex-wrap">
+                            <CreditCardIcon className="text-white-600 h-6 w-6 mr-1" />
+                                Paid by:
+                        </div>
+                        
                     </div>
                 </div>
             </div>
