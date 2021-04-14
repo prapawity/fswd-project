@@ -16,7 +16,10 @@ export const PRODUCTS_QUERTY = gql`query {
       price
       category
       timestamp
-      size
+      size {
+        stock
+        size_number
+      }
       description
       imageList
       thumpnail

@@ -32,7 +32,7 @@ const ProductDetail = (props) => {
     }
 
     const handleSize = (index) => {
-        setSize(data?.productByID?.size[index])
+        setSize(data?.productByID?.size[index].size_number)
     }
 
     if (data) {
@@ -104,13 +104,13 @@ const ProductDetail = (props) => {
                                 height: '38px',
                                 position: 'relative',
                                 margin: 'auto',
-                                border: sz === size ? "2px solid black" : "none",
+                                border: sz.size_number === size ? "2px solid black" : "none",
                                 borderRadius: '5px',
                                 overflow: 'hidden',
                                 padding: '5px'
                             }
 
-                            return <button className="focus:outline-none" onClick={() => handleSize(index)} key={index} style={buttonStyle}>{sz}</button>
+                            return <button className="focus:outline-none" onClick={() => handleSize(index)} key={index} style={buttonStyle}>{sz.size_number}</button>
                         })}
                     </div>
                     <button onClick={handleAddToCart} className="focus:outline-none mt-10 mb-10" style={{ backgroundColor: "#111", color: 'white', padding: '10px', width: '100%', borderRadius: '30px' }}>Add to Cart</button>
