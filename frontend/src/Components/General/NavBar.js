@@ -10,9 +10,9 @@ const Navbar = () => {
   const NavBarType = useMemo(
     () => {
       
-      if (!(userCookies.user === undefined)) {
+      if (!(userCookies === undefined)) {
         return (
-          userCookies.user.type === "Admin" ? <AdminNavBar /> : <UserNavBar isGuest={false}/>
+          userCookies?.type === "Admin" ? <AdminNavBar /> : <UserNavBar isGuest={false}/>
         )
       } else {
         return (

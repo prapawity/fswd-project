@@ -30,14 +30,14 @@ function App() {
     return (
       <Route
         {...rest}
-        render={(props) => (authed === true) ? adminPath ? userCookies.user.type === "Admin" ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} /> : <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
+        render={(props) => (authed === true) ? adminPath ? userCookies.type === "Admin" ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} /> : <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
         exact
       />
     )
   }
 
   const passAuthen = () => {
-    return !(userCookies.user === undefined)
+    return !(userCookies === undefined)
   }
 
   return (

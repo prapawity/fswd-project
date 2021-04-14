@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useSession } from "../contexts/SessionContext"
 
 const LoginPage = () => {
-  const { login } = useSession()
+  const { login, loginError } = useSession()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -21,15 +21,16 @@ const LoginPage = () => {
   const handleLogin = useCallback(
     async (e) => {
       e.preventDefault()
-      try {
-        await login(username, password)
-      } catch (err) {
-        alert("Login Failed")
-        console.log(err)
-      }
+      await login(username, password)
     },
     [login, password, username],
   )
+
+  useEffect(() => {
+    if (loginError !== "") {
+      alert("Login Error")
+    }
+  }, [loginError])
 
   return (
     <section className="section-login">
