@@ -3,11 +3,14 @@ import { SearchIcon, ShoppingCartIcon, MenuIcon } from '@heroicons/react/solid'
 import ProductDropdown from '../ProductDropdown'
 import UserDropdown from "../UserDropdown";
 import { useHistory } from 'react-router-dom'
+import { useSession } from "../../contexts/SessionContext";
 
 const UserNavBar = (props) => {
     const history = useHistory()
+    const { cart } = useSession()
     const [navbarOpen, setNavbarOpen] = useState(false);
 
+    console.log(cart, "CHECK Cart")
     const redirectToRegister = useCallback(
         () => {
             history.push('/register')
@@ -62,7 +65,7 @@ const UserNavBar = (props) => {
                                 <ShoppingCartIcon className="h-7 w-7 text-white-500" />
                             </li>
                             <li className="nav-item">
-                                <span style={{ padding: '0px 5px', borderRadius: '5px', color: '#000', background: 'white' }}>0</span>
+                                <span style={{ padding: '0px 5px', borderRadius: '5px', color: '#000', background: 'white' }}>{cart.length}</span>
                             </li>
                         </ul>
                     </div>

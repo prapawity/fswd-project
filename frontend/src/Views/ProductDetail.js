@@ -3,6 +3,7 @@ import Accordion from "../Components/General/Accordion"
 import { useHistory } from 'react-router-dom'
 import { PRODUCT_QUERTY } from "../graphql/productQuery"
 import { useQuery } from "@apollo/client"
+import { useSession } from "../contexts/SessionContext"
 const typeStyle = {
     fontSize: '22px'
 }
@@ -21,6 +22,7 @@ const imageStyle = {
     width: '100%'
 }
 const ProductDetail = (props) => {
+    const { addProductToCart } = useSession()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/product/detail', '') ?? ""
     const { loading, data, error } = useQuery(PRODUCT_QUERTY, { variables: { id } })
@@ -33,10 +35,6 @@ const ProductDetail = (props) => {
 
     const handleSize = (index) => {
         setSize(data?.productByID?.size[index].size_number)
-    }
-
-    if (data) {
-        console.log(data)
     }
 
     const redirectToProductAll = useCallback(
@@ -57,7 +55,17 @@ const ProductDetail = (props) => {
     }
 
     const handleAddToCart = () => {
-
+        if (size === 0) {
+            alert("Please Select Size")
+        } else {
+            if (data?.productByID) {
+                const result = {
+                    id: data.productByID._id,
+                    size: size
+                }
+                addProductToCart(result)
+            }
+        }
     }
     return (
         <Fragment>

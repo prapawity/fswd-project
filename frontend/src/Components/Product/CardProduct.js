@@ -43,7 +43,10 @@ const CardProduct = (props) => {
                 <p style={newLabelStyle}>New Arrival</p>
                 <p style={productNameTextStyle}>{detail.name}</p>
                 <p style={productTypeTextStyle}>{detail.category}</p>
-                <p>฿{detail.price}</p>
+                <p>{(parseInt(detail.price)).toLocaleString('th-TH', {
+                                style: 'currency',
+                                currency: 'THB'
+                            }) ?? ""}</p>
             </div>
         </button>
     )
