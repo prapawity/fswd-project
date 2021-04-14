@@ -5,7 +5,6 @@ import { CREATE_CUSTOMER_USER, CREATE_ADMIN_USER } from '../graphql/registerMuta
 import { useSession } from "../contexts/SessionContext"
 const Registerpage = (props) => {
     const { login } = useSession()
-    const history = useHistory()
     const [newUser, setNewUser] = useState({ name_surname: '', username: '', password: '' })
     const isCustomerType = () => {
         return !(props.location.pathname.includes('admin'))
@@ -28,15 +27,15 @@ const Registerpage = (props) => {
                     await login(newUser.username, newUser.password)
                     alert('Login success',)
                 } catch (err) {
-                    alert('Login failed')
                     console.log(err)
+                    alert('Login failed')
                 }
             } catch (err) {
                 console.log(err)
                 alert('Register failed')
             }
         },
-        [createUser, history, newUser],
+        [newUser],
     )
     return (
         <section className="section-login">

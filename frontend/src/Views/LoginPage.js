@@ -21,7 +21,12 @@ const LoginPage = () => {
   const handleLogin = useCallback(
     async (e) => {
       e.preventDefault()
-      await login(username, password)
+      try {
+        await login(username, password)
+      } catch (err) {
+        alert("Login Failed")
+        console.log(err)
+      }
     },
     [login, password, username],
   )

@@ -24,7 +24,6 @@ const UserNavBar = (props) => {
 
     const userBox = useMemo(
         () => {
-            console.log("Check isGuest", props.isGuest)
             if (props.isGuest) {
                 return (
                     <div className={"lg:flex flex-grow items-center" + (navbarOpen ? " block" : " hidden")}>

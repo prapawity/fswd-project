@@ -12,7 +12,7 @@ const SessionContext = createContext()
 export const SessionProvider = (props) => {
   const { children } = props
   const [user, setUser] = useState(null)
-  const [, setCookie, removeCookie] = useCookies(['token'])
+  const [token, setCookie, removeCookie] = useCookies(['token'])
   const [userCookies, setCookieUser, removeCookieUser] = useCookies(['user'])
   const [loadMe, { loading, data }] = useLazyQuery(ME_QUERY, { fetchPolicy: 'network-only' })
   const [login] = useMutation(LOGIN_MUTATION)
@@ -20,44 +20,46 @@ export const SessionProvider = (props) => {
     async (username, password) => {
       try {
         const res = await login({ variables: { username, password } })
-        if (res?.data?.login?.token) {
+        if (res?.data?.login) {
           setCookie('token', res?.data?.login?.token, { maxAge: 86400 })
-          setCookieUser('user', res?.data?.login?.user, { maxAge: 86400 })
+          setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/'})
+          setCookieUser('user', res?.data?.login?.user, { maxAge: 86400, path: '/'})
           setUser(res?.data?.login?.user)
         }
       } catch (err) {
         console.log("Error form Login: ", err)
-        removeCookie('token', { maxAge: 86400 })
-        removeCookieUser('user', { maxAge: 86400 })
+        removeCookie('token', { maxAge: 86400, path: '/'})
+        removeCookieUser('user', { maxAge: 86400, path: '/'})
       }
     },
     [login, removeCookie, setCookie, setCookieUser, removeCookieUser],
   )
   const handleLogout = useCallback(
     () => {
+      console.log("Logout Called")
       setUser(null)
-      removeCookie('token', { maxAge: 86400 })
-      removeCookieUser('user', { maxAge: 86400 })
+      removeCookie('token', { maxAge: 86400, path: '/'})
+      removeCookieUser('user', { maxAge: 86400, path: '/'})
+      console.log(token, userCookies, "DELETE DATA")
     },
-    [removeCookie, removeCookieUser],
+    [user],
   )
   useEffect(
     () => {
       if (data?.me) {
         setUser(data?.me)
-        setCookieUser('user', data?.me, { maxAge: 86400 })
       }
     },
     [data],
   )
-  useEffect(
-    () => {
+  useEffect(() => {
       const loadData = async () => {
         try {
-          const res = loadMe()
+          const id = userCookies?.user?._id ?? "0"
+          const res = await loadMe({ variables: { id } })
           if (res?.data?.login?.token) {
-            setCookie('token', res?.data?.login?.token, { maxAge: 86400 })
-            setCookieUser('user', res?.data?.login?.user, { maxAge: 86400 })
+            setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/'})
+            setCookieUser('user', res?.data?.login?.user, { maxAge: 86400, path: '/' })
             setUser(res?.data?.login?.user)
           }
         } catch (err) {
