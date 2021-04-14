@@ -45,7 +45,7 @@ const UserDropdown = (props) => {
     <div ref={ref}>
       <AlertModal {...alertProps} />
       <a
-        className="hover:text-blueGray-500 text-black px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+        className="hover:text-blueGray-500 text-black flex items-center text-xs uppercase font-bold"
         style={{ paddingTop: '0px' }}
         href="#pablo"
         ref={btnDropdownRef}

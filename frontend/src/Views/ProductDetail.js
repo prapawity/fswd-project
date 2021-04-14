@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { PRODUCT_QUERTY } from "../graphql/productQuery"
 import { useQuery } from "@apollo/client"
 import { useSession } from "../contexts/SessionContext"
+import AlertModal from "../Components/General/AlertModal"
 const typeStyle = {
     fontSize: '22px'
 }
@@ -28,6 +29,7 @@ const ProductDetail = (props) => {
     const { loading, data, error } = useQuery(PRODUCT_QUERTY, { variables: { id } })
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
+    const [showAlert, setShowAlert] = useState(false)
 
     const handleIndexImage = (index) => {
         setImage(index)
@@ -55,20 +57,42 @@ const ProductDetail = (props) => {
     }
 
     const handleAddToCart = () => {
+        if (data?.productByID) {
+            const result = {
+                id: data.productByID._id,
+                size: size
+            }
+            addProductToCart(result)
+            closeAlert()
+        }
+    }
+
+    const closeAlert = () => {
+        setShowAlert(false)
+    }
+
+    const shouldShowAlert = () => {
         if (size === 0) {
             alert("Please Select Size")
         } else {
             if (data?.productByID) {
-                const result = {
-                    id: data.productByID._id,
-                    size: size
-                }
-                addProductToCart(result)
+                setShowAlert(true)
             }
         }
+        
     }
+
+    const alertProps = {
+        title: `Do you want to Buy ${data?.productByID?.name ?? ""} ?`,
+        description: "",
+        confirm: handleAddToCart,
+        cancle: closeAlert,
+        show: showAlert
+    }
+
     return (
         <Fragment>
+            <AlertModal {...alertProps} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
                     <img className="mb-5" src={data?.productByID?.imageList[imageIndex] ?? ""} style={imageStyle} />
@@ -121,7 +145,7 @@ const ProductDetail = (props) => {
                             return <button className="focus:outline-none" onClick={() => handleSize(index)} key={index} style={buttonStyle}>{sz.size_number}</button>
                         })}
                     </div>
-                    <button onClick={handleAddToCart} className="focus:outline-none mt-10 mb-10" style={{ backgroundColor: "#111", color: 'white', padding: '10px', width: '100%', borderRadius: '30px' }}>Add to Cart</button>
+                    <button onClick={shouldShowAlert} className="focus:outline-none mt-10 mb-10" style={{ backgroundColor: "#111", color: 'white', padding: '10px', width: '100%', borderRadius: '30px' }}>Add to Cart</button>
                     <p>
                         {data?.productByID?.description ?? ""}
                     </p>
