@@ -74,9 +74,6 @@ function App() {
 
                 {/* MARK:- Other URL */}
                 <Route render={() => <Redirect to={{pathname: "/"}} />} />
-                {/* <Route path="/customer/info" exact>
-                <CustomerInfo />
-              </Route> */}
               </Switch>
             </Suspense>
           </div>
