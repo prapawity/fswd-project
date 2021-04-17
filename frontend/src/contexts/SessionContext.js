@@ -20,21 +20,21 @@ export const SessionProvider = (props) => {
   const userData = cookies.user
   const [loginError, setLoginError] = useState('')
   const [loadMe, { loading, data }] = useLazyQuery(ME_QUERY, { fetchPolicy: 'network-only' })
-  const [login] = useMutation(LOGIN_MUTATION)
+  const [login, { loadingLogin }] = useMutation(LOGIN_MUTATION)
   const handleLogin = useCallback(
     async (username, password) => {
       try {
+        setLoginError('')
         const res = await login({ variables: { username, password } })
         if (res?.data?.login) {
-          setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/'})
-          setCookie('user', res?.data?.login?.user, { maxAge: 86400, path: '/'})
+          setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/' })
+          setCookie('user', res?.data?.login?.user, { maxAge: 86400, path: '/' })
           setUser(res?.data?.login?.user)
-          setLoginError('')
         }
       } catch (err) {
         console.log("Error form Login: ", err)
-        removeCookie('token', { maxAge: 86400, path: '/'})
-        removeCookie('user', { maxAge: 86400, path: '/'})
+        removeCookie('token', { maxAge: 86400, path: '/' })
+        removeCookie('user', { maxAge: 86400, path: '/' })
         setLoginError(err)
       }
     },
@@ -47,32 +47,32 @@ export const SessionProvider = (props) => {
       console.log("FIRST TIME")
       const arrayData = [product]
       const json_data = JSON.stringify(arrayData)
-      setCookie('cart', json_data, { maxAge: 86400, path: '/'})
+      setCookie('cart', json_data, { maxAge: 86400, path: '/' })
     } else {
       console.log("SECOND TIME")
       const response_data = cart
       response_data.push(product)
-      setCookie('cart', response_data, { maxAge: 86400, path: '/'})
+      setCookie('cart', response_data, { maxAge: 86400, path: '/' })
     }
   }
 
-  const clearCart = () => removeCookie('cart', { maxAge: 86400, path: '/'})
+  const clearCart = () => removeCookie('cart', { maxAge: 86400, path: '/' })
 
 
   const redirectToHome = useCallback(
     () => {
-        history.push('/')
+      history.push('/')
     },
     [history],
-)
+  )
 
   const handleLogout = useCallback(
     () => {
       console.log("Logout Called")
       setUser(null)
-      removeCookie('token', { maxAge: 86400, path: '/'})
-      removeCookie('user', { maxAge: 86400, path: '/'})
-      removeCookie('cart', { maxAge: 86400, path: '/'})
+      removeCookie('token', { maxAge: 86400, path: '/' })
+      removeCookie('user', { maxAge: 86400, path: '/' })
+      removeCookie('cart', { maxAge: 86400, path: '/' })
       redirectToHome()
     },
     [user],
@@ -86,29 +86,29 @@ export const SessionProvider = (props) => {
     [data],
   )
   useEffect(() => {
-      const loadData = async () => {
-        try {
-          const id = userData?._id ?? "0"
-          const res = await loadMe({ variables: { id } })
-          if (res?.data?.login?.token) {
-            setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/'})
-            setCookie('user', res?.data?.login?.user, { maxAge: 86400, path: '/' })
-            setUser(res?.data?.login?.user)
-          }
-        } catch (err) {
-          removeCookie('token', { maxAge: 86400 })
-          removeCookie('user', { maxAge: 86400 })
+    const loadData = async () => {
+      try {
+        const id = userData?._id ?? "0"
+        const res = await loadMe({ variables: { id } })
+        if (res?.data?.login?.token) {
+          setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/' })
+          setCookie('user', res?.data?.login?.user, { maxAge: 86400, path: '/' })
+          setUser(res?.data?.login?.user)
         }
+      } catch (err) {
+        removeCookie('token', { maxAge: 86400 })
+        removeCookie('user', { maxAge: 86400 })
       }
-      loadData()
-    },
+    }
+    loadData()
+  },
     [loadMe, removeCookie],
   )
   console.log("Session Checking....")
   return (
     <SessionContext.Provider
       value={{
-        loading, user, login: handleLogin, logout: handleLogout, userCookies: userData, cart: cart, clearCart: clearCart, addProductToCart: handleAddCart, token: token, loginError: loginError
+        loading, user, login: handleLogin, logout: handleLogout, userCookies: userData, cart: cart, clearCart: clearCart, addProductToCart: handleAddCart, token: token, loginError: loginError, loginLoading: loadingLogin
       }}
     >
       {children}
