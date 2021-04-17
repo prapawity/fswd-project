@@ -26,16 +26,15 @@ const buttonStyle = {
 
 const CardProduct = (props) => {
     const history = useHistory()
-    const image = props.img
+    const image = (props?.img ?? "") === "" ? "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/c6081451-e5e6-44a2-a4f4-21558717782f/%E0%B8%A3%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%9C%E0%B8%B9%E0%B9%89-classic-cortez-GdrCtp.png" : props.img
     const detail = props?.detail ?? {}
-    
     const redirectToProductDetail = useCallback(
         () => {
             history.push(`/product/detail/${detail._id}`)
         },
         [history],
     )
-    console.log(detail)
+
     return (
         <button className="focus:outline-none" style={buttonStyle}  onClick={redirectToProductDetail}>
             <div className="shadow-md p-5">

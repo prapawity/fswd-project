@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client'
 
 export const PRODUCTS_QUERTY = gql`query {
-    products {
+    products(sort: TIMESTAMP_DESC) {
       price
       name
       timestamp
       category
       _id
+      thumpnail
     }
   }`
 
