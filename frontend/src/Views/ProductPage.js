@@ -27,7 +27,7 @@ const ProductPage = (props) => {
     const indexFromPath = handleIndex
     const redirectToState = useCallback(
         (index) => {
-            history.push('/product' + (index === 0 ? "s" : ("/" + typeOfTab[index].toLowerCase())))
+            history.push('/product' + (index === 0 ? "s" : ("s/" + typeOfTab[index].toLowerCase())))
         },
         [history],
     )
@@ -46,8 +46,10 @@ const ProductPage = (props) => {
         redirectToState(index)
     }
 
-    const range = () => {
-
+    if (loading) {
+        props?.showLoading(true)
+    } else {
+        props?.showLoading(false)
     }
 
     useEffect(() => {
