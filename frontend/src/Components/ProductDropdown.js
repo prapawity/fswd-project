@@ -37,33 +37,38 @@ const ProductDropdown = () => {
           "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
         }
       >
-        
         <Link
-          to="/product/running"
+          to="/products"
+          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+        >
+          All
+        </Link>
+        <Link
+          to="/products/running"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Running
         </Link>
         <Link
-          to="/product/casual"
+          to="/products/casual"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Casual
         </Link>
         <Link
-          to="/product/football"
+          to="/products/football"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Football
         </Link>
         <Link
-          to="/product/basketball"
+          to="/products/basketball"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Basketball
         </Link>
         <Link
-          to="/product/sandals"
+          to="/products/sandals"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Sandals
