@@ -99,6 +99,12 @@ const ProductDetail = (props) => {
         show: showAlert
     }
 
+    if (loading) {
+        props?.showLoading(true)
+    } else {
+        props?.showLoading(false)
+    }
+
     return (
         <Fragment>
             <AlertModal {...alertProps} />

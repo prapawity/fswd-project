@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
 import { useSession } from "../contexts/SessionContext"
 
-const LoginPage = () => {
-  const { login, loginError } = useSession()
+const LoginPage = (props) => {
+  const { login, loginError, loadingLogin } = useSession()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   const handleUsernameChange = useCallback(
     (e) => {
@@ -26,8 +27,16 @@ const LoginPage = () => {
     [login, password, username],
   )
 
+  if (loadingLogin) {
+    props?.showLoading(true)
+  } else {
+    props?.showLoading(false)
+  }
+
+  console.log(loginError, "ERROR FROM LOGIN")
   useEffect(() => {
-    if (loginError !== "") {
+    if (loginError !== "", error !== loginError) {
+      setError(loginError)
       alert("Login Error")
     }
   }, [loginError])

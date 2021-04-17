@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react"
-import { useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 import { CREATE_CUSTOMER_USER, CREATE_ADMIN_USER } from '../graphql/registerMutation'
 import { useSession } from "../contexts/SessionContext"
@@ -22,21 +21,26 @@ const Registerpage = (props) => {
         async (e) => {
             e.preventDefault()
             try {
+                props?.showLoading(true)
                 await createUser({ variables: { record: newUser } })
                 try {
                     await login(newUser.username, newUser.password)
+                    props?.showLoading(false)
                     alert('Login success',)
                 } catch (err) {
                     console.log(err)
+                    props?.showLoading(false)
                     alert('Login failed')
                 }
             } catch (err) {
                 console.log(err)
+                props?.showLoading(false)
                 alert('Register failed')
             }
         },
         [newUser],
     )
+
     return (
         <section className="section-login">
             <div
