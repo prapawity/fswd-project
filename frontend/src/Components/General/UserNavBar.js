@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import { SearchIcon, ShoppingCartIcon, MenuIcon } from "@heroicons/react/solid";
 import ProductDropdown from "../ProductDropdown";
 import UserDropdown from "../UserDropdown";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useSession } from "../../contexts/SessionContext";
 
 const UserNavBar = (props) => {
@@ -18,8 +18,6 @@ const UserNavBar = (props) => {
   const redirectToLogin = useCallback(() => {
     history.push("/login");
   }, [history]);
-
-  const userBox = useMemo(() => {}, [props.isGuest]);
 
   return (
     <div>
@@ -48,20 +46,20 @@ const UserNavBar = (props) => {
           >
             <ul className="flex flex-col lg:flex-row list-none ml-auto mr-10 items-center">
               <li className="nav-item">
-                <a
+                <Link
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 hover:opacity-75"
-                  href="#pablo"
+                  to="/"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a
+                <Link
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 hover:opacity-75"
-                  href="#pablo"
+                  to="/promotions"
                 >
                   Promotions
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <ProductDropdown />

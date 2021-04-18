@@ -1,7 +1,8 @@
-import React, { Fragment, useState } from "react";
-import { MenuIcon, UserIcon } from "@heroicons/react/solid";
+import React, { useState } from "react";
+import { MenuIcon } from "@heroicons/react/solid";
 import { useSession } from "../../contexts/SessionContext";
 import AlertModal from "./AlertModal";
+import { Link } from 'react-router-dom'
 
 const AdminNavBar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -48,36 +49,36 @@ const AdminNavBar = () => {
           >
             <ul className="flex flex-col lg:flex-row list-none ml-auto">
               <li className="nav-item">
-                <a
+                <Link
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 hover:opacity-75"
-                  href="#pablo"
+                  to="/admin/dashboard"
                 >
                   Dashboards
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a
+                <Link
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 hover:opacity-75"
-                  href="#pablo"
+                  to="/admin/promotions"
                 >
                   Promotions
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a
+                <Link
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 hover:opacity-75"
-                  href="#pablo"
+                  to="/admin/products"
                 >
                   Products
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a
+                <Link
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 hover:opacity-75"
-                  href="#pablo"
+                  to="/admin/orders"
                 >
                   Orders
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <button

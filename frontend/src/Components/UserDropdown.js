@@ -65,13 +65,13 @@ const UserDropdown = (props) => {
       >
 
         <Link
-          to="/admin/dashboard"
+          to="/customer/info"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Information
         </Link>
         <Link
-          to="/admin/settings"
+          to="/customer/orders"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
         >
           Orders

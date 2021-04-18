@@ -71,7 +71,7 @@ function App() {
               <NormalRoute path="/products" component={ProductPage} exact/>
               <NormalRoute path="/products/:type" component={ProductPage} exact/>
               <NormalRoute path="/product/detail/:id" component={ProductDetail} exact/>
-              <NormalRoute path="/promotion" component={Promotion} exact/>
+              <NormalRoute path="/promotions" component={Promotion} exact/>
 
               <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} exact/>
               <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} exact/>
