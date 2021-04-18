@@ -6,13 +6,13 @@ import { USER_QUERY } from '../graphql/userQuery';
 const CustomerInfo = (props) => {
     const { userCookies } = useSession()
     const id = userCookies?._id ?? 0;
-    const { loading, data } = useQuery(USER_QUERY, {
+    const { loading, data, error } = useQuery(USER_QUERY, {
         variables: { id },
     });
     
     if (loading) {
         props?.showLoading(true)
-    } else {
+    } else if (!loading || error){
         props?.showLoading(false)
     }
 
