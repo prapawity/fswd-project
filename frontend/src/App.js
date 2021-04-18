@@ -19,15 +19,7 @@ import LoadingScreen from './Components/General/LoadingScreen';
 function App() {
   const { userCookies } = useSession()
   const [showLoading, setShowLoading] = useState(false)
-  // MARK: - How to call someting in SesstionContext this is example
-  // const handleLogin = useCallback(
-  //   async (e) => {
-  //     e.preventDefault()
-  //     const res = await login(username, password)
-  //     console.log("Result", res)
-  //   },
-  //   [login, password, username],
-  // )
+
   const PrivateRoute = ({ component: Component, authed, redirectTo, isAdminPath, ...rest }) => {
     const adminPath = isAdminPath ?? false
     return (
@@ -50,6 +42,8 @@ function App() {
   const handleShowLoading = (isShow) => {
     setShowLoading(isShow)
   }
+
+  console.log("APPJS: CHECK USERCOOKIES", userCookies)
 
   const passAuthen = () => {
     return !(userCookies === undefined)

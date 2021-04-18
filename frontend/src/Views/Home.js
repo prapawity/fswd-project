@@ -1,11 +1,11 @@
-import { SparklesIcon } from "@heroicons/react/solid"
-import Jumbotron from "../Components/General/Jumbotron"
-import CardLatestProduct from '../Components/CardLatestProduct'
+import { SparklesIcon } from "@heroicons/react/solid";
+import Jumbotron from "../Components/General/Jumbotron";
+import CardLatestProduct from "../Components/CardLatestProduct";
 
 const Home = () => {
-    return (
-        <main>
-            <Jumbotron img={(process.env.PUBLIC_URL + '/img/Banner2.jpeg')} />
+  return (
+    <main>
+      <Jumbotron img={process.env.PUBLIC_URL + "/img/Banner2.jpeg"} />
 
       <div className="relative pt-10 pb-32 flex content-center items-center justify-center min-h-screen-75">
         <div className="items-center flex flex-wrap">

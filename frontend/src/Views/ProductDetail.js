@@ -6,22 +6,22 @@ import { useQuery } from "@apollo/client"
 import { useSession } from "../contexts/SessionContext"
 import AlertModal from "../Components/General/AlertModal"
 const typeStyle = {
-    fontSize: '22px'
-}
+  fontSize: "22px",
+};
 
 const titleStyle = {
-    fontSize: '38px'
-}
+  fontSize: "38px",
+};
 
 const priceStyle = {
-    fontSize: '18px',
-    textAlign: 'end',
-    color: "#757575"
-}
+  fontSize: "18px",
+  textAlign: "end",
+  color: "#757575",
+};
 
 const imageStyle = {
-    width: '100%'
-}
+  width: "100%",
+};
 const ProductDetail = (props) => {
     const { addProductToCart, userCookies } = useSession()
     const history = useHistory()
@@ -31,9 +31,9 @@ const ProductDetail = (props) => {
     const [size, setSize] = useState(0)
     const [showAlert, setShowAlert] = useState(false)
 
-    const handleIndexImage = (index) => {
-        setImage(index)
-    }
+  const handleIndexImage = (index) => {
+    setImage(index);
+  };
 
     const handleSize = (index) => {
         setSize(data?.productByID?.size[index].size_number)
@@ -127,17 +127,18 @@ const ProductDetail = (props) => {
                     </div>
                     <p style={titleStyle}>{data?.productByID?.name ?? ""}</p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
-                        {data && data.productByID?.imageList?.map((img, index) => {
-                            const buttonStyle = {
-                                width: "125px",
-                                height: "125px",
-                                position: 'relative',
-                                margin: 'auto',
-                                border: index === imageIndex ? "2px solid black" : "none",
-                                borderRadius: '5px',
-                                overflow: 'hidden'
-                            }
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+            {data &&
+              data.productByID?.imageList?.map((img, index) => {
+                const buttonStyle = {
+                  width: "125px",
+                  height: "125px",
+                  position: "relative",
+                  margin: "auto",
+                  border: index === imageIndex ? "2px solid black" : "none",
+                  borderRadius: "5px",
+                  overflow: "hidden",
+                };
 
                             return <button className="focus:outline-none" onClick={() => handleIndexImage(index)} key={index} style={buttonStyle}>
                                 <img height="100%" width="100%" className="mb-5" style={{ position: 'relative', margin: 'auto' }} src={img} />
@@ -169,12 +170,12 @@ const ProductDetail = (props) => {
                         title="Free Delivery and Return"
                         content="Free delivery for orders valued at THB 5500 or more.<br>
                         <br>Orders will be processed and delivered Monday - Friday. Except public holidays
-Except for the holiday season for Nike members free shipping in case of return. Exceptions to the return policy"
-                    />
-                </div>
-            </div>
-        </Fragment>
-    )
-}
+                    Except for the holiday season for Nike members free shipping in case of return. Exceptions to the return policy"
+          />
+        </div>
+      </div>
+    </Fragment>
+  );
+};
 
-export default ProductDetail
+export default ProductDetail;
