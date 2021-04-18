@@ -1,22 +1,26 @@
+import { useQuery } from "@apollo/client";
+import { ORDER_QUERY } from "../graphql/orderQuery";
+import { Fragment } from "react";
+
 const { default: CardOrderDetailPdt } = require("./CardOrderDetail-row");
 
 const CardOrderDetail = (props) => {
-  const detail = [
-    [
-      "Nike Joyride Run Flykni",
-      "White/University Red/Pure Platinum/Midnight",
-      "37",
-      "$2,500 USD",
-      "1",
-    ],
-    [
-      "Nike Joyride Run Flykni",
-      "White/University Red/Pure Platinum/Midnight",
-      "37",
-      "$2,500 USD",
-      "1",
-    ],
-  ];
+  const id = props?.orderDetail?.id ?? 0;
+  const orderDetail = props?.orderDetail ?? {};
+  const orderNum = orderDetail?._id ?? "Order Num";
+  const address = orderDetail?.address ?? "Address";
+  const date = orderDetail?.timestamp ?? "Date";
+
+  // const detail = [
+  //   [
+  //     "Nike Joyride Run Flykni",
+  //     "White/University Red/Pure Platinum/Midnight",
+  //     "37",
+  //     "$2,500 USD",
+  //     "1",
+  //   ],
+  // ];
+
   return (
     <>
       <div
@@ -28,9 +32,9 @@ const CardOrderDetail = (props) => {
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-4 max-w-full flex-grow flex-1">
               <h3 className={"font-semibold text-lg text-gray-700"}>
-                Order Number xxxxxx
+                Order Number {orderNum}
               </h3>
-              <p className={"text-xs text-gray-700"}>Date xxxxxx</p>
+              <p className={"text-xs text-gray-700"}>Date {date}</p>
             </div>
           </div>
         </div>
@@ -38,26 +42,29 @@ const CardOrderDetail = (props) => {
           <table className="items-center w-full bg-transparent border-collapse">
             <thead>
               <tr>
-                {props.type.map((data) => {
+                {props.type.map((head) => {
                   return (
                     <th
-                      key={data}
+                      key={head}
                       className={
-                        "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100"
+                        "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center bg-gray-50 text-gray-500 border-gray-100"
                       }
                     >
-                      {data}
+                      {head}
                     </th>
                   );
                 })}
               </tr>
             </thead>
             <tbody>
-              {detail.map((colDetail) => {
-                return (
-                  <CardOrderDetailPdt dataColumn={colDetail} key={colDetail} />
-                );
-              })}
+              {orderDetail ? (
+                <CardOrderDetailPdt
+                  dataColumn={orderDetail}
+                  key={orderDetail?._id ?? 0}
+                />
+              ) : (
+                <Fragment></Fragment>
+              )}
             </tbody>
           </table>
         </div>
@@ -72,9 +79,7 @@ const CardOrderDetail = (props) => {
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-4 max-w-full flex-grow flex-1">
               <h3 className={"font-semibold text-lg text-gray-700"}>Address</h3>
-              <p className={"text-xs text-gray-700"}>
-                1 Chalong Krung 1 Alley, Lat Krabang, Bangkok 10520
-              </p>
+              <p className={"text-xs text-gray-700"}>{address}</p>
             </div>
           </div>
         </div>

@@ -20,6 +20,10 @@ code {
     monospace;
 }
 
+input:disabled {
+  color: rgb(148, 151, 163) !important;
+}
+
 .pb-105 {
   padding-bottom: 105px;
 }

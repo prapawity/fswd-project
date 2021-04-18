@@ -1,7 +1,11 @@
 import CardOrder from "../../Components/CardOrder";
 
-const AdminOrder = () => {
+const AdminOrder = (props) => {
     const header = ["Order Number", "Date", "Username", "Name-Surname", "Total", "Quantity", "Address", "Status", "" ]
+    const setUpdateLoading = (loading) => {
+      props?.showLoading(loading)
+    }
+    
     return(
         <div className="flex flex-wrap mt-4 ">
         <div className="w-full mb-12 px-4">
@@ -13,13 +17,13 @@ const AdminOrder = () => {
             <div className="rounded-t mb-0 px-4 py-3 border-0">
               <div className="flex flex-wrap items-center">
                 <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                  <h3 className={"font-semibold text-lg text-gray-700"}>
+                  <h3 className={"font-semibold text-2xl text-gray-700"}>
                     Admin Orders
                   </h3>
                 </div>
               </div>
             </div>
-            <CardOrder type={header}/>
+            <CardOrder setLoading={setUpdateLoading} isCustomer={false} type={header}/>
           </div>
         </div>
       </div>
