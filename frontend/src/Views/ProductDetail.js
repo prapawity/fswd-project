@@ -69,7 +69,8 @@ const ProductDetail = (props) => {
         } else if (data?.productByID) {
             const result = {
                 id: data.productByID._id,
-                size: size
+                size: size,
+                type: data.productByID.type
             }
             addProductToCart(result)
             closeAlert()
