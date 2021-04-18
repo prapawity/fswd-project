@@ -102,7 +102,7 @@ const ProductDetail = (props) => {
 
     if (loading) {
         props?.showLoading(true)
-    } else {
+    } else if (!loading || error) {
         props?.showLoading(false)
     }
 

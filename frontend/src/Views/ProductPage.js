@@ -9,7 +9,7 @@ import { PRODUCTS_QUERTY } from "../graphql/productQuery"
 
 const ProductPage = (props) => {
     const history = useHistory()
-    const { loading, data } = useQuery(PRODUCTS_QUERTY)
+    const { loading, data, error } = useQuery(PRODUCTS_QUERTY)
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
     const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
     const [pageIndex, setPageIndex] = useState(0)
@@ -48,7 +48,7 @@ const ProductPage = (props) => {
 
     if (loading) {
         props?.showLoading(true)
-    } else {
+    } else if(!loading || error) {
         props?.showLoading(false)
     }
 
