@@ -1,6 +1,6 @@
 import { schemaComposer } from 'graphql-compose'
 
-import { UserModel, UserTC } from '../../models'
+import { UserModel, UserTC, CustomerTC } from '../../models'
 
 export const me = schemaComposer.createResolver({
   name: 'me',
@@ -16,3 +16,5 @@ export const me = schemaComposer.createResolver({
   projection: {_id: true }
 })
 export const userById = UserTC.getResolver('findById')
+
+export const customerById = CustomerTC.getResolver('findById')
