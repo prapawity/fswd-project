@@ -13,7 +13,7 @@ const CardInfo = (props) => {
   const username = customer?.username ?? ""
   const name = customer?.name_surname ?? ""
   const [isDisable, setDisable] = useState(true)
-  const [email, setEmail] = useState(customer?.email)
+  const [email, setEmail] = useState(customer?.email ?? "")
   const [tel, setTel] = useState(customer?.tel ?? "")
   const [address, setAddress] = useState(customer?.address ?? "")
   const img = customer?.img ?? process.env.PUBLIC_URL + "/img/profile-user.png"

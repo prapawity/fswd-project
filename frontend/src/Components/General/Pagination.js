@@ -22,7 +22,7 @@ const Pagination = (props) => {
                 <nav className="block">
                     <ul className="flex pl-0 rounded list-none flex-wrap">
                         {pages.map((_, index) => {
-                            return <li>
+                            return <li key={index}>
                                 <button onClick={() => {
                                     updateIndex(index)
                                 }} href="#pablo" className={`focus:outline-none first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-indigo-500  ${stateIndex === index ? "text-white bg-indigo-500" : "text-indigo-500"}`}>

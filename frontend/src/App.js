@@ -3,7 +3,7 @@ import './App.css';
 import Home from './Views/Home';
 import Navbar from './Components/General/NavBar';
 import Footer from './Components/General/Footer'
-import { Suspense, useState } from 'react';
+import { Suspense, useCallback, useState } from 'react';
 import LoginPage from './Views/LoginPage';
 import Registerpage from './Views/RegisterPage';
 import CustomerInfo from './Views/CustomerInfo';
@@ -40,9 +40,9 @@ function App() {
     )
   }
 
-  const handleShowLoading = (isShow) => {
+  const handleShowLoading = useCallback(async (isShow) => {
     setShowLoading(isShow)
-  }
+  })
 
   console.log("APPJS: CHECK USERCOOKIES", userCookies)
 

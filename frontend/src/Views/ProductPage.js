@@ -48,13 +48,17 @@ const ProductPage = (props) => {
 
     if (loading) {
         props?.showLoading(true)
-    } else if(!loading || error) {
+    } else if (!loading || error) {
         props?.showLoading(false)
     }
 
     useEffect(() => {
-        setIndex(indexFromPath)
+        if (stateIndex !== indexFromPath) {
+            setIndex(indexFromPath)
+        }
+
     }, [pathName, stateIndex])
+
     return (
         <Fragment>
             <Jumbotron img={(process.env.PUBLIC_URL + '/img/Banner2.jpeg')} />
@@ -66,7 +70,7 @@ const ProductPage = (props) => {
                     })}
                 </div>
                 <div className="w-full mt-5">
-                    <Pagination updateIndex={updatePageIndex} index={pageIndex} pages={Math.floor(dataShow.length / 8) + (dataShow.length % 8 === 0 ? 0 : 1)}  />
+                    <Pagination updateIndex={updatePageIndex} index={pageIndex} pages={Math.floor(dataShow.length / 8) + (dataShow.length % 8 === 0 ? 0 : 1)} />
                 </div>
             </div>
         </Fragment>
