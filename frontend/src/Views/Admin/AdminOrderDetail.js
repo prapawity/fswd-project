@@ -14,7 +14,7 @@ const AdminOrderDetail = (props) => {
 
   if (loading && data) {
     props?.showLoading(true);
-  } else {
+  } else if(!loading || error) {
     props?.showLoading(false);
   }
 

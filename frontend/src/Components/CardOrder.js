@@ -11,16 +11,16 @@ const CardOrder = (props) => {
   const id = userCookies?._id ?? 0;
   const isCustomer = props.isCustomer ?? true
   const userType = isCustomer ? "Customer" : "Admin";
-  const { loading, data } = useQuery(
+  const { loading, data, error } = useQuery(
     userType === "Customer" ? ORDER_QUERY_BY_USERID : ORDERS_QUERY,
     {
       variables: { id },
     }
-  );
+  )
 
   if (loading) {
     props?.setLoading(true)
-} else {
+} else if (!loading || error) {
     props?.setLoading(false)
 }
 
