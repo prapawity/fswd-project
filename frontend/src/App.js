@@ -15,6 +15,7 @@ import ProductDetail from './Views/ProductDetail';
 import AdminOrder from './Views/Admin/AdminOrder';
 import AdminOrderDetail from './Views/Admin/AdminOrderDetail';
 import LoadingScreen from './Components/General/LoadingScreen';
+import Promotion from './Views/PromotionPage';
 
 function App() {
   const { userCookies } = useSession()
@@ -70,10 +71,12 @@ function App() {
               <NormalRoute path="/products" component={ProductPage} exact/>
               <NormalRoute path="/products/:type" component={ProductPage} exact/>
               <NormalRoute path="/product/detail/:id" component={ProductDetail} exact/>
+              <NormalRoute path="/promotion" component={Promotion} exact/>
 
               <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} exact/>
               <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} exact/>
               <PrivateRoute authed={passAuthen()} path="/customer/order-detail/:id" redirectTo="/login" component={CustomerOrderDetail} exact/>
+              
 
               {/* MARK:- Admin Zone */}
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/orders" redirectTo="/login" component={AdminOrder} exact/>
