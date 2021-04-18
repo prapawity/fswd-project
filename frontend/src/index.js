@@ -8,6 +8,7 @@ import { SessionProvider } from './contexts/SessionContext'
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter } from 'react-router-dom'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { ToastProvider } from 'react-toast-notifications';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -21,7 +22,9 @@ ReactDOM.render(
       <BrowserRouter>
         <ApolloProvider client={client}>
           <SessionProvider>
-            <App />
+            <ToastProvider>
+              <App />
+            </ToastProvider>
           </SessionProvider>
         </ApolloProvider>
       </BrowserRouter>
