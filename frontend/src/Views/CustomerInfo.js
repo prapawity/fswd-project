@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import { useEffect } from 'react';
 import CardInfo from '../Components/CardInfo'
 import { useSession } from '../contexts/SessionContext';
 import { USER_QUERY } from '../graphql/userQuery';
@@ -9,12 +10,14 @@ const CustomerInfo = (props) => {
     const { loading, data, error } = useQuery(USER_QUERY, {
         variables: { id },
     });
-    
-    if (loading) {
-        props?.showLoading(true)
-    } else if (!loading || error){
-        props?.showLoading(false)
-    }
+
+    useEffect(() => {
+        if (loading) {
+            props?.showLoading(true)
+        } else if (!loading || error) {
+            props?.showLoading(false)
+        }
+    }, [loading])
 
     return (
         <main>

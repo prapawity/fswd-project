@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { useEffect } from "react";
 import { ORDER_QUERY } from "../graphql/orderQuery";
 
 const { default: CardOrderDetail } = require("../Components/CardOrderDetail");
@@ -13,11 +14,13 @@ const CustomerOrderDetail = (props) => {
   });
   const customerHeader = ["Product", "Details", "Size", "Price", "Quantity"];
 
-  if (loading && data) {
-    props?.showLoading(true);
-  } else if (!loading || error) {
-    props?.showLoading(false);
-  }
+  useEffect(() => {
+    if (loading && data) {
+        props?.showLoading(true)
+    } else if (!loading || error) {
+        props?.showLoading(false)
+    }
+}, [loading])
 
   return (
     <>

@@ -27,11 +27,13 @@ const LoginPage = (props) => {
     [login, password, username],
   )
 
-  if (loadingLogin) {
-    props?.showLoading(true)
-  } else {
-    props?.showLoading(false)
-  }
+  useEffect(() => {
+    if (loadingLogin) {
+        props?.showLoading(true)
+    } else if (!loadingLogin || error) {
+        props?.showLoading(false)
+    }
+}, [loadingLogin])
 
   console.log(loginError, "ERROR FROM LOGIN")
   useEffect(() => {

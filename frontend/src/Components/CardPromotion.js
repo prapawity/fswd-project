@@ -14,7 +14,7 @@ const CardPromotion = () => {
         <p className="mt-1 text-normal line-through ">฿3,100</p>
         <p className="text-xl font-semibold text-red-600 ">฿2,100 THB</p>
       </div>
-      <div class="absolute bottom-0 right-0">
+      <div className="absolute bottom-0 right-0">
         <p className="bg-red-600 text-xl font-semibold text-white h-8 w-14 text-center align-middle">
           20%
         </p>

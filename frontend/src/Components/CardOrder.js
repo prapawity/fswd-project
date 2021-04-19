@@ -18,11 +18,13 @@ const CardOrder = (props) => {
     }
   )
 
-  if (loading) {
-    props?.setLoading(true)
-} else if (!loading || error) {
-    props?.setLoading(false)
-}
+  useEffect(() => {
+    if (loading) {
+      props?.setLoading(true)
+    } else if (!loading || error) {
+      props?.setLoading(false)
+    }
+  }, [loading])
 
   return (
     <div className="block w-full overflow-x-auto">
