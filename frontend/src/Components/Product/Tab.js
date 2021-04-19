@@ -24,7 +24,7 @@ const Tabs = (props) => {
                                 <li className="-mb-px mr-2 last:mr-0 flex-auto text-center mt-5">
                                     <a
                                         className={
-                                            "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                                            "text-xs font-bold uppercase px-5 py-3 shadow-md rounded block leading-normal " +
                                             (openTab === index
                                                 ? "text-white bg-gray-600"
                                                 : "text-gray-600 bg-white")
