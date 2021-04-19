@@ -1,37 +1,54 @@
-import { SparklesIcon } from "@heroicons/react/solid";
-import Jumbotron from "../Components/General/Jumbotron";
+import { Fragment, useEffect } from "react";
 import CardLatestProduct from "../Components/CardLatestProduct";
+import Jumbotron from "../Components/General/Jumbotron";
+import { PRODUCTS_QUERTY_HOME } from "../graphql/productQuery";
+import { useQuery } from "@apollo/client"
+import CardPromotion from "../Components/CardPromotion";
 
-const Home = () => {
+const Home = (props) => {
+  const { loading, data, error } = useQuery(PRODUCTS_QUERTY_HOME)
+
+  useEffect(() => {
+    console.log(data)
+    if (loading) {
+      props?.showLoading(true)
+    } else if (!loading || error) {
+      props?.showLoading(false)
+    }
+  }, [loading])
   return (
-    <main>
-      <Jumbotron img={process.env.PUBLIC_URL + "/img/Banner2.jpeg"} />
-
+    <Fragment>
+      <Jumbotron img={process.env.PUBLIC_URL + "/img/bannerHome.png"} />
+      <div className="py-5" style={{width: '80%',margin: 'auto'}}>
+        <hr/>
+      </div>
       <div className="relative pt-10 pb-32 flex content-center items-center justify-center min-h-screen-75">
         <div className="items-center flex flex-wrap">
-          <div className="w-full md:w-4/12 ml-auto sm:mr-10 px-4 mr-auto">
-            <img
-              alt="..."
-              className="max-w-full rounded-lg shadow-lg"
-              src={process.env.PUBLIC_URL + "/img/sale.png"}
-            />
-          </div>
-          <div className="w-full md:w-6/12 ml-auto mr-auto px-4">
-            <div className="md:pr-12 mt-5 sm:mt-0">
-              <div className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-300">
-                <SparklesIcon className="h-7 w-7 text-white-500" />
+          <div className="grid grid-cols-2 gap-0">
+            <div className="p-3">
+              <div className="m-auto">
+                <h3 className="text-3xl font-semibold text-center">Lastest Promotions</h3>
+                <div className="mx-auto" style={{ width: '75%' }}>
+                  <CardPromotion />
+                  <CardPromotion />
+                  <CardPromotion />
+                </div>
               </div>
-              <h3 className="text-3xl font-semibold">Lastest Products</h3>
-              <div className="flex flex-wrap">
-                <CardLatestProduct />
-                <CardLatestProduct />
-                <CardLatestProduct />
+            </div>
+            <div className="p-3">
+              <div className="m-auto">
+                <h3 className="text-3xl font-semibold text-center">Lastest Products</h3>
+                <div className="flex flex-wrap mx-auto" style={{ width: '90%' }}>
+                  {data?.products?.map((product) => {
+                    return <CardLatestProduct product={product} />
+                  })}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </Fragment>
   );
 };
 export default Home;
