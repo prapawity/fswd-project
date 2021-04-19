@@ -5,6 +5,7 @@ import { PRODUCT_QUERTY } from "../graphql/productQuery"
 import { useQuery } from "@apollo/client"
 import { useSession } from "../contexts/SessionContext"
 import AlertModal from "../Components/General/AlertModal"
+import { useToasts } from 'react-toast-notifications';
 const typeStyle = {
   fontSize: "22px",
 };
@@ -24,6 +25,7 @@ const imageStyle = {
 };
 const ProductDetail = (props) => {
     const { addProductToCart, userCookies } = useSession()
+    const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/product/detail', '') ?? ""
     const { loading, data, error } = useQuery(PRODUCT_QUERTY, { variables: { id } })
@@ -73,12 +75,8 @@ const ProductDetail = (props) => {
                 type: data.productByID.type
             }
             addProductToCart(result)
-            closeAlert()
+            addToast(`Add ${data.productByID.name} Success `, { appearance: 'success', autoDismiss: true });
         }
-    }
-
-    const closeAlert = () => {
-        setShowAlert(false)
     }
 
     const shouldShowAlert = () => {
@@ -86,18 +84,10 @@ const ProductDetail = (props) => {
             alert("Please Select Size")
         } else {
             if (data?.productByID) {
-                setShowAlert(true)
+                handleAddToCart()
             }
         }
         
-    }
-
-    const alertProps = {
-        title: `Do you want to Buy ${data?.productByID?.name ?? ""} ?`,
-        description: "",
-        confirm: handleAddToCart,
-        cancle: closeAlert,
-        show: showAlert
     }
 
     if (loading) {
@@ -108,7 +98,6 @@ const ProductDetail = (props) => {
 
     return (
         <Fragment>
-            <AlertModal {...alertProps} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
                     <img className="mb-5" src={data?.productByID?.imageList[imageIndex] ?? ""} style={imageStyle} />
