@@ -46,11 +46,13 @@ const ProductPage = (props) => {
         redirectToState(index)
     }
 
-    if (loading) {
-        props?.showLoading(true)
-    } else if (!loading || error) {
-        props?.showLoading(false)
-    }
+    useEffect(() => {
+        if (loading) {
+            props?.showLoading(true)
+        } else if (!loading || error) {
+            props?.showLoading(false)
+        }
+    }, [loading])
 
     useEffect(() => {
         if (stateIndex !== indexFromPath) {

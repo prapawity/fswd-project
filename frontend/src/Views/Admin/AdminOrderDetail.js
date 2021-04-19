@@ -1,7 +1,7 @@
 import CardOrderDetailAdm from "../../Components/CardOrderDetailAdm";
 import { useQuery } from "@apollo/client";
 import { ORDER_QUERY } from "../../graphql/orderQuery";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 const AdminOrderDetail = (props) => {
   const adminHeader = ["Product", "Details", "Size", "Price", "Quantity", ""];
@@ -12,11 +12,13 @@ const AdminOrderDetail = (props) => {
     fetchPolicy: "no-cache",
   });
 
-  if (loading && data) {
-    props?.showLoading(true);
-  } else if(!loading || error) {
-    props?.showLoading(false);
-  }
+  useEffect(() => {
+    if (loading && data) {
+      props?.showLoading(true)
+    } else if (!loading || error) {
+      props?.showLoading(false)
+    }
+  }, [loading])
 
   if (data) {
     console.log(data);
