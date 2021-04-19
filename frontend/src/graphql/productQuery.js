@@ -11,6 +11,17 @@ export const PRODUCTS_QUERTY = gql`query {
     }
   }`
 
+  export const PRODUCTS_QUERTY_HOME = gql`query {
+    products(sort: TIMESTAMP_DESC, limit: 3) {
+      price
+      name
+      timestamp
+      category
+      _id
+      thumpnail
+    }
+  }`
+
   export const PRODUCT_QUERTY = gql`query($id: MongoID!) {
     productByID(_id: $id) {
       _id
