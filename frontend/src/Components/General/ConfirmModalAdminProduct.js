@@ -1,22 +1,68 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { storageRef } from "../../config";
 import ButtonAdminProduct from './ButtonAdminProduct'
 
 const ConfirmModalAdminProduct = (props) => {
   const title = props.title ?? "ใส่ Props Title ด้วยจ้า";
   const desc = props.description ?? "ใส่ Props Description  ด้วยจ้า";
   const show = props.show ?? true
-
-  const handleConfirm = () => {
-    props.confirm()
+  const [imageList, setImage] = useState({ files: [] })
+  const [imgBlob, setImgBlob] = useState({ data: [] })
+  const [imageUpload, setImgUpload] = useState([])
+  const categoryType = ["Running", "Football", "Casual", "Basketball", "Sandals", "Other"]
+  const [flagRefresh, setFlag] = useState(0)
+  const handleConfirm = async () => {
+    handleUploadData()
+    console.log("SUCCESS")
   }
 
+  const handleUploadData = async () => {
+    // setImgUpload([])
+    imageList.files.map(async (file, index) => {
+      const timestamp = `${Math.floor(Date.now() / 100)}`
+      const uploadTask = storageRef.ref('All_Files/').child(file.name + timestamp).put(file)
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          // console.log('Upload is ' + progress + '% done', snapshot)
+        },
+        (error) => {
+          console.log("ERROR:-", error)
+        }, async () => {
+          const url = await storageRef.ref('All_Files/').child(file.name + timestamp).getDownloadURL().catch((error) => { throw error })
+          setImgUpload(prev => [...prev, url])
+          if (imageUpload.length === imgBlob.data.length) {
+            setFlag(index)
+          }
+        }
+      )
+    })
+  }
+
+
   const handleCancle = () => {
-    props.cancel()
+    props?.cancel()
+  }
+
+
+  const fileSelectionHandler = (e) => {
+    const dataArray = Object.entries(e.target.files).map((key) => key[1])
+    setImage({ files: dataArray })
+
+    const blobImg = Object.entries(e.target.files).map((key) => URL.createObjectURL(key[1]))
+    setImgBlob({ data: blobImg })
+    console.log(e.target.files, typeof (e.target.files), dataArray)
   }
 
   const mainStyle = {
     display: show ? "block" : "none"
   }
+
+  useEffect(() => {
+    if (imageUpload.length === imgBlob.data.length && imgBlob.data.length !== 0) {
+      console.log("ALL SUCCESS", imageUpload)
+    }
+  }, [flagRefresh, imageUpload])
 
   return (
     <Fragment>
@@ -78,31 +124,39 @@ const ConfirmModalAdminProduct = (props) => {
               <form action="" className="mt-6">
                 <div className="py-1 px-8 rounded-xl">
                   <div className="my-2 text-sm">
-                    <label for="username" className="block text-black">Product Name</label>
-                    <input type='text' autofocus id='pd_name' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='Product Name' />
+                    <label htmlFor="username" className="block text-black">Product Name</label>
+                    <input type='text' autoFocus id='pd_name' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='Product Name' />
                   </div>
                   <div className="my-2 text-sm">
-                    <label for="username" className="block text-black">Description</label>
-                    <input type='text' autofocus id='pd_description' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='Description' />
+                    <label htmlFor="username" className="block text-black">Description</label>
+                    <input type='text' autoFocus id='pd_description' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='Description' />
                   </div>
                   <div className="my-2 text-sm">
-                    <label for="username" className="block text-black">Size</label>
-                    <input type='text' autofocus id='pd_size' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='40' />
+                    <label htmlFor="username" className="block text-black">Size</label>
+                    <input type='number' min="30" max="50" autoFocus id='pd_size' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='40' />
                   </div>
                   <div className="my-2 text-sm">
-                    <label for="username" className="block text-black">Price</label>
-                    <input type='text' autofocus id='pd_price' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='499' />
+                    <label htmlFor="username" className="block text-black">Stock</label>
+                    <input type='number' min="1" autoFocus id='pd_stock' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='40' />
+                  </div>
+                  <div className="my-2 text-sm">
+                    <label htmlFor="username" className="block text-black">Price</label>
+                    <input type='number' min="1" autoFocus id='pd_price' className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" placeholder='499' />
                   </div>
                   <div className="my-1 text-sm">
-                    <label for="username" className="block text-black">Category</label>
+                    <label htmlFor="username" className="block text-black">Category</label>
                     <select className="border p-2 rounded">
-                      <option>Running</option>
-                      <option>Football</option>
-                      <option>Casual</option>
-                      <option>Basketball</option>
-                      <option>Sandals</option>
-                      <option>Other</option>
+                      {categoryType.map((cat, index) => <option key={index}>{cat}</option>)}
                     </select>
+                  </div>
+                  <div className="my-2 text-sm">
+                    <label htmlFor="username" className="block text-black">Price</label>
+                    <input type='file' multiple={true} accept="image/*" id='pd_imageList' onChange={fileSelectionHandler} className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" />
+                    <ul style={{ columnCount: `3` }}>
+                      {imgBlob.data.length > 0 && imgBlob.data.map((image, index) => {
+                        return <li key={index}><img style={{ width: 'auto' }} src={image} /></li>
+                      })}
+                    </ul>
                   </div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2 py-4 px-4 gap-2">
