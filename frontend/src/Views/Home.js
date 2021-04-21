@@ -3,7 +3,7 @@ import CardLatestProduct from "../Components/CardLatestProduct";
 import Jumbotron from "../Components/General/Jumbotron";
 import { PRODUCTS_QUERTY_HOME } from "../graphql/productQuery";
 import { useQuery } from "@apollo/client"
-import CardPromotion from "../Components/CardPromotion";
+import CardPromotion from "../Components/Customer/CardPromotion";
 
 const Home = (props) => {
   const { loading, data, error } = useQuery(PRODUCTS_QUERTY_HOME)

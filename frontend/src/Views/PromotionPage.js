@@ -1,4 +1,4 @@
-import CardPromotion from "../Components/CardPromotion";
+import CardPromotion from "../Components/Customer/CardPromotion";
 
 const Promotion = () => {
   return (
