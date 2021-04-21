@@ -39,3 +39,21 @@ export const PRODUCTS_QUERTY = gql`query {
       thumpnail
     }
   }`
+  export const PRODUCT_FILTER_QUERY = gql`query ($name: String!){
+    product(filter:{name:$name}){
+      _id
+      name
+      type
+      price
+      category
+      timestamp
+      size {
+        stock
+        size_number
+      }
+      description
+      imageList
+      thumpnail
+    }
+  }
+  `
