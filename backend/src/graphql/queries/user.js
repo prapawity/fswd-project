@@ -18,3 +18,5 @@ export const me = schemaComposer.createResolver({
 export const userById = UserTC.getResolver('findById')
 
 export const customerById = CustomerTC.getResolver('findById')
+
+export const customer = CustomerTC.getResolver('findOne')
