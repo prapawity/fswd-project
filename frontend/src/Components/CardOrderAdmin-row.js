@@ -15,7 +15,7 @@ const CardOrderAdminRow = (props) => {
       {/* Order number */}
       <th
         key={dataOfColumn?._id ?? "0"}
-        className={`border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left flex items-center`}
+        className={`border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left`}
       >
         <span className={" font-bold text-blueGray-600"}>
           {dataOfColumn?._id ?? "ID"}
@@ -53,6 +53,7 @@ const CardOrderAdminRow = (props) => {
         {dataOfColumn?.status ?? "STATUS"}
       </td>
       {/* Button */}
+      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-center">
       <div className="flex items-center ">
         <button
           className="bg-gray-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
@@ -65,6 +66,7 @@ const CardOrderAdminRow = (props) => {
           </div>
         </button>
       </div>
+      </td>
     </tr>
   );
 };

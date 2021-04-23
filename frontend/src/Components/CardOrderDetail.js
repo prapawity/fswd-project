@@ -11,16 +11,6 @@ const CardOrderDetail = (props) => {
   const address = orderDetail?.address ?? "Address";
   const date = orderDetail?.timestamp ?? "Date";
 
-  // const detail = [
-  //   [
-  //     "Nike Joyride Run Flykni",
-  //     "White/University Red/Pure Platinum/Midnight",
-  //     "37",
-  //     "$2,500 USD",
-  //     "1",
-  //   ],
-  // ];
-
   return (
     <>
       <div

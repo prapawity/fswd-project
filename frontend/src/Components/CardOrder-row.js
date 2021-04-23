@@ -38,7 +38,7 @@ const CardOrderRow = (props) => {
           (txt, index) =>
             ((index === 0 ? "" : ", ") ?? ", ") +
             dataOfColumn?.products.filter((element) => {
-              return element._id === txt.id;
+              return element?._id ?? "" === txt.id;
             })[0]?.name ?? "Name"
         )}
       </td>
