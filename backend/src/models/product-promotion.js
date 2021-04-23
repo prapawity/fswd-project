@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const DKey = "type";
 
-const DataType = {
+export const DataType_PRODUCT_PROMOTION = {
   PROMOTION: "PROMOTION",
   PRODUCT: "PRODUCT",
 };
@@ -34,7 +34,7 @@ const ProductSchema = new Schema({
   type: {
     type: String,
     require: true,
-    enum: Object.keys(DataType),
+    enum: Object.keys(DataType_PRODUCT_PROMOTION),
   },
   category: {
     type: String,
@@ -98,20 +98,20 @@ ProductSchema.set("discriminatorKey", DKey);
 
 export const BaseModel = mongoose.model("Product", ProductSchema);
 export const PromotionModel = BaseModel.discriminator(
-  DataType.PROMOTION,
+  DataType_PRODUCT_PROMOTION.PROMOTION,
   PromotionSchema
 );
 export const ProductModel = BaseModel.discriminator(
-  DataType.PRODUCT,
+  DataType_PRODUCT_PROMOTION.PRODUCT,
   ProductSchema
 );
 export const BaseTC = composeWithMongooseDiscriminators(BaseModel);
 export const PromotionTC = BaseTC.discriminator(PromotionModel, {
-  name: DataType.PROMOTION,
+  name: DataType_PRODUCT_PROMOTION.PROMOTION,
   ...discriminatorOptions,
 });
 export const ProductTC = BaseTC.discriminator(BaseModel, {
-  name: DataType.PRODUCT,
+  name: DataType_PRODUCT_PROMOTION.PRODUCT,
   ...[],
 });
 

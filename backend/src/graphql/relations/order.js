@@ -1,11 +1,12 @@
 import {
   OrderTC,
-  ProductTC,
-  PromotionTC,
   UserTC,
-  ProductModel,
+  BaseTC,
+  BaseModel,
+  PromotionModel,
 } from "../../models";
 import moment from 'moment'
+import { schemaComposer } from "graphql-compose";
 
 
 OrderTC.addRelation("user", {
@@ -16,16 +17,30 @@ OrderTC.addRelation("user", {
   projection: { userID: 1 },
 });
 
-OrderTC.addRelation("promotion", {
-  resolver: () => PromotionTC.getResolver("findById"),
-  prepareArgs: {
-    _id: (source) => source.promotionID,
+const customFieldOrder = schemaComposer.createResolver({
+  name: "customFieldOrder",
+  type: [BaseTC.getType()],
+  args: {
+    _ids: "[String]"
   },
-  projection: { promotionID: 1 },
-});
+
+  resolve: (async ({ source, args, context, info }) => {
+    console.log("CHECK ARGS", args)
+    const reponse = await args._ids.map(async (id) => {
+      let result = await BaseModel.findById(id).exec()
+
+      if (result === null) {
+        result = await PromotionModel.findById(id).exec()
+      }
+      return result
+
+    })
+    return reponse
+  })
+})
 
 OrderTC.addRelation("products", {
-  resolver: () => ProductTC.getResolver("findByIds"),
+  resolver: () => customFieldOrder,
   prepareArgs: {
     _ids: (source) => {
       const id = []
@@ -37,9 +52,9 @@ OrderTC.addRelation("products", {
 });
 
 OrderTC.addFields({
-    timestamp: {
-      type: 'String',
-      resolve: (source) => moment(source.timestamp).fromNow(),
-      projection: { timestamp: 1 },
-    },
-  })
+  timestamp: {
+    type: 'String',
+    resolve: (source) => moment(source.timestamp).fromNow(),
+    projection: { timestamp: 1 },
+  },
+})
