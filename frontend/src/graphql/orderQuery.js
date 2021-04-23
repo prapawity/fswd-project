@@ -15,11 +15,6 @@ export const ORDER_QUERY = gql`
         size
       }
       userID
-      promotionID
-      promotion {
-        discount
-        name
-      }
       _id
       products {
         name
@@ -27,6 +22,7 @@ export const ORDER_QUERY = gql`
         description
         _id
         thumpnail
+        type
       }
       user {
         _id
@@ -52,16 +48,12 @@ export const ORDERS_QUERY = gql`
         size
       }
       userID
-      promotionID
-      promotion {
-        discount
-        name
-      }
       _id
       products {
         name
         _id
         thumpnail
+        type
       }
       user {
         _id
@@ -89,10 +81,6 @@ export const ORDER_QUERY_BY_USERID = gql`
         size
       }
       userID
-      promotionID
-      promotion {
-        discount
-      }
       _id
       products {
         name
