@@ -47,12 +47,7 @@ const OrderSchema = new Schema({
     required: true,
     index: true,
     ref: "User",
-  },
-  promotionID: {
-    type: String,
-    index: true,
-    ref: "Promotion",
-  },
+  }
 });
 
 export const OrderModel = mongoose.model("Order", OrderSchema);
