@@ -6,7 +6,6 @@ import Footer from './Components/General/Footer'
 import { Suspense, useCallback, useState } from 'react';
 import LoginPage from './Views/LoginPage';
 import Registerpage from './Views/RegisterPage';
-import CustomerInfo from './Views/CustomerInfo';
 import CustomerOrder from './Views/CustomerOrder';
 import AdminProduct from './Views/Admin/AdminProduct';
 import { useSession } from './contexts/SessionContext';
@@ -20,6 +19,7 @@ import Promotion from './Views/PromotionPage';
 import AdminPromotion from './Views/Admin/AdminPromotion';
 import AdminPromotionCreate from './Views/Admin/AdminPromotionCreate';
 import AdminPromotionEdit from './Views/Admin/AdminPromotionEdit';
+import CardCustomerInfo from './Components/CardCustomerInfo';
 
 function App() {
   const { userCookies } = useSession()
@@ -48,8 +48,6 @@ function App() {
     setShowLoading(isShow)
   })
 
-  console.log("APPJS: CHECK USERCOOKIES", userCookies)
-
   const passAuthen = () => {
     return !(userCookies === undefined)
   }
@@ -72,21 +70,21 @@ function App() {
               <PrivateRoute authed={!passAuthen()} path="/register" redirectTo="/" component={Registerpage} exact />
 
               {/* MARK:- Customer Zone */}
-              <NormalRoute path="/products" component={ProductPage} exact/>
-              <NormalRoute path="/products/:type" component={ProductPage} exact/>
-              <NormalRoute path="/product/detail/:id" component={ProductDetail} exact/>
-              <NormalRoute path="/promotions" component={Promotion} exact/>
+              <NormalRoute path="/products" component={ProductPage} exact />
+              <NormalRoute path="/products/:type" component={ProductPage} exact />
+              <NormalRoute path="/product/detail/:id" component={ProductDetail} exact />
+              <NormalRoute path="/promotions" component={Promotion} exact />
 
-              <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CustomerInfo} exact/>
-              <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} exact/>
-              <PrivateRoute authed={passAuthen()} path="/customer/order-detail/:id" redirectTo="/login" component={CustomerOrderDetail} exact/>
-              
+              <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CardCustomerInfo} exact />
+              <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} exact />
+              <PrivateRoute authed={passAuthen()} path="/customer/order-detail/:id" redirectTo="/login" component={CustomerOrderDetail} exact />
+
 
               {/* MARK:- Admin Zone */}
-              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/orders" redirectTo="/login" component={AdminOrder} exact/>
-              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/order-detail/:id" redirectTo="/login" component={AdminOrderDetail} exact/>
-              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products" redirectTo="/login" component={AdminProduct} exact/>
-              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products/:type" redirectTo="/login" component={AdminProduct} exact/>
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/orders" redirectTo="/login" component={AdminOrder} exact />
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/order-detail/:id" redirectTo="/login" component={AdminOrderDetail} exact />
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products" redirectTo="/login" component={AdminProduct} exact />
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products/:type" redirectTo="/login" component={AdminProduct} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotions" redirectTo="/login" component={AdminPromotion} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotion/create" redirectTo="/login" component={AdminPromotionCreate} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotion/:id" redirectTo="/login" component={AdminPromotionEdit} exact />

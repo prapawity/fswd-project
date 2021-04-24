@@ -24,7 +24,7 @@ const ConfirmModalAdminProduct = (props) => {
       uploadTask.on('state_changed',
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          // console.log('Upload is ' + progress + '% done', snapshot)
+          console.log('Upload is ' + progress + '% done', snapshot)
         },
         (error) => {
           console.log("ERROR:-", error)
@@ -51,7 +51,6 @@ const ConfirmModalAdminProduct = (props) => {
 
     const blobImg = Object.entries(e.target.files).map((key) => URL.createObjectURL(key[1]))
     setImgBlob({ data: blobImg })
-    console.log(e.target.files, typeof (e.target.files), dataArray)
   }
 
   const mainStyle = {
@@ -150,7 +149,7 @@ const ConfirmModalAdminProduct = (props) => {
                     </select>
                   </div>
                   <div className="my-2 text-sm">
-                    <label htmlFor="username" className="block text-black">Price</label>
+                    <label htmlFor="imageList" className="block text-black">Images</label>
                     <input type='file' multiple={true} accept="image/*" id='pd_imageList' onChange={fileSelectionHandler} className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" />
                     <ul style={{ columnCount: `3` }}>
                       {imgBlob.data.length > 0 && imgBlob.data.map((image, index) => {

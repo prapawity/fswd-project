@@ -1,14 +1,13 @@
 import { useQuery } from "@apollo/client"
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react"
 import { useHistory } from "react-router"
-import CarouselComponent from "../Components/General/CarouselComponent"
+import Jumbotron from "../Components/General/Jumbotron"
 import Pagination from "../Components/General/Pagination"
 import CardProduct from "../Components/Product/CardProduct"
 import Tabs from "../Components/Product/Tab"
 import { PRODUCTS_QUERTY } from "../graphql/productQuery"
 
 const ProductPage = (props) => {
-    const carouselImg = [process.env.PUBLIC_URL + "/img/Banner2.jpeg", process.env.PUBLIC_URL + "/img/Banner2.jpeg", process.env.PUBLIC_URL + "/img/Banner2.jpeg"]
     const history = useHistory()
     const { loading, data, error } = useQuery(PRODUCTS_QUERTY)
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
@@ -64,11 +63,7 @@ const ProductPage = (props) => {
 
     return (
         <Fragment>
-            <CarouselComponent>
-                {carouselImg.map((path, index) => {
-                    return <img src={path} key={index} />
-                })}
-            </CarouselComponent>
+            <Jumbotron img={process.env.PUBLIC_URL + "/img/Banner2.jpeg"} />
             <div className="mr-10 ml-10 ">
                 <Tabs index={stateIndex} updateIndex={handleUpdateIndex} type={typeOfTab} />
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-10 md:mb-0">

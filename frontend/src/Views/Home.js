@@ -1,13 +1,13 @@
-import { Fragment, useEffect } from "react";
-import CardLatestProduct from "../Components/CardLatestProduct";
-import Jumbotron from "../Components/General/Jumbotron";
-import { PRODUCTS_QUERTY_HOME } from "../graphql/productQuery";
+import { Fragment, useEffect } from "react"
+import CardLatestProduct from "../Components/CardLatestProduct"
+import { PRODUCTS_QUERTY_HOME } from "../graphql/productQuery"
 import { useQuery } from "@apollo/client"
-import CardPromotion from "../Components/Customer/CardPromotion";
+import CardPromotion from "../Components/Customer/CardPromotion"
+import CarouselComponent from "../Components/General/CarouselComponent"
 
 const Home = (props) => {
   const { loading, data, error } = useQuery(PRODUCTS_QUERTY_HOME)
-
+  const carouselImg = [process.env.PUBLIC_URL + "/img/bannerHome.png", process.env.PUBLIC_URL + "/img/Banner2.jpeg"]
   useEffect(() => {
     console.log(data)
     if (loading) {
@@ -18,9 +18,14 @@ const Home = (props) => {
   }, [loading])
   return (
     <Fragment>
-      <Jumbotron img={process.env.PUBLIC_URL + "/img/bannerHome.png"} />
-      <div className="py-5" style={{width: '80%',margin: 'auto'}}>
-        <hr/>
+      <CarouselComponent>
+        {carouselImg.map((path, index) => {
+          return <img src={path} key={index} />
+        })}
+      </CarouselComponent>
+
+      <div className="py-5" style={{ width: '80%', margin: 'auto' }}>
+        <hr />
       </div>
       <div className="relative pt-10 pb-32 flex content-center items-center justify-center min-h-screen-75">
         <div className="items-center flex flex-wrap">
