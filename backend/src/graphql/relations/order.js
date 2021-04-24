@@ -25,7 +25,6 @@ const customFieldOrder = schemaComposer.createResolver({
   },
 
   resolve: (async ({ source, args, context, info }) => {
-    console.log("CHECK ARGS", args)
     const reponse = await args._ids.map(async (id) => {
       let result = await BaseModel.findById(id).exec()
 

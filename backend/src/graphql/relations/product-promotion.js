@@ -9,7 +9,7 @@ const customPricePromotion = schemaComposer.createResolver({
         discount: 'Float!'
     },
 
-    resolve: ( async ({ source, args, context, info }) => {
+    resolve: (async ({ source, args, context, info }) => {
         const product = await ProductModel.findById(args.productID).exec()
 
         if (!product) return null

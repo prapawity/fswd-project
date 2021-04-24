@@ -1,6 +1,4 @@
 export * from './auth'
-export * from './comment'
-export * from './post'
 export * from './user'
 export * from './product-promotion'
 export * from './order'

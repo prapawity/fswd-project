@@ -1,7 +1,8 @@
 import { ProductTC, PromotionTC } from "../../models";
+import { adminPermission } from "../queries/middleware";
 
-export const createProduct = ProductTC.getResolver('createOne')
+export const createProduct = ProductTC.getResolver('createOne', [adminPermission])
 
-export const createPromotion = PromotionTC.getResolver('createOne')
-export const updatePromotion = PromotionTC.getResolver('updateOne')
-export const deletePromotion = PromotionTC.getResolver('removeOne')
+export const createPromotion = PromotionTC.getResolver('createOne', [adminPermission])
+export const updatePromotion = PromotionTC.getResolver('updateOne', [adminPermission])
+export const deletePromotion = PromotionTC.getResolver('removeOne', [adminPermission])
