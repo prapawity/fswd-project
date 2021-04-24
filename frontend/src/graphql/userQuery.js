@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const USER_QUERY = gql`
-  query($id: MongoID!) {
-    customerById(_id: $id) {
+  query {
+    customerById {
       username
       name_surname
       img

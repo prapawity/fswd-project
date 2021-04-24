@@ -1,31 +1,18 @@
-import { useSession } from "../contexts/SessionContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { ORDER_QUERY_BY_USERID, ORDERS_QUERY } from "../graphql/orderQuery";
+import { ORDERS_QUERY } from "../graphql/orderQuery";
 import CardOrderAdminRow from "./CardOrderAdmin-row";
 
 const { default: CardOrderRow } = require("./CardOrder-row");
 
 const CardOrder = (props) => {
-  const { userCookies } = useSession();
-  const id = userCookies?._id ?? 0;
   const isCustomer = props.isCustomer ?? true
   const userType = isCustomer ? "Customer" : "Admin";
-  const { loading, data, error } = useQuery(
-    userType === "Customer" ? ORDER_QUERY_BY_USERID : ORDERS_QUERY,
-    {
-      variables: { id },
-    }
-  )
+  const { data, error } = useQuery(ORDERS_QUERY, { fetchPolicy: "no-cache" })
 
-  useEffect(() => {
-    if (loading) {
-      props?.setLoading(true)
-    } else if (!loading || error) {
-      props?.setLoading(false)
-    }
-  }, [loading])
-
+  if (error) {
+    // Should do somthing
+  }
   return (
     <div className="block w-full overflow-x-auto">
       <table className="items-center w-full bg-transparent border-collapse">

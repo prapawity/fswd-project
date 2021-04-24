@@ -1,11 +1,8 @@
-import { useQuery } from "@apollo/client";
-import { ORDER_QUERY } from "../graphql/orderQuery";
 import { Fragment } from "react";
 
 const { default: CardOrderDetailPdt } = require("./CardOrderDetail-row");
 
 const CardOrderDetail = (props) => {
-  const id = props?.orderDetail?.id ?? 0;
   const orderDetail = props?.orderDetail ?? {};
   const orderNum = orderDetail?._id ?? "Order Num";
   const address = orderDetail?.address ?? "Address";

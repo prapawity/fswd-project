@@ -89,7 +89,7 @@ export const SessionProvider = (props) => {
     const loadData = async () => {
       try {
         const id = userData?._id ?? "0"
-        const res = await loadMe({ variables: { id } })
+        const res = await loadMe()
         if (res?.data?.login?.token) {
           setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/' })
           setCookie('user', res?.data?.login?.user, { maxAge: 86400, path: '/' })
