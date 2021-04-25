@@ -20,6 +20,9 @@ import AdminPromotion from './Views/Admin/AdminPromotion';
 import AdminPromotionCreate from './Views/Admin/AdminPromotionCreate';
 import AdminPromotionEdit from './Views/Admin/AdminPromotionEdit';
 import CardCustomerInfo from './Components/CardCustomerInfo';
+import AdminCreateProduct from './Views/Admin/AdminCreateProduct';
+import AdminEditProduct from './Views/Admin/AdminEditProduct';
+import AdminEditProductDetail from './Views/Admin/AdminEditProductDetail';
 
 function App() {
   const { userCookies } = useSession()
@@ -84,6 +87,9 @@ function App() {
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/orders" redirectTo="/login" component={AdminOrder} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/order-detail/:id" redirectTo="/login" component={AdminOrderDetail} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products" redirectTo="/login" component={AdminProduct} exact />
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products/create" redirectTo="/login" component={AdminCreateProduct} exact />
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products/edit" redirectTo="/login" component={AdminEditProduct} exact />
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products/edit/:id" redirectTo="/login" component={AdminEditProductDetail} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products/:type" redirectTo="/login" component={AdminProduct} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotions" redirectTo="/login" component={AdminPromotion} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotion/create" redirectTo="/login" component={AdminPromotionCreate} exact />

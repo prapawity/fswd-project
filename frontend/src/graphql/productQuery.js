@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const PRODUCTS_QUERTY = gql`query {
+export const PRODUCTS_QUERY = gql`query {
     products(sort: TIMESTAMP_DESC) {
       price
       name
@@ -11,7 +11,7 @@ export const PRODUCTS_QUERTY = gql`query {
     }
   }`
 
-  export const PRODUCTS_QUERTY_HOME = gql`query {
+  export const PRODUCTS_QUERY_HOME = gql`query {
     products(sort: TIMESTAMP_DESC, limit: 3) {
       price
       name
@@ -22,7 +22,7 @@ export const PRODUCTS_QUERTY = gql`query {
     }
   }`
 
-  export const PRODUCT_QUERTY = gql`query($id: MongoID!) {
+  export const PRODUCT_QUERY = gql`query($id: MongoID!) {
     productByID(_id: $id) {
       _id
       name

@@ -5,7 +5,7 @@ import {
   UPDATE_PROMOTION,
   DELETE_PROMOTION,
 } from "../../graphql/promotionMutation";
-import { PRODUCT_FILTER_QUERY, PRODUCT_QUERTY } from "../../graphql/productQuery";
+import { PRODUCT_FILTER_QUERY, PRODUCT_QUERY } from "../../graphql/productQuery";
 import { PROMOTION_QUERY, PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
 
 const AdminPromotionEdit = (props) => {
