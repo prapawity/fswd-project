@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 
-const { default: CardOrderDetailPdt } = require("./CardOrderDetail-row");
+const { default: CardOrderDetailPdt } = require("./Order/CardOrderDetail-row");
 
 const CardOrderDetail = (props) => {
   const orderDetail = props?.orderDetail ?? {};

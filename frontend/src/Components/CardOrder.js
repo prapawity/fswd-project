@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { ORDERS_QUERY } from "../graphql/orderQuery";
-import CardOrderAdminRow from "./CardOrderAdmin-row";
+import CardOrderAdminRow from "./Order/CardOrderAdmin-row";
 
-const { default: CardOrderRow } = require("./CardOrder-row");
+const { default: CardOrderRow } = require("./Order/CardOrder-row");
 
 const CardOrder = (props) => {
   const isCustomer = props.isCustomer ?? true
