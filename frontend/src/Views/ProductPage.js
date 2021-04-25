@@ -5,11 +5,11 @@ import Jumbotron from "../Components/General/Jumbotron"
 import Pagination from "../Components/General/Pagination"
 import CardProduct from "../Components/Product/CardProduct"
 import Tabs from "../Components/Product/Tab"
-import { PRODUCTS_QUERTY } from "../graphql/productQuery"
+import { PRODUCTS_QUERY } from "../graphql/productQuery"
 
 const ProductPage = (props) => {
     const history = useHistory()
-    const { loading, data, error } = useQuery(PRODUCTS_QUERTY)
+    const { loading, data, error } = useQuery(PRODUCTS_QUERY)
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
     const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
     const [pageIndex, setPageIndex] = useState(0)

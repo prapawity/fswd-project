@@ -1,12 +1,12 @@
 import { Fragment, useEffect } from "react"
 import CardLatestProduct from "../Components/CardLatestProduct"
-import { PRODUCTS_QUERTY_HOME } from "../graphql/productQuery"
+import { PRODUCTS_QUERY_HOME } from "../graphql/productQuery"
 import { useQuery } from "@apollo/client"
 import CardPromotion from "../Components/Customer/CardPromotion"
 import CarouselComponent from "../Components/General/CarouselComponent"
 
 const Home = (props) => {
-  const { loading, data, error } = useQuery(PRODUCTS_QUERTY_HOME)
+  const { loading, data, error } = useQuery(PRODUCTS_QUERY_HOME)
   const carouselImg = [process.env.PUBLIC_URL + "/img/bannerHome.png", process.env.PUBLIC_URL + "/img/Banner2.jpeg"]
   useEffect(() => {
     console.log(data)

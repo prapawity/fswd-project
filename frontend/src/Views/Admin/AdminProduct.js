@@ -2,14 +2,14 @@ import CardAdminProduct from '../../Components/General/CardAdminProduct'
 import { useQuery } from "@apollo/client"
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react"
 import { useHistory } from "react-router"
-import { PRODUCTS_QUERTY } from '../../graphql/productQuery'
+import { PRODUCTS_QUERY } from '../../graphql/productQuery'
 import Tabs from '../../Components/Product/Tab'
 import CardProduct from '../../Components/Product/CardProduct'
 import Pagination from '../../Components/General/Pagination'
 
 const AdminProduct = (props) => {
     const history = useHistory()
-    const { loading, data, error } = useQuery(PRODUCTS_QUERTY)
+    const { loading, data, error } = useQuery(PRODUCTS_QUERY)
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
     const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
     const [pageIndex, setPageIndex] = useState(0)

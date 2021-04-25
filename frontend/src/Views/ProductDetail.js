@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react"
 import Accordion from "../Components/General/Accordion"
 import { useHistory } from 'react-router-dom'
-import { PRODUCT_QUERTY } from "../graphql/productQuery"
+import { PRODUCT_QUERY } from "../graphql/productQuery"
 import { useQuery } from "@apollo/client"
 import { useSession } from "../contexts/SessionContext"
 import { useToasts } from 'react-toast-notifications'
@@ -28,7 +28,7 @@ const ProductDetail = (props) => {
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/product/detail', '') ?? ""
-    const { loading, data, error } = useQuery(PRODUCT_QUERTY, { variables: { id } })
+    const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id } })
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
     const [showAlert, setShowAlert] = useState(false)

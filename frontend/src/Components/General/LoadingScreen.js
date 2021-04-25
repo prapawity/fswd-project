@@ -2,7 +2,8 @@ import './LoadingScreen.css'
 const LoadingScreen = (props) => {
     const show = props?.show ?? false
     const mainStyle = {
-        display: show ? "block" : "none"
+        display: show ? "block" : "none",
+        zIndex: '100'
     }
     return (
         <div
