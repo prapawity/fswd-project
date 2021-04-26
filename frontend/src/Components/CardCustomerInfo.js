@@ -15,12 +15,12 @@ import { useSession } from "../contexts/SessionContext"
 import { storageRef } from "../config"
 
 const CardCustomerInfo = (props) => {
-  const { user } = useSession()
-  const customer = user
-  const username = customer?.username ?? ""
-  const name = customer?.name_surname ?? ""
-  const [isDisable, setDisable] = useState(true)
+  const { userCookies } = useSession()
+  const customer = userCookies
   const { loading, data, error } = useQuery(USER_QUERY)
+  const username = data?.customerById?.username ?? ""
+  const name = data?.customerById?.name_surname ?? ""
+  const [isDisable, setDisable] = useState(true)
   const [email, setEmail] = useState(data?.customerById?.email ?? "")
   const [tel, setTel] = useState(data?.customerById?.tel ?? "")
   const [address, setAddress] = useState(data?.customerById?.address ?? "")
@@ -35,13 +35,14 @@ const CardCustomerInfo = (props) => {
       },
     ],
   }
+  const mockIMG = process.env.PUBLIC_URL + "/img/profile-user.png"
 
   const [update_customer] = useMutation(
     UPDATE_CUSTOMER,
     refetchQuery
   )
 
-  console.log(data)
+  console.log(data, "checl", userCookies, "cjj", customer)
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value)
@@ -135,6 +136,11 @@ const CardCustomerInfo = (props) => {
                         src={imgPath ?? img}
                         className="shadow-xl align-middle border-none"
                         style={{ borderRadius: '50%', width: '200px', height: '200px', objectFit: 'cover', margin: 'auto' }}
+                        onError={(e) => {
+                          e.target.onError = null
+                          e.target.src = mockIMG
+                        }}
+                      
                       />
                       <input hidden={isDisable} type='file' accept="image/*" id='pd_imageList' onChange={fileSelectionHandler} className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" />
                     </div>

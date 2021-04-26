@@ -9,7 +9,7 @@ const CardOrderDetailPdt = (props) => {
     console.log(dataOfColumn?.productsID)
     dataOfColumn?.productsID?.map((prod) => {
       let inData = false
-      inData = dataShow.filter((dataProd) => (dataProd.id === prod.id && dataProd.size === prod.size)).length === 0
+      inData = dataShow?.filter((dataProd) => (dataProd?.id === prod?.id && dataProd?.size === prod?.size)).length === 0
       if (inData) {
         dataShow.push(prod)
       }
@@ -20,6 +20,9 @@ const CardOrderDetailPdt = (props) => {
   return (
     <Fragment>
       {dataShow.map((product, productIndex) => {
+        if (dataOfColumn?.products?.filter((prod) => prod?._id === product?.id).length === 0) {
+          return <Fragment></Fragment>
+        }
         return (
           <tr key={productIndex}>
             {/* Product */}
@@ -49,7 +52,7 @@ const CardOrderDetailPdt = (props) => {
             <td
               className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center "
             >
-              {parseFloat(dataOfColumn?.products?.filter((prod) => prod?._id === product.id)[0]?.price).toLocaleString('th-TH', {
+              {parseFloat(dataOfColumn?.products?.filter((prod) => prod?._id === product?.id)[0]?.price).toLocaleString('th-TH', {
                 style: 'currency',
                 currency: 'THB'
               })}
