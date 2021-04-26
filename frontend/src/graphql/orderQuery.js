@@ -90,3 +90,12 @@ export const ORDER_QUERY_BY_USERID = gql`
     }
   }
 `;
+
+
+export const REMOVE_ORDER = gql`mutation ($id: MongoID!){
+  removeOrder(filter: {
+    _id: $id
+  }) {
+  recordId
+  }
+}`
