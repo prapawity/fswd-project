@@ -1,5 +1,4 @@
-import CardOrder from "../../Components/Order/CardOrder"
-
+import CardOrder from "../../Components/CardOrder";
 
 const AdminOrder = (props) => {
     const header = ["Order Number", "Date", "Username", "Name-Surname", "Total", "Quantity", "Address", "Status", "" ]

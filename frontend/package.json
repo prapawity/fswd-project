@@ -15,7 +15,6 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "^9",
-    "chart.js": "2.9.3",
     "clsx": "^1.1.1",
     "firebase": "^8.4.1",
     "firebase-tools": "^9.10.0",

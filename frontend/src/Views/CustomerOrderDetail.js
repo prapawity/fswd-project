@@ -1,10 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { ORDER_QUERY } from "../graphql/orderQuery";
-import CardOrderDetail from "../Components/Order/CardOrderDetail";
 
-
-const { default: CardTotal } = require("../Components/Order/CardTotal");
+const { default: CardOrderDetail } = require("../Components/CardOrderDetail");
+const { default: CardTotal } = require("../Components/CardTotal");
 
 const CustomerOrderDetail = (props) => {
   const id =
