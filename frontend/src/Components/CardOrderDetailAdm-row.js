@@ -14,7 +14,7 @@ const CardOrderDetailAdmRow = (props) => {
         dataShow.filter(
           (dataProd) => dataProd.id === prod.id && dataProd.size === prod.size
         ).length === 0;
-      if (inData) {
+      if (inData && (dataOfColumn?.products?.filter((product) => prod._id === product?._id).length === 1)) {
         dataShow.push(prod);
       }
     });
@@ -32,25 +32,25 @@ const CardOrderDetailAdmRow = (props) => {
             >
               <img
                 src={
-                  dataOfColumn.products.filter(
-                    (prod) => prod._id === product.id
-                  )[0].thumpnail ??
+                  dataOfColumn?.products?.filter(
+                    (prod) => prod?._id === product?.id
+                  )[0]?.thumpnail ??
                   process.env.PUBLIC_URL + "/img/shoes/run3.jpeg"
                 }
                 className="h-12 w-12 bg-white rounded-full border"
                 alt="..."
               ></img>{" "}
               <span className={"ml-3 font-bold text-blueGray-600"}>
-                {dataOfColumn?.products.filter(
-                  (prod) => prod._id === product.id
-                )[0].name ?? "Name"}
+                {dataOfColumn?.products?.filter(
+                  (prod) => prod?._id === product?.id
+                )[0]?.name ?? "Name"}
               </span>
             </th>
             {/* Detail */}
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left">
-              {dataOfColumn?.products.filter(
-                (prod) => prod._id === product.id
-              )[0].description ?? "Details"}
+              {dataOfColumn?.products?.filter(
+                (prod) => prod?._id === product?.id
+              )[0]?.description ?? "Details"}
             </td>
             {/* Size */}
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left ">
@@ -59,9 +59,9 @@ const CardOrderDetailAdmRow = (props) => {
             {/* Price */}
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left ">
               {parseFloat(
-                dataOfColumn.products.filter(
-                  (prod) => prod._id === product.id
-                )[0].price
+                dataOfColumn?.products?.filter(
+                  (prod) => prod?._id === product?.id
+                )[0]?.price
               ).toLocaleString("th-TH", {
                 style: "currency",
                 currency: "THB",

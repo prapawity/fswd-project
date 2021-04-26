@@ -36,10 +36,8 @@ const CardOrderRow = (props) => {
       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left ">
         {dataOfColumn?.productsID?.map(
           (txt, index) =>
-            ((index === 0 ? "" : ", ") ?? ", ") +
-            dataOfColumn?.products.filter((element) => {
-              return element?._id ?? "" === txt.id;
-            })[0]?.name ?? "Name"
+            ((index === 0 || dataOfColumn?.products[index] === null ? "" : ", ") ?? ", ") +
+            (dataOfColumn?.products?.filter((element) => (element?._id ?? "") === (txt?.id ?? ""))[0]?.name ?? "")
         )}
       </td>
       {/* Button */}

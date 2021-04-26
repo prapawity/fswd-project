@@ -7,10 +7,8 @@ import {
 import { Fragment } from "react";
 
 const CardOrderDetailAdm = (props) => {
-  const id = props?.orderDetail?.id ?? 0;
   const orderDetail = props?.orderDetail ?? {};
 
-  console.log(orderDetail)
   const orderNum = orderDetail?._id ?? "Order Num";
   const username = orderDetail?.user.username ?? "Username"
   const name = orderDetail?.user.name_surname ?? "Name Surname"

@@ -27,17 +27,17 @@ const CardOrderDetailPdt = (props) => {
               className={`border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center`}
             >
               <img
-                src={dataOfColumn.products.filter((prod) => (prod._id === product.id))[0]?.thumpnail ?? process.env.PUBLIC_URL + "/img/shoes/run3.jpeg"}
+                src={dataOfColumn?.products?.filter((prod) => (prod?._id === product?.id))[0]?.thumpnail ?? process.env.PUBLIC_URL + "/img/shoes/run3.jpeg"}
                 className="h-12 w-12 bg-white rounded-full border"
                 alt="..."
               ></img>{" "}
-              <span className={"ml-3 font-bold text-blueGray-600"}>{dataOfColumn?.products?.filter((prod) => prod._id === product.id)[0]?.name ?? "Name"}</span>
+              <span className={"ml-3 font-bold text-blueGray-600"}>{dataOfColumn?.products?.filter((prod) => prod?._id === product?.id)[0]?.name ?? "Name"}</span>
             </th>
             {/* Detail */}
             <td
               className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
             >
-              {dataOfColumn?.products.filter((prod) => prod._id === product.id)[0]?.description ?? "Details"}
+              {dataOfColumn?.products?.filter((prod) => prod?._id === product?.id)[0]?.description ?? "Details"}
             </td>
             {/* Size */}
             <td
@@ -49,7 +49,7 @@ const CardOrderDetailPdt = (props) => {
             <td
               className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center "
             >
-              {parseFloat(dataOfColumn.products.filter((prod) => prod._id === product.id)[0]?.price).toLocaleString('th-TH', {
+              {parseFloat(dataOfColumn?.products?.filter((prod) => prod?._id === product.id)[0]?.price).toLocaleString('th-TH', {
                 style: 'currency',
                 currency: 'THB'
               })}
@@ -58,7 +58,7 @@ const CardOrderDetailPdt = (props) => {
             <td
               className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
             >
-              {dataOfColumn.productsID.filter((prod) => (prod.id === product.id && prod.size === product.size)).length}
+              {dataOfColumn?.productsID?.filter((prod) => (prod?.id === product?.id && prod?.size === product?.size)).length}
             </td>
           </tr>
         )
