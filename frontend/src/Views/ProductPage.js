@@ -68,7 +68,7 @@ const ProductPage = (props) => {
                 <Tabs index={stateIndex} updateIndex={handleUpdateIndex} type={typeOfTab} />
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-10 md:mb-0">
                     {dataShow.filter((_, dataIndex) => (((1 * pageIndex) * 8 <= dataIndex) && (dataIndex <= ((1 * pageIndex) * 8 + 7)))).map((detail, index) => {
-                        return <CardProduct detail={detail} key={index} img={detail.thumpnail} />
+                        return <CardProduct detail={detail} key={detail._id} img={detail.thumpnail} />
                     })}
                 </div>
                 <div className="w-full mt-5">

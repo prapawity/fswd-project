@@ -52,7 +52,7 @@ const AdminCreateProduct = (props) => {
   )
 
   const handleUploadData = async (thumpnailURL) => {
-    const imgListUpload = []
+    const imgListUpload = [thumpnailURL]
     imageList.files.map(async (file, index) => {
       const timestamp = `${Math.floor(Date.now() / 100)}`
       const uploadTask = storageRef.ref('All_Files/').child(file.name + timestamp).put(file)
@@ -225,7 +225,7 @@ const AdminCreateProduct = (props) => {
                   </div>
                   <div className="my-2 text-sm">
                     <label htmlFor="thumpnail" className="block text-black">Thumpnail</label>
-                    <input required={true} type='file' multiple={true} accept="image/*" id='pd_imageList' onChange={fileSelectionHandlerThumpnail} className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" />
+                    <input required={true} type='file' accept="image/*" id='pd_imageList' onChange={fileSelectionHandlerThumpnail} className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full" />
                     <img style={{ width: 'auto' }} src={thumpnailPath} />
                   </div>
                   <div className="my-2 text-sm">

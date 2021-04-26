@@ -21,6 +21,13 @@ const CardAdminProduct = () => {
         [history],
     )
 
+    const redirectToAdminProductDelete = useCallback(
+        () => {
+            history.push('/admin/products/delete')
+        },
+        [history],
+    )
+
     return (
         <Fragment>
             <div className="flex flex-col items-center w-full mt-4">
@@ -28,7 +35,7 @@ const CardAdminProduct = () => {
                     <div className="grid grid-flow-col grid-cols-3 py-4 px-4 gap-2">
                         <ButtonAdminProduct title='Add' type='primary' color='blue' onClick={redirectToAdminProductCreate} />
                         <ButtonAdminProduct title='Edit' type='primary' color='gray' onClick={redirectToAdminProductEdit} />
-                        <ButtonAdminProduct title='Remove' type='primary' color='red' />
+                        <ButtonAdminProduct title='Remove' type='primary' color='red' onClick={redirectToAdminProductDelete}/>
                     </div>
                 </div>
             </div>
