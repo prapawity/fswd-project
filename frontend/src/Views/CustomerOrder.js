@@ -1,4 +1,5 @@
-import CardOrder from "../Components/CardOrder";
+import CardOrder from "../Components/Order/CardOrder";
+
 
 const CustomerOrder = (props) => {
   const header = ["Order Number", "Order Date", "Quantity", "Products", ""]

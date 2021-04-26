@@ -1,7 +1,8 @@
-import CardOrderDetailAdm from "../../Components/CardOrderDetailAdm";
+
 import { useQuery } from "@apollo/client";
 import { ORDER_QUERY } from "../../graphql/orderQuery";
 import { Fragment, useEffect } from "react";
+import CardOrderDetailAdm from "../../Components/Order/CardOrderDetailAdm";
 
 const AdminOrderDetail = (props) => {
   const adminHeader = ["Product", "Details", "Size", "Price", "Quantity", ""];

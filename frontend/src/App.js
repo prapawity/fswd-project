@@ -23,6 +23,7 @@ import CardCustomerInfo from './Components/CardCustomerInfo';
 import AdminCreateProduct from './Views/Admin/AdminCreateProduct';
 import AdminEditProduct from './Views/Admin/AdminEditProduct';
 import AdminEditProductDetail from './Views/Admin/AdminEditProductDetail';
+import AdminDashboard from './Views/Admin/AdminDashboard';
 
 function App() {
   const { userCookies } = useSession()
@@ -84,6 +85,7 @@ function App() {
 
 
               {/* MARK:- Admin Zone */}
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/dashboard" redirectTo="/login" component={AdminDashboard} exact/>
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/orders" redirectTo="/login" component={AdminOrder} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/order-detail/:id" redirectTo="/login" component={AdminOrderDetail} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/products" redirectTo="/login" component={AdminProduct} exact />
