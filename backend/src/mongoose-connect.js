@@ -2,7 +2,8 @@ import mongoose from 'mongoose'
 
 mongoose.Promise = Promise
 mongoose.connect(
-  'mongodb+srv://longthao:LongthaoPassword@cluster0.ajfjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  'mongodb://localhost:27017',
+  // 'mongodb+srv://longthao:LongthaoPassword@cluster0.ajfjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   {
     dbName: 'Project_Fullstack',
     promiseLibrary: Promise,
