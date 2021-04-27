@@ -9,7 +9,7 @@ import { PRODUCTS_QUERY } from "../graphql/productQuery"
 
 const ProductPage = (props) => {
     const history = useHistory()
-    const { loading, data, error } = useQuery(PRODUCTS_QUERY)
+    const { loading, data, error } = useQuery(PRODUCTS_QUERY, { fetchPolicy: 'network-only' })
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
     const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
     const [pageIndex, setPageIndex] = useState(0)
@@ -38,21 +38,13 @@ const ProductPage = (props) => {
 
     const [stateIndex, setIndex] = useState(indexFromPath)
     const dataShow = useMemo(() => {
-        return data?.products?.filter((dataIndex) => stateIndex === 0 ? true : typeOfTab[stateIndex].toLowerCase() === dataIndex.category.toLowerCase()) ?? []
+        return data?.products?.filter((dataIndex) => stateIndex === 0 ? true : typeOfTab[stateIndex].toLowerCase() === dataIndex?.category?.toLowerCase()) ?? []
     }, [stateIndex, data])
 
     const handleUpdateIndex = (index) => {
         setIndex(index)
         redirectToState(index)
     }
-
-    useEffect(() => {
-        if (loading) {
-            props?.showLoading(true)
-        } else if (!loading || error) {
-            props?.showLoading(false)
-        }
-    }, [loading])
 
     useEffect(() => {
         if (stateIndex !== indexFromPath) {
@@ -63,7 +55,7 @@ const ProductPage = (props) => {
 
     return (
         <Fragment>
-            <Jumbotron img={process.env.PUBLIC_URL + "/img/Banner2.jpeg"} />
+            <Jumbotron img={process.env.PUBLIC_URL + "/img/banner5.png"} />
             <div className="mr-10 ml-10 ">
                 <Tabs index={stateIndex} updateIndex={handleUpdateIndex} type={typeOfTab} />
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-10 md:mb-0">

@@ -25,7 +25,7 @@ const Pagination = (props) => {
                             return <li key={index}>
                                 <button onClick={() => {
                                     updateIndex(index)
-                                }} href="#pablo" className={`focus:outline-none first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-indigo-500  ${stateIndex === index ? "text-white bg-indigo-500" : "text-indigo-500"}`}>
+                                }} href="#pablo" className={`focus:outline-none first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-gray-500  ${stateIndex === index ? "text-white bg-gray-500" : "text-gray-500"}`}>
                                     {index + 1}
                                 </button>
                                 </li>

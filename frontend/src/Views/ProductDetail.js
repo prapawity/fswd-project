@@ -28,7 +28,7 @@ const ProductDetail = (props) => {
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/product/detail', '') ?? ""
-    const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id } })
+    const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id } , fetchPolicy: 'network-only'})
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
     const [showAlert, setShowAlert] = useState(false)
@@ -89,14 +89,6 @@ const ProductDetail = (props) => {
         }
 
     }
-
-    useEffect(() => {
-        if (loading) {
-            props?.showLoading(true)
-        } else if (!loading || error) {
-            props?.showLoading(false)
-        }
-    }, [loading])
 
     return (
         <Fragment>

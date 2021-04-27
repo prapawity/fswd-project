@@ -10,8 +10,8 @@ const CardOrderDetailAdm = (props) => {
   const orderDetail = props?.orderDetail ?? {};
 
   const orderNum = orderDetail?._id ?? "Order Num";
-  const username = orderDetail?.user.username ?? "Username"
-  const name = orderDetail?.user.name_surname ?? "Name Surname"
+  const username = orderDetail?.user?.username ?? "Username"
+  const name = orderDetail?.user?.name_surname ?? "Name Surname"
   const date = orderDetail?.timestamp ?? "Date";
   const address = orderDetail?.address ?? "Address";
 

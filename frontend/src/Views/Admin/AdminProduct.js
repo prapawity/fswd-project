@@ -4,12 +4,13 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from "react"
 import { useHistory } from "react-router"
 import { PRODUCTS_QUERY } from '../../graphql/productQuery'
 import Tabs from '../../Components/Product/Tab'
-import CardProduct from '../../Components/Product/CardProduct'
 import Pagination from '../../Components/General/Pagination'
+import CardProductAdmin from '../../Components/Product/CardProductAdmin'
 
 const AdminProduct = (props) => {
     const history = useHistory()
-    const { loading, data, error } = useQuery(PRODUCTS_QUERY)
+    const [reload, setReload] = useState(props?.location?.state?.shouldReload ?? false)
+    const { loading, data, error, refetch} = useQuery(PRODUCTS_QUERY)
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
     const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
     const [pageIndex, setPageIndex] = useState(0)
@@ -52,22 +53,30 @@ const AdminProduct = (props) => {
         } else if (!loading || error) {
             props?.showLoading(false)
         }
-    }, [loading])
+
+        if (reload) {
+            setReload(false)
+            refetch()
+        }
+    }, [loading, reload])
 
     useEffect(() => {
         if (stateIndex !== indexFromPath) {
             setIndex(indexFromPath)
         }
-
     }, [pathName, stateIndex])
+
+    const reloadDetail = () => {
+        refetch()
+    }
     return (
         <Fragment>
-            <CardAdminProduct title='Product' description='Add, Edit and Remove product' />
+            <CardAdminProduct />
             <div className="mr-10 ml-10 ">
                 <Tabs index={stateIndex} updateIndex={handleUpdateIndex} type={typeOfTab} />
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-10 md:mb-0">
                     {dataShow.filter((_, dataIndex) => (((1 * pageIndex) * 8 <= dataIndex) && (dataIndex <= ((1 * pageIndex) * 8 + 7)))).map((detail, index) => {
-                        return <CardProduct detail={detail} key={detail._id} img={detail.thumpnail} />
+                        return <CardProductAdmin reloadData={reloadDetail} detail={detail} key={detail._id} img={detail.thumpnail} />
                     })}
                 </div>
                 <div className="w-full mt-5">

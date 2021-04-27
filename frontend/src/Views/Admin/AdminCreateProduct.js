@@ -239,8 +239,11 @@ const AdminCreateProduct = (props) => {
                   </div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2 py-4 px-4 gap-2">
-
-                  <button type="submit"><ButtonAdminProduct title='Add' color='blue' type='primary' /></button>
+                  <div className="inline-block w-full">
+                    <button type="submit" className={"w-full focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-blue-500 hover:bg-blue-600 hover:shadow-lg"}>
+                      Add
+                    </button>
+                  </div>
                   <ButtonAdminProduct title='Cancel' color='gray' type='primary' onClick={handleCancle} />
                 </div>
               </form>

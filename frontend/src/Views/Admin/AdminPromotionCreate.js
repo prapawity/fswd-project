@@ -1,21 +1,23 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_PROMOTION } from "../../graphql/promotionMutation";
-import { PRODUCT_FILTER_QUERY } from "../../graphql/productQuery";
+import { PRODUCTS_QUERY } from "../../graphql/productQuery";
 import { PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
+import { useToasts } from 'react-toast-notifications'
 
 const AdminPromotionCreate = (props) => {
   const history = useHistory();
+  const { loading, data, error } = useQuery(PRODUCTS_QUERY);
+  const { addToast } = useToasts()
   const [newPromotion, setPromotion] = useState({
-    productName: "",
-    productID: "",
+    productID: data?.products[0]?._id ?? "",
     price: "",
     name: "",
-    discount: null,
-    limit: null,
+    discount: 1,
+    limit: 1,
   });
-  const { data: refetch } = useQuery(PROMOTIONS_QUERY);
+
   const refetchQuery = {
     refetchQueries: [
       {
@@ -25,15 +27,12 @@ const AdminPromotionCreate = (props) => {
     ],
   };
   const [create_promotion] = useMutation(CREATE_PROMOTION, refetchQuery);
-  const query = useQuery(PRODUCT_FILTER_QUERY, {
-    variables: { name: newPromotion.productName },
-  });
+  console.log(data)
   const redirectToPromotions = useCallback(() => {
     history.push("/admin/promotions");
-    // window.location.reload();
+
   }, [history]);
-  // console.log(props)
-  console.log(newPromotion);
+
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     if (name == "discount" || name == "limit") {
@@ -46,47 +45,54 @@ const AdminPromotionCreate = (props) => {
   const handleCreate = useCallback(
     async (e) => {
       e.preventDefault();
-      try {
-        newPromotion.price = (
-          (parseFloat(query.data.product.price) *
-            (100 - newPromotion.discount)) /
-          100
-        ).toString();
-        newPromotion.productID = query?.data?.product?._id;
+      const price = (data?.products?.filter((prod) => prod?._id === newPromotion?.productID)[0]?.price ?? 0).toString()
+
+      setPromotion((prev) => ({
+        ...prev, price: price
+
+      }));
+      console.log(newPromotion, price)
+      setTimeout(async () => {
         try {
-          delete newPromotion.productName;
-          console.log(newPromotion);
+
           await create_promotion({ variables: { record: newPromotion } });
+          addToast(`Create Promotion ${newPromotion.name}`, { appearance: 'success', autoDismiss: true });
           redirectToPromotions();
+
         } catch (err) {
-          newPromotion.productName = query.data.product.name;
           console.log(err);
-          alert("create promo failed");
+          alert("Product name query failed");
         }
-      } catch (err) {
-        console.log(err);
-        alert("Product name query failed");
-      }
+      }, 500);
     },
     [newPromotion]
   );
+
+  useEffect(() => {
+    if (loading && data) {
+      props?.showLoading(true)
+    } else if (!loading || error) {
+      props?.showLoading(false)
+    }
+  }, [data, loading])
+
   return (
-    <section className="section-login">
+    <section className="section-login" style={{ position: 'relative' }}>
       <div
         className="w-full h-full bg-login"
         style={{
           backgroundSize: "100%",
           backgroundRepeat: "no-repeat",
-          position: "inherit",
+          position: "absolute",
         }}
       ></div>
-      <div className="container mx-auto px-4 h-full">
+      <div className="container mx-auto px-4 h-full mt-10">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0">
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0" style={{ margin: 'auto' }}>
               <div className="flex-auto px-4 lg:px-10 py-10">
                 <div className="relative w-full mb-3 ">
-                  <h3 className="block font-semibold uppercase text-lg text-gray-700">
+                  <h3 className="block font-semibold uppercase text-xl text-gray-700">
                     Create promotion
                   </h3>
                 </div>
@@ -109,26 +115,23 @@ const AdminPromotionCreate = (props) => {
                     <label className="block uppercase text-gray-700 text-xs font-bold mb-2">
                       product name
                     </label>
-                    <input
-                      type="text"
-                      className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                      name="productName"
-                      value={newPromotion.productName}
-                      placeholder="product name"
-                      onChange={handleInputChange}
-                      style={{ transition: "all .15s ease" }}
-                    />
+                    <select name="productID" value={newPromotion.productID} required={true} onChange={handleInputChange} className="border p-2 rounded w-full">
+                      {data?.products?.map((product, index) => <option value={product?._id ?? index} key={product?._id ?? index}>{product?.name ?? "NAME"}, {parseFloat(product?.price ?? 0).toLocaleString('th-TH', {
+                        style: 'currency',
+                        currency: 'THB'
+                      })}</option>)}
+                    </select>
                   </div>
                   <div className="relative w-full mb-3">
                     <label className="block uppercase text-gray-700 text-xs font-bold mb-2">
-                      discount
+                      discount: {newPromotion.discount} %
                     </label>
                     <input
                       type="number"
                       className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                       name="discount"
                       value={newPromotion.discount}
-                      placeholder="discount"
+                      placeholder="percent discount"
                       onChange={handleInputChange}
                       min="1"
                       max="100"
@@ -145,7 +148,7 @@ const AdminPromotionCreate = (props) => {
                       className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                       name="limit"
                       value={newPromotion.limit}
-                      placeholder="limit"
+                      placeholder="limit number"
                       onChange={handleInputChange}
                       min="1"
                       style={{ transition: "all .15s ease" }}
@@ -162,7 +165,7 @@ const AdminPromotionCreate = (props) => {
                     </button>
                   </div>
                 </form>
-                <div className="text-center mt-6">
+                <div className="text-center mt-2">
                   <button
                     onClick={redirectToPromotions}
                     className="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"

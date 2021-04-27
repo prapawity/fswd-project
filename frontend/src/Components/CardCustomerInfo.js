@@ -30,8 +30,7 @@ const CardCustomerInfo = (props) => {
   const refetchQuery = {
     refetchQueries: [
       {
-        query: USER_QUERY,
-        variables: { id: customer?._id ?? "0" },
+        query: USER_QUERY
       },
     ],
   }
@@ -192,7 +191,7 @@ const CardCustomerInfo = (props) => {
                   <div className="mb-2 text-lg text-blueGray-600">
                     <div className="flex flex-wrap justify-center" style={{ width: '100%', margin: 'auto' }}>
                       <UserIcon className="text-gray-600 h-7 w-7 mr-2" />
-                      <b>Name Surname:</b> <p className="ml-2">{name}</p>
+                      <b>Name:</b> <p className="ml-2">{name}</p>
                     </div>
                   </div>
                   <div className="mb-2 text-lg text-blueGray-600">

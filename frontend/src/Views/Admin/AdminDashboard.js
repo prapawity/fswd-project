@@ -92,10 +92,10 @@ const AdminDashboard = () => {
           <CardPieChart />
         </div>
         <div className="w-full xl:w-6/12 px-4">
-        <CardBarChart />
+          <CardBarChart />
         </div>
       </div>
-    
+
     </Fragment>
   );
 };
