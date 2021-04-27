@@ -1,6 +1,11 @@
 import CardPromotion from "../Components/Customer/CardPromotion";
+import { useQuery } from "@apollo/client"
+import { PROMOTIONS_QUERY } from "../graphql/promotionQuery";
 
-const Promotion = () => {
+const Promotion = (props) => {
+  const { loading, data, error } = useQuery(PROMOTIONS_QUERY, {fetchPolicy: 'no-cache'})
+
+
   return (
     <>
       <div className="relative pb-32 flex content-center items-center justify-center min-h-screen-75">
@@ -16,14 +21,20 @@ const Promotion = () => {
           <div className="w-full md:w-6/12 px-4 mr-auto ml-auto mt-12">
             <div className="justify-center flex flex-wrap relative">
               {/* Col1 */}
-              <div className="my-4 w-full lg:w-6/12">
-                <CardPromotion />
-                <CardPromotion />
+              <div className="my-4 w-full lg:w-6/12 pr-2">
+                {data?.promotions?.map((promotion, index) => {
+                  if (index < Math.round((data?.promotions.length ?? 1) / 2) || index === 0) {
+                    return <CardPromotion key={promotion._id} promotionDetail={promotion} />
+                  }
+                })}
               </div>
               {/* Col2 */}
-              <div className="my-4 w-full lg:w-6/12 px-4 lg:mt-16">
-                <CardPromotion />
-                <CardPromotion />
+              <div className="my-4 w-full lg:w-6/12 lg:mt-16">
+                {data?.promotions?.map((promotion, index) => {
+                  if (index + 1 > Math.round(((data?.promotions.length ?? 1)) / 2) || index === (data?.promotions?.length ?? 0)) {
+                    return <CardPromotion key={promotion._id} promotionDetail={promotion} />
+                  }
+                })}
               </div>
             </div>
           </div>

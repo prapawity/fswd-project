@@ -10,9 +10,10 @@ import { PROMOTION_QUERY, PROMOTIONS_QUERY } from "../../graphql/promotionQuery"
 
 const AdminPromotionEdit = (props) => {
   const history = useHistory();
-  const id = props?.match?.params?.id;
+  const id = props?.match?.params?.id ?? 0
   const { loading, data } = useQuery(PROMOTION_QUERY, {
     variables: { id: id },
+    fetchPolicy: 'no-cache'
   });
   const refetchQuery = {
     refetchQueries: [{
@@ -47,7 +48,7 @@ const AdminPromotionEdit = (props) => {
     try {
       await delete_promotion({ variables: { id: id } });
       redirectToPromotions();
-      
+
     } catch (err) {
       console.log(err);
       alert("Delete promo failed");
@@ -57,6 +58,7 @@ const AdminPromotionEdit = (props) => {
   const handleEdit = useCallback(
     async (e) => {
       e.preventDefault();
+      props?.showLoading(true)
       try {
         newPromotion.productID = query.product._id
         try {
@@ -71,16 +73,18 @@ const AdminPromotionEdit = (props) => {
               productID: newPromotion?.productID ?? "0",
             },
           });
+          props?.showLoading(false)
           redirectToPromotions();
-          //   window.location.reload();
         } catch (err) {
           console.log(err);
           console.log(query);
+          props?.showLoading(false);
           alert("create promo failed");
         }
       } catch (err) {
         console.log(err);
         console.log(query);
+        props?.showLoading(false);
         alert("Product query failed");
       }
     },
@@ -88,10 +92,7 @@ const AdminPromotionEdit = (props) => {
   );
 
   useEffect(() => {
-    if (loading) {
-      props?.showLoading(true);
-    } else {
-      props?.showLoading(false);
+    if (!loading || data) {
       if (data && newPromotion === null) {
         setPromotion(data.promotionByID);
         setPromotion((prev) => ({ ...prev, productName: data?.promotionByID?.productDetail?.name ?? "" }));
@@ -100,7 +101,7 @@ const AdminPromotionEdit = (props) => {
         setPromotion((prev) => ({ ...prev, productID: query?.product?._id ?? "1" }));
       }
     }
-  }, [loading, loading2]);
+  }, [data]);
   return (
     <section className="section-login">
       <div
@@ -193,7 +194,7 @@ const AdminPromotionEdit = (props) => {
                     </button>
                   </div>
                 </form>) : (<Fragment></Fragment>)}
-                <div className="text-center mt-6">
+                <div className="text-center mt-2">
                   <button
                     onClick={redirectToPromotions}
                     className="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
@@ -202,7 +203,7 @@ const AdminPromotionEdit = (props) => {
                     cancel
                   </button>
                 </div>
-                <div className="text-center mt-6">
+                <div className="text-center mt-2">
                   <button
                     onClick={handleDelete}
                     className="bg-red-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"

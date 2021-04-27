@@ -95,7 +95,7 @@ const LoginPage = (props) => {
                       type="submit"
                       style={{ transition: "all .15s ease" }}
                     >
-                      Login
+                      Sign in
                   </button>
                   </div>
                 </form>

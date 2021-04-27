@@ -2,7 +2,12 @@ import { Fragment, useCallback, useEffect, useState } from "react"
 import { useQuery, useMutation } from "@apollo/client"
 import { PRODUCT_QUERY } from '../../graphql/productQuery'
 import { UPDATE_PRODUCT } from "../../graphql/productMutation"
+import { useHistory } from "react-router"
+import { useToasts } from 'react-toast-notifications'
+
 const AdminEditProductDetail = (props) => {
+    const history = useHistory()
+    const { addToast } = useToasts()
     const id = props?.match?.params?.id?.replace('/admin/products/edit/', '') ?? ""
     const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id } })
     const [updateProduct, { loading: loadingUpdate, data: dataUpdate, error: errorUpdate }] = useMutation(UPDATE_PRODUCT, { refetchQueries: { query: PRODUCT_QUERY } })
@@ -33,6 +38,13 @@ const AdminEditProductDetail = (props) => {
             setProduct((prev) => ({ ...prev, [name]: value }))
         },
         [],
+    )
+
+    const redirectToProducts = useCallback(
+        () => {
+            history.push({ pathname: '/admin/products/', state: { shouldReload: true } })
+        },
+        [history],
     )
 
     const handleSize = useCallback(
@@ -79,7 +91,8 @@ const AdminEditProductDetail = (props) => {
                     record: productData
                 }
             })
-            alert("Update Product Success")
+            addToast(`Update Product Success `, { appearance: 'success', autoDismiss: true });
+            redirectToProducts()
         } catch (error) {
             console.log(error)
             alert("Update Data Fail")
@@ -199,7 +212,7 @@ const AdminEditProductDetail = (props) => {
                                     className="border-0 px-3 py-3 mt-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                                     style={{ transition: "all .15s ease", margin: 'auto' }}
                                 />
-                                <button style={{ margin: 'auto', width: '100%' }} className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                <button style={{ margin: 'auto', width: '100%' }} className="bg-green-600 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
                                     Add
                                 </button>
                             </div>

@@ -124,7 +124,6 @@ const CardLineChart = () => {
                 fontColor: "gray",
                 steps: 10,
                 stepValue: 5,
-                max: 10,
               },
               display: true,
               scaleLabel: {
@@ -151,7 +150,7 @@ const CardLineChart = () => {
   }, [dateData]);
   return (
     <>
-      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
+      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded" style={{height: '80vh'}}>
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full max-w-full flex-grow flex-1">
@@ -164,7 +163,7 @@ const CardLineChart = () => {
         </div>
         <div className="p-4 flex-auto">
           {/* Chart */}
-          <div className="relative h-350-px" style={{ height: "350px" }}>
+          <div className="relative h-full">
             <canvas id="line-chart"></canvas>
           </div>
         </div>

@@ -4,8 +4,6 @@ import { useHistory } from "react-router"
 
 const CardAdminProduct = () => {
     const history = useHistory()
-    const handleActionLogout = () => {
-    }
 
     const redirectToAdminProductCreate = useCallback(
         () => {
@@ -14,29 +12,11 @@ const CardAdminProduct = () => {
         [history],
     )
 
-    const redirectToAdminProductEdit = useCallback(
-        () => {
-            history.push('/admin/products/edit')
-        },
-        [history],
-    )
-
-    const redirectToAdminProductDelete = useCallback(
-        () => {
-            history.push('/admin/products/delete')
-        },
-        [history],
-    )
-
     return (
         <Fragment>
-            <div className="flex flex-col items-center w-full mt-4">
-                <div className='w-full bg-white shadow-lg overflow-hidden mx-auto'>
-                    <div className="grid grid-flow-col grid-cols-3 py-4 px-4 gap-2">
-                        <ButtonAdminProduct title='Add' type='primary' color='blue' onClick={redirectToAdminProductCreate} />
-                        <ButtonAdminProduct title='Edit' type='primary' color='gray' onClick={redirectToAdminProductEdit} />
-                        <ButtonAdminProduct title='Remove' type='primary' color='red' onClick={redirectToAdminProductDelete}/>
-                    </div>
+            <div className='w-full bg-white mx-auto'>
+                <div className="pt-4 pr-12 w-full md:w-1/6" style={{marginRight: '0', marginLeft: 'auto'}}>
+                    <ButtonAdminProduct  title='ADD PRODUCT' type='primary' color='blue' onClick={redirectToAdminProductCreate} />
                 </div>
             </div>
         </Fragment>

@@ -80,7 +80,7 @@ const UserNavBar = (props) => {
                     type="button"
                     onClick={redirectToLogin}
                   >
-                    Log in
+                    Sign in
                   </button>
                 </li>
                 <li className="nav-item">
