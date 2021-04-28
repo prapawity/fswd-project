@@ -1,20 +1,51 @@
 import CardOrderDetailAdmRow from "./CardOrderDetailAdm-row";
 import {
-  TicketIcon,
   ReceiptTaxIcon,
   CreditCardIcon,
 } from "@heroicons/react/solid";
-import { Fragment } from "react";
+import { Fragment, useCallback, useState } from "react";
+import { useMutation } from '@apollo/client'
+import { UPDATE_ORDER } from "../../graphql/orderMutation";
+import { useHistory } from 'react-router-dom'
+import { useToasts } from 'react-toast-notifications'
 
 const CardOrderDetailAdm = (props) => {
   const orderDetail = props?.orderDetail ?? {};
-
+  const history = useHistory()
+  const { addToast } = useToasts()
   const orderNum = orderDetail?._id ?? "Order Num";
   const username = orderDetail?.user?.username ?? "Username"
   const name = orderDetail?.user?.name_surname ?? "Name Surname"
   const date = orderDetail?.timestamp ?? "Date";
   const address = orderDetail?.address ?? "Address";
+  const [statusOrder, setStatus] = useState(orderDetail?.status ?? "Status")
+  const [updateOrder] = useMutation(UPDATE_ORDER)
+  console.log(orderDetail)
 
+  const handleInputChange = useCallback(
+    (e) => {
+      setStatus(e.target.value)
+    },
+    [],
+  )
+
+  const redirectBack = useCallback(
+    () => {
+      history.goBack()
+    },
+    [history],
+  )
+
+  const saveOrder = async () => {
+    try {
+      await updateOrder({ variables: { id: orderNum, status: statusOrder } })
+      addToast(`Update Order Success`, { appearance: 'success', autoDismiss: true });
+      redirectBack()
+    } catch (error) {
+      console.log("Error")
+      alert("Update Error")
+    }
+  }
   return (
     <>
       <div
@@ -34,6 +65,14 @@ const CardOrderDetailAdm = (props) => {
               <div>
                 <h3 className={"text-normal text-gray-700"}>{name}</h3>
                 <h3 className={"text-normal text-gray-700"}>Date: {date}</h3>
+              </div>
+              <div>
+                <div className="ml-2 flex items-center h-full">
+                  <select value={statusOrder} onChange={handleInputChange} className={`bg-${statusOrder === "INPROCESS" ? 'yellow' : 'green'}-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}>
+                    <option value={"INPROCESS"}>Inprocress</option>
+                    <option value={"COMPLETED"}>Completed</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -116,6 +155,12 @@ const CardOrderDetailAdm = (props) => {
             </div>
           </div>
         </div>
+
+      </div>
+      <div className="w-full">
+        <button onClick={saveOrder} className="w-full bg-green-600 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+          Save
+                </button>
       </div>
     </>
   );
