@@ -49,8 +49,10 @@ const CardOrderAdminRow = (props) => {
         {dataOfColumn?.address?.substr(0, 40) ?? "ADDRESS"}
       </td>
       {/* Status */}
-      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left ">
-        {dataOfColumn?.status ?? "STATUS"}
+      <td>
+        <div className={`bg-${(dataOfColumn?.status ?? "INPROCESS") === "INPROCESS" ? "yellow" : "green"}-500 active:bg-gray-600 uppercase text-white font-bold shadow text-xs px-5 py-2 rounded text-center`}>
+          {dataOfColumn?.status ?? "STATUS"}
+        </div>
       </td>
       {/* Button */}
       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-center">
