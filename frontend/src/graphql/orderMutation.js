@@ -1,12 +1,24 @@
 import { gql } from "@apollo/client"
 
-export const UPDATE_ORDER = gql`
+export const UPDATE_ORDER_STATUS = gql`
 mutation($id: MongoID!, $status: EnumOrderStatus) {
   updateOrder(filter:{
     _id: $id
   }
   record: {
     status: $status
+  }) {
+    recordId
+  }
+}`
+
+export const UPDATE_ORDER_PRODUCTS = gql`
+mutation($id: MongoID!, $products: [UpdateOneOrderProductsIDInput]) {
+  updateOrder(filter:{
+    _id: $id
+  }
+  record: {
+    productsID: $products
   }) {
     recordId
   }

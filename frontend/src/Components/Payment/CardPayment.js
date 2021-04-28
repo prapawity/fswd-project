@@ -31,7 +31,7 @@ const CardPayment = () => {
                   <input
                     type="text"
                     className="border-0 px-3 py-3 placeholder-gray-200 text-gray-300 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    defaultValue="Card Number"
+                    placeholder="Card Number"
                   />
                 </div>
               </div>
@@ -45,7 +45,7 @@ const CardPayment = () => {
                   <input
                     type="text"
                     className="border-0 px-3 py-3 placeholder-gray-200 text-gray-300 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    defaultValue="Name on Card"
+                    placeholder="Name on Card"
                   />
                 </div>
               </div>
@@ -59,7 +59,7 @@ const CardPayment = () => {
                   <input
                     type="text"
                     className="border-0 px-3 py-3 placeholder-gray-200 text-gray-300 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    defaultValue="MM/YY"
+                    placeholder="MM/YY"
                   />
                 </div>
               </div>
@@ -73,7 +73,7 @@ const CardPayment = () => {
                   <input
                     type="text"
                     className="border-0 px-3 py-3 placeholder-gray-200 text-gray-300 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    defaultValue="CVV"
+                    placeholder="CVV"
                   />
                 </div>
               </div>

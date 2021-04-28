@@ -3,7 +3,6 @@ import {
   ReceiptTaxIcon,
   CreditCardIcon,
 } from "@heroicons/react/outline";
-import { useEffect, useState } from "react";
 
 const CardTotal = (props) => {
   const subTotal = props?.orderDetail?.subtotal ?? 0;

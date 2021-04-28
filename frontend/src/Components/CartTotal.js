@@ -3,12 +3,12 @@ import { PRODUCT_QUERY } from "../graphql/productQuery";
 import { PROMOTION_QUERY } from "../graphql/promotionQuery"
 
 const CartTotal = (props, type) => {
-  const { loading, data } = useQuery(PRODUCT_QUERY, {
+  const { data } = useQuery(PRODUCT_QUERY, {
     variables: { id: props?.id },
   }); const { loading: loading1, data: promo } = useQuery(PROMOTION_QUERY, {
     variables: { id: props?.id },
   });
-  // console.log(data?.productByID?.price)
+
   if (props?.type === "PRODUCT") {
     return parseFloat(data?.productByID?.price ?? 0);
   }

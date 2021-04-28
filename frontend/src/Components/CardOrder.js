@@ -1,6 +1,5 @@
 
 import { useQuery, useMutation } from "@apollo/client";
-import { useEffect } from "react";
 import { ORDERS_QUERY, REMOVE_ORDER } from "../graphql/orderQuery";
 import CardOrderAdminRow from "./Order/CardOrderAdmin-row";
 
@@ -9,8 +8,8 @@ const { default: CardOrderRow } = require("./Order/CardOrder-row");
 const CardOrder = (props) => {
   const isCustomer = props.isCustomer ?? true
   const userType = isCustomer ? "Customer" : "Admin";
-  const { data, error } = useQuery(ORDERS_QUERY, { fetchPolicy: "network-only" })
-  const [deleteOrderData] = useMutation(REMOVE_ORDER, { refetchQueries: [{ query: ORDERS_QUERY }] })
+  const { data, error, refetch } = useQuery(ORDERS_QUERY, { fetchPolicy: "network-only" })
+  const [deleteOrderData] = useMutation(REMOVE_ORDER)
 
   if (error) {
     // Should do somthing
@@ -19,11 +18,16 @@ const CardOrder = (props) => {
   const deleteOrder = async (orderID) => {
     try {
       await deleteOrderData({ variables: { id: orderID } })
+      refetch()
       alert(`DELETE Order ID: ${orderID} Successfully`)
     } catch (error) {
       console.log(error)
       alert("Remove Order Fail")
     }
+  }
+
+  const refetchData = () => {
+    refetch()
   }
 
   return (
@@ -51,7 +55,7 @@ const CardOrder = (props) => {
               return userType === "Customer" ? (
                 <CardOrderRow deleteOrder={deleteOrder} dataColumn={colDetail} key={colDetail._id} />
               ) : (
-                <CardOrderAdminRow dataColumn={colDetail} key={colDetail._id} />
+                <CardOrderAdminRow refetch={refetchData} dataColumn={colDetail} key={colDetail._id} />
               );
             })}
         </tbody>

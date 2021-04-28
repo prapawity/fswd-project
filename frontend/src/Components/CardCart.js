@@ -1,26 +1,20 @@
-import { useQuery, useMutation } from "@apollo/client";
-import { useCallback } from "react";
 import CardCartRow from "../Components/CardCartRow";
-import CartTotal from "../Components/CartTotal";
-import { CREATE_ORDER } from "../graphql/orderMutation";
-import {UPDATE_PRODUCT} from "../graphql/productMutation";
-import { PRODUCT_QUERTY } from "../graphql/productQuery";
-import { PROMOTION_QUERY } from "../graphql/promotionQuery";
+import { useSession } from "../contexts/SessionContext";
+
 const CardCart = (props) => {
-  const cart = props?.cart;
+  const { cart } = useSession()
   const dataOfColumn = cart ?? null;
   let dataShow = [];
   const calculateContent = () => {
     dataShow = [];
-    // console.log(dataOfColumn);
     dataOfColumn?.map((prod) => {
       let inData = false;
       inData =
-        dataShow.filter(
-          (dataProd) => dataProd.id === prod.id && dataProd.size === prod.size
+        dataShow?.filter(
+          (dataProd) => dataProd?.id === prod?.id && dataProd?.size === prod?.size
         ).length === 0;
       if (inData) {
-        dataShow.push(prod);
+        dataShow?.push(prod);
       }
     });
   };
@@ -36,7 +30,7 @@ const CardCart = (props) => {
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-              <h3 className={"font-semibold text-lg text-gray-700"}>Cart</h3>
+              <h3 className={"font-semibold text-2xl text-gray-700"}>Cart</h3>
             </div>
           </div>
         </div>
@@ -44,7 +38,7 @@ const CardCart = (props) => {
           <table className="items-center w-full bg-transparent border-collapse">
             <thead>
               <tr>
-                {props.head.map((head) => {
+                {props?.head?.map((head) => {
                   return (
                     <th
                       key={head}
@@ -59,19 +53,12 @@ const CardCart = (props) => {
               </tr>
             </thead>
             <tbody>
-              {dataShow.map((prod) => (
-                <CardCartRow type={props.type} dataColumn={prod} all={dataOfColumn}  setCart={props.setCart}/>
+              {dataShow?.map((prod, index) => (
+                <CardCartRow type={prod?.type} key={prod?._id ?? index} dataColumn={prod} all={dataOfColumn} />
               ))}
             </tbody>
           </table>
         </div>
-        {/* <button
-          className="bg-green-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
-          type="button"
-            onClick={handleCreateOrder}
-        >
-          <div className="flex flex-wrap justify-center">next</div>
-        </button> */}
       </div>
     </>
   );

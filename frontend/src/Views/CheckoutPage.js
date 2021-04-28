@@ -8,7 +8,7 @@ import { USER_QUERY } from "../graphql/userQuery";
 
 const Checkout = (props) => {
   const customerHeader = ["Product", "Details", "Size", "Price", "Quantity"];
-  const { cart, userCookies, clearCart, addProductToCart } = useSession();
+  const { cart, userCookies } = useSession();
   const { loading, data, error } = useQuery(USER_QUERY, {
     variables: { id: userCookies._id },
   });
@@ -50,6 +50,11 @@ const Checkout = (props) => {
 
   return (
     <>
+      <div className="mb-12 xl:mb-0 px-4 mt-6">
+        <h3 className={"font-semibold text-2xl text-gray-700 text-center"}>
+          CheckOut
+        </h3>
+      </div>
       <div className="flex flex-wrap">
         <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mt-6">
           <div
@@ -77,9 +82,6 @@ const Checkout = (props) => {
             </div>
           </div>
           <CardCart
-            addProductToCart={addProductToCart}
-            clearCart={clearCart}
-            cart={cart}
             head={customerHeader}
           ></CardCart>
         </div>

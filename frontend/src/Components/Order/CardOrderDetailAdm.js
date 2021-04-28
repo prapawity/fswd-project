@@ -5,9 +5,10 @@ import {
 } from "@heroicons/react/solid";
 import { Fragment, useCallback, useState } from "react";
 import { useMutation } from '@apollo/client'
-import { UPDATE_ORDER } from "../../graphql/orderMutation";
+import { UPDATE_ORDER_PRODUCTS, UPDATE_ORDER_STATUS } from "../../graphql/orderMutation";
 import { useHistory } from 'react-router-dom'
 import { useToasts } from 'react-toast-notifications'
+import { REMOVE_ORDER } from "../../graphql/orderQuery";
 
 const CardOrderDetailAdm = (props) => {
   const orderDetail = props?.orderDetail ?? {};
@@ -19,7 +20,9 @@ const CardOrderDetailAdm = (props) => {
   const date = orderDetail?.timestamp ?? "Date";
   const address = orderDetail?.address ?? "Address";
   const [statusOrder, setStatus] = useState(orderDetail?.status ?? "Status")
-  const [updateOrder] = useMutation(UPDATE_ORDER)
+  const [updateOrderStatus] = useMutation(UPDATE_ORDER_STATUS)
+  const [updateOrderProducts] = useMutation(UPDATE_ORDER_PRODUCTS)
+  const [removeOrder] = useMutation(REMOVE_ORDER)
   console.log(orderDetail)
 
   const handleInputChange = useCallback(
@@ -38,7 +41,7 @@ const CardOrderDetailAdm = (props) => {
 
   const saveOrder = async () => {
     try {
-      await updateOrder({ variables: { id: orderNum, status: statusOrder } })
+      await updateOrderStatus({ variables: { id: orderNum, status: statusOrder } })
       addToast(`Update Order Success`, { appearance: 'success', autoDismiss: true });
       redirectBack()
     } catch (error) {
@@ -46,6 +49,24 @@ const CardOrderDetailAdm = (props) => {
       alert("Update Error")
     }
   }
+
+  const deleteProduct = async (id) => {
+    const result = orderDetail?.productsID?.filter((product) => product._id !== id)
+    try {
+      if (result?.length === 0) {
+        await removeOrder({ variables: { id: orderNum } })
+        addToast(`Remove Order Success`, { appearance: 'success', autoDismiss: true });
+        redirectBack()
+      } else {
+        await updateOrderProducts({ variables: { id: orderNum, products: result } })
+        addToast(`Remove Product in Order Success`, { appearance: 'success', autoDismiss: true });
+      }
+    } catch (error) {
+      console.log("Error")
+      alert("Update Error")
+    }
+  }
+
   return (
     <>
       <div
@@ -100,6 +121,7 @@ const CardOrderDetailAdm = (props) => {
                 <CardOrderDetailAdmRow
                   dataColumn={orderDetail}
                   key={orderDetail?._id ?? 0}
+                  deleteProduct={deleteProduct}
                 />
               ) : (
                 <Fragment></Fragment>
