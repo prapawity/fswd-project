@@ -24,6 +24,9 @@ import AdminCreateProduct from './Views/Admin/AdminCreateProduct';
 import AdminEditProductDetail from './Views/Admin/AdminEditProductDetail';
 import AdminDashboard from './Views/Admin/AdminDashboard';
 import PromotionDetail from './Views/PromotionDetail';
+import CartPage from './Views/CartPage';
+import CustomerPayment from './Views/PaymentPage';
+import Checkout from './Views/CheckoutPage';
 
 function App() {
   const { userCookies } = useSession()
@@ -83,6 +86,9 @@ function App() {
               <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CardCustomerInfo} exact />
               <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} exact />
               <PrivateRoute authed={passAuthen()} path="/customer/order-detail/:id" redirectTo="/login" component={CustomerOrderDetail} exact />
+              <PrivateRoute authed={passAuthen()} path="/customer/payment" redirectTo="/login" component={CustomerPayment} exact />
+              <PrivateRoute authed={passAuthen()} path="/cart" redirectTo="/login" component={CartPage} exact/>
+              <PrivateRoute authed={passAuthen()} path="/checkout" redirectTo="/login" component={Checkout} exact/>
 
 
               {/* MARK:- Admin Zone */}

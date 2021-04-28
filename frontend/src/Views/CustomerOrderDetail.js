@@ -22,7 +22,6 @@ const CustomerOrderDetail = (props) => {
         props?.showLoading(false)
     }
 }, [loading])
-
   return (
     <>
       <div className="flex flex-wrap">

@@ -19,6 +19,7 @@ const UserNavBar = (props) => {
     history.push("/login");
   }, [history]);
 
+
   return (
     <div>
       <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg  mb-0">
@@ -111,7 +112,8 @@ const UserNavBar = (props) => {
                 <li className="nav-item" style={{ marginRight: "15px" }}>
                   <div className="w-full">
                     <span className="relative inline-block">
-                      <ShoppingCartIcon className="h-7 w-7 text-white-500" />
+                    <Link to="/cart">
+                      <ShoppingCartIcon className="h-7 w-7 text-white-500"  /></Link>
                       <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
                         {cart?.length ?? 0}
                       </span>

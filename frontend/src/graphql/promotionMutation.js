@@ -8,7 +8,7 @@ mutation ($record: CreateOnePROMOTIONInput!) {
   }
 `
 export const UPDATE_PROMOTION = gql`
-mutation ($id:MongoID! $price:String! $productID:String! $name:String! $discount:Float! $limit:Float! ) 
+mutation ($id:MongoID! $price:String $productID:String $name:String $discount:Float $limit:Float ) 
 {updatePromotion
   (filter:{_id:$id} 
     record:{
