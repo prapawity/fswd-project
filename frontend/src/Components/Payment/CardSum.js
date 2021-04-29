@@ -16,15 +16,15 @@ const CardSum = (props) => {
   const [update_stock] = useMutation(UPDATE_STOCK);
   const subTotal = props?.newOrder?.subtotal ?? 0;
   const total = props?.newOrder?.total ?? 0;
-  let word = "these following product is out of stock please remove them from your cart \n";
-
+  let word = "these following product/promotion is out of stock please remove them from your cart \n";
+console.log(props.limit)
   const handleCreateOrder = useCallback(
     async (e) => {
       let stock_check = true;
       e.preventDefault()
       props?.stock.map((data,index)=>{
         data.map((stock)=>{
-          if(stock.stock <1){
+          if(stock.stock < 0){
             word += props.product_name[index]+" size "+stock.size_number+"\n"
             stock_check = false;
           }
@@ -35,7 +35,13 @@ const CardSum = (props) => {
       try {
         console.log(props?.newOrder);
         props?.product_id?.map(async (id, index) => await update_stock({ variables: { id: id, size: props?.stock[index] ?? [] } }))
-        props?.promo_id?.map(async (id, index) => await update_limit({ variables: { id: id, limit: props?.limit[index] } }))
+        props?.promo_id?.map(async (id, index) => {
+          let stat = true
+          if(props?.limit[index] < 1){
+            stat = false
+          }
+          await update_limit({ variables: { id: id, limit: props?.limit[index], status: stat } })
+        })
         await create_order({ variables: { record: props.newOrder } });
         clearCart()
         props?.setShowLoading(false)
@@ -54,7 +60,6 @@ const CardSum = (props) => {
     [props?.newOrder]
   );
 
-  console.log(word)
   return (
     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-6">
       <div className="px-6">
