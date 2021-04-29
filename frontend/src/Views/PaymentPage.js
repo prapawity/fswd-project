@@ -8,21 +8,22 @@ import { useSession } from "../contexts/SessionContext";
 const CustomerPayment = (props) => {
   const history = useHistory();
   const { cart } = useSession();
-  const [newOrder, setNewOrder] = useState(props?.location?.state?.newOrder ?? newOrder ?? undefined)
+  const [newOrder, setNewOrder] = useState(props?.location?.state?.newOrder  ?? undefined)
   const showLoading = (show) => props?.showLoading(show)
   let dataShow = [];
   let stock = [];
   let product_id = [];
   let promo_id = [];
   let limit = [];
+  let product_name = [];
 
   if (props?.location?.state?.newOrder === undefined) {
-    history.push("/checkout");
+    history.push("/customer/checkout");
   }
 
   useEffect(() => {
     if (newOrder === undefined) {
-      history.push("/checkout");
+      history.push("/customer/checkout");
     }
   }, [newOrder])
 
@@ -43,6 +44,7 @@ const CustomerPayment = (props) => {
 
   dataShow?.map((dataColumn) => {
     stock?.push(StockQuery(dataColumn, cart));
+    product_name?.push(StockQuery(dataColumn, cart,"name"));
     if (dataColumn?.type === "PROMOTION") {
       product_id?.push(StockQuery(dataColumn, cart, "product_id"))
       if (promo_id?.filter((dataProd) => dataProd?.id === dataColumn?.id)?.length === 0) {
@@ -53,7 +55,6 @@ const CustomerPayment = (props) => {
       product_id?.push(dataColumn?.id)
     }
   });
-
   // dataShow?.map((main, mainIndex) => {
   //   dataShow.filter((second, secondIndex) => main.id === second.id).map((resultData, resultIndex) => {
   //     stock.map((stockData, index) => {
@@ -89,7 +90,7 @@ const CustomerPayment = (props) => {
         <CardPayment />
       </div>
       <div className="w-full xl:w-4/12 px-4">
-        <CardSum setShowLoading={showLoading} type="Payment" newOrder={newOrder} stock={stock} product_id={product_id} promo_id={promo_id} limit={limit} />
+        <CardSum setShowLoading={showLoading} type="Payment" newOrder={newOrder} stock={stock} product_id={product_id} promo_id={promo_id} limit={limit} product_name={product_name} />
       </div>
     </div>
   );

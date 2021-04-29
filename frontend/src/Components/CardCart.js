@@ -54,7 +54,7 @@ const CardCart = (props) => {
             </thead>
             <tbody>
               {dataShow?.map((prod, index) => (
-                <CardCartRow type={prod?.type} key={prod?._id ?? index} dataColumn={prod} all={dataOfColumn} />
+                <CardCartRow type={props?.type} key={prod?._id ?? index} dataColumn={prod} all={dataOfColumn} />
               ))}
             </tbody>
           </table>

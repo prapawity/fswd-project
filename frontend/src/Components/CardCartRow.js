@@ -11,7 +11,7 @@ const CardCartRow = (props) => {
     variables: { id: props?.dataColumn?.id ?? "" },
   })
 
-  console.log(props?.dataColumn)
+  // console.log(props?.dataColumn)
 
   const handleDelete = useCallback((e) => {
     e.preventDefault();

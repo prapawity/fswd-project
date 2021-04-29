@@ -16,6 +16,9 @@ const StockQuery = (props, all, type) => {
   if (type === "limit") {
     return promo?.promotionByID?.limit
   }
+  if (type === "name") {
+    return data?.productByID?.name ?? promo?.promotionByID?.productDetail?.name ?? "name"
+  }
   if (props?.type === "PRODUCT") {
     if (data?.productByID !== undefined) {
       const index = data?.productByID?.size.findIndex(size => (size.size_number) === (props.size))
