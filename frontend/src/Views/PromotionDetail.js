@@ -32,6 +32,7 @@ const PromotionDetail = (props) => {
     const { loading, data, error } = useQuery(PROMOTION_QUERY, { variables: { id } })
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
+    const [stock, setStock] = useState(0)
     const product = data?.promotionByID?.productDetail ?? {}
 
     const handleIndexImage = (index) => {
@@ -40,6 +41,7 @@ const PromotionDetail = (props) => {
 
     const handleSize = (index) => {
         setSize(product.size[index].size_number)
+        setStock(product.size[index].stock)
     }
 
     const redirectToProductAll = useCallback(
@@ -71,6 +73,8 @@ const PromotionDetail = (props) => {
     const handleAddToCart = () => {
         if (userCookies === undefined) {
             redirectToLogin()
+        } else if(stock <= 0){
+            alert("Product is out of stock")
         } else if (data?.promotionByID) {
             const result = {
                 id: data.promotionByID._id,

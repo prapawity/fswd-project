@@ -16,17 +16,26 @@ const CardSum = (props) => {
   const [update_stock] = useMutation(UPDATE_STOCK);
   const subTotal = props?.newOrder?.subtotal ?? 0;
   const total = props?.newOrder?.total ?? 0;
+  let word = "these following product is out of stock please remove them from your cart \n";
 
   const handleCreateOrder = useCallback(
     async (e) => {
+      let stock_check = true;
       e.preventDefault()
-
+      props?.stock.map((data,index)=>{
+        data.map((stock)=>{
+          if(stock.stock <1){
+            word += props.product_name[index]+" size "+stock.size_number+"\n"
+            stock_check = false;
+          }
+        })
+      })
+      if(stock_check){
       props?.setShowLoading(true)
       try {
         console.log(props?.newOrder);
         props?.product_id?.map(async (id, index) => await update_stock({ variables: { id: id, size: props?.stock[index] ?? [] } }))
         props?.promo_id?.map(async (id, index) => await update_limit({ variables: { id: id, limit: props?.limit[index] } }))
-
         await create_order({ variables: { record: props.newOrder } });
         clearCart()
         props?.setShowLoading(false)
@@ -36,11 +45,16 @@ const CardSum = (props) => {
         console.log(err);
         props?.setShowLoading(false)
         alert("order failed");
+      }}
+      else{
+        history.push("/customer/cart");
+        alert(word)
       }
     },
     [props?.newOrder]
   );
 
+  console.log(word)
   return (
     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-6">
       <div className="px-6">
@@ -77,7 +91,7 @@ const CardSum = (props) => {
           {props?.type === "Cart" && props?.newOrder?.productsID?.length !== 0 ? (
             <Link
               to={{
-                pathname: "/checkout"
+                pathname: "/customer/checkout"
               }}
             >
               <button
@@ -92,7 +106,7 @@ const CardSum = (props) => {
           {props?.type === "Checkout" && props?.newOrder?.address !== "" ? (
             <Link
               to={{
-                pathname: "customer/payment",
+                pathname: "/customer/payment",
                 state: {
                   newOrder: props.newOrder,
                 }

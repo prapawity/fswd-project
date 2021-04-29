@@ -94,8 +94,8 @@ function App() {
               <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} exact />
               <PrivateRoute authed={passAuthen()} path="/customer/order-detail/:id" redirectTo="/login" component={CustomerOrderDetail} exact />
               <PrivateRoute authed={passAuthen()} path="/customer/payment" redirectTo="/login" component={CustomerPayment} exact />
-              <PrivateRoute authed={passAuthen()} path="/cart" redirectTo="/login" component={CartPage} exact />
-              <PrivateRoute authed={passAuthen()} path="/checkout" redirectTo="/login" component={Checkout} exact />
+              <PrivateRoute authed={passAuthen()} path="/customer/cart" redirectTo="/login" component={CartPage} exact />
+              <PrivateRoute authed={passAuthen()} path="/customer/checkout" redirectTo="/login" component={Checkout} exact />
 
               {/* MARK:- Admin Zone */}
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/dashboard" redirectTo="/login" component={AdminDashboard} exact />
