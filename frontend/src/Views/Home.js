@@ -5,12 +5,12 @@ import { PROMOTIONS_QUERY_HOME } from "../graphql/promotionQuery";
 import { useQuery } from "@apollo/client";
 import CardPromotion from "../Components/Customer/CardPromotion";
 import CarouselComponent from "../Components/General/CarouselComponent";
+import { useSession } from "../contexts/SessionContext";
 
-const Home = (props) => {
+const Home = () => {
   const { loading, data, error } = useQuery(PRODUCTS_QUERY_HOME);
-  const { loading: promotionLoading, data: promotionData } = useQuery(
-    PROMOTIONS_QUERY_HOME
-  );
+  const { setLoading } = useSession()
+  const { loading: promotionLoading, data: promotionData } = useQuery(PROMOTIONS_QUERY_HOME);
   const carouselImg = [
     process.env.PUBLIC_URL + "/img/bannerHome.png",
     process.env.PUBLIC_URL + "/img/Banner2.jpeg",
@@ -18,14 +18,16 @@ const Home = (props) => {
     process.env.PUBLIC_URL + "/img/banner4.png",
     process.env.PUBLIC_URL + "/img/banner5.png",
   ];
+
   useEffect(() => {
     console.log(data);
     if (loading || promotionLoading) {
-      props?.showLoading(true);
+      setLoading(true);
     } else if ((!loading && !promotionLoading) || error) {
-      props?.showLoading(false);
+      setLoading(false);
     }
   }, [loading, promotionLoading]);
+
   return (
     <Fragment>
       <CarouselComponent>

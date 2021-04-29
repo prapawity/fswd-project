@@ -7,9 +7,11 @@ import {
 } from "../../graphql/promotionMutation";
 import { PRODUCTS_QUERY } from "../../graphql/productQuery";
 import { PROMOTION_QUERY, PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
+import { useSession } from "../../contexts/SessionContext";
 
 const AdminPromotionEdit = (props) => {
   const history = useHistory();
+  const { setLoading } = useSession()
   const id = props?.match?.params?.id ?? 0
   const { loading, data } = useQuery(PROMOTION_QUERY, {
     variables: { id: id },
@@ -71,7 +73,7 @@ const AdminPromotionEdit = (props) => {
               productID: newPromotion?.productID ?? "0",
             },
           });
-          props?.showLoading(false)
+          setLoading(false)
           redirectToPromotions();
         } catch (err) {
           console.log(err);

@@ -25,7 +25,7 @@ const imageStyle = {
 };
 
 const PromotionDetail = (props) => {
-    const { addProductToCart, userCookies } = useSession()
+    const { addProductToCart, userCookies, setLoading } = useSession()
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/promotion/detail', '') ?? ""
@@ -99,9 +99,9 @@ const PromotionDetail = (props) => {
 
     useEffect(() => {
         if (loading) {
-            props?.showLoading(true)
+            setLoading(true)
         } else if (!loading || error) {
-            props?.showLoading(false)
+            setLoading(false)
         }
     }, [loading])
     return (

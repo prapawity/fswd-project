@@ -22,7 +22,7 @@ const CardLatestProduct = (props) => {
           <img
             alt="..."
             src={img}
-            style={{ height: '20vh' }}
+            style={{ height: 'auto' }}
             className="shadow-lg rounded-full mx-auto max-w-120-px"
           />
           <div className="pt-6 text-center">

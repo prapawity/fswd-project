@@ -14,7 +14,7 @@ const AdminPromotion = (props) => {
     "limit",
     " ",
   ];
-  const { loading, data } = useQuery(PROMOTIONS_QUERY, { fetchPolicy: 'no-cache' });
+  const { data } = useQuery(PROMOTIONS_QUERY, { fetchPolicy: 'no-cache' })
 
   return (
     <div className="flex flex-wrap mt-4 ">

@@ -8,7 +8,7 @@ const { default: CardOrderRow } = require("./Order/CardOrder-row");
 const CardOrder = (props) => {
   const isCustomer = props.isCustomer ?? true
   const userType = isCustomer ? "Customer" : "Admin";
-  const { data, error, refetch } = useQuery(ORDERS_QUERY, { fetchPolicy: "network-only" })
+  const { data, error, refetch } = useQuery(ORDERS_QUERY, { fetchPolicy: "no-cache" })
   const [deleteOrderData] = useMutation(REMOVE_ORDER)
 
   if (error) {
@@ -16,14 +16,21 @@ const CardOrder = (props) => {
   }
 
   const deleteOrder = async (orderID) => {
+    props?.setLoading(true)
     try {
       await deleteOrderData({ variables: { id: orderID } })
       refetch()
+      props?.setLoading(false)
       alert(`DELETE Order ID: ${orderID} Successfully`)
     } catch (error) {
+      props?.setLoading(false)
       console.log(error)
       alert("Remove Order Fail")
     }
+  }
+
+  const setLoading = (loading) => {
+    props?.setLoading(loading)
   }
 
   const refetchData = () => {
@@ -55,7 +62,7 @@ const CardOrder = (props) => {
               return userType === "Customer" ? (
                 <CardOrderRow deleteOrder={deleteOrder} dataColumn={colDetail} key={colDetail._id} />
               ) : (
-                <CardOrderAdminRow refetch={refetchData} dataColumn={colDetail} key={colDetail._id} />
+                <CardOrderAdminRow setLoading={setLoading} refetch={refetchData} dataColumn={colDetail} key={colDetail._id} />
               );
             })}
         </tbody>

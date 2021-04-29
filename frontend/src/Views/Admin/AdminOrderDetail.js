@@ -3,21 +3,22 @@ import { useQuery } from "@apollo/client";
 import { ORDER_QUERY } from "../../graphql/orderQuery";
 import { Fragment, useEffect } from "react";
 import CardOrderDetailAdm from "../../Components/Order/CardOrderDetailAdm";
+import { useSession } from "../../contexts/SessionContext";
 
 const AdminOrderDetail = (props) => {
   const adminHeader = ["Product", "Details", "Size", "Price", "Quantity", ""];
-  const id =
-    props?.match?.params?.id?.replace("/admin/order-detail/", "") ?? "";
+  const id = props?.match?.params?.id?.replace("/admin/order-detail/", "") ?? "";
   const { loading, data, error } = useQuery(ORDER_QUERY, {
     variables: { id },
     fetchPolicy: "no-cache",
   });
+  const { setLoading } = useSession()
 
   useEffect(() => {
     if (loading && data) {
-      props?.showLoading(true)
+      setLoading(true)
     } else if (!loading || error) {
-      props?.showLoading(false)
+      setLoading(false)
     }
   }, [loading])
 

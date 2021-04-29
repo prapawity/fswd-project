@@ -38,7 +38,7 @@ function App() {
     return (
       <Route
         {...rest}
-        render={(props) => (authed === true) ? adminPath ? userCookies.type === "Admin" ? <Component showLoading={handleShowLoading} {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} /> : <Component showLoading={handleShowLoading} {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
+        render={(props) => (authed === true) ? adminPath ? userCookies.type === "Admin" ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} /> : <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
       />
     )
   }
@@ -53,7 +53,7 @@ function App() {
     return (
       <Route
         {...rest}
-        render={(props) => <Component showLoading={handleShowLoading} {...props} />}
+        render={(props) => <Component {...props} />}
       />
     )
   }

@@ -27,7 +27,7 @@ const CardCartRow = (props) => {
         <img
           src={
             data?.promotionByID?.productDetail?.thumpnail ??
-            data?.promotionByID?.thumpnail ??
+            data?.promotionByID?.thumpnail ?? data?.productByID?.thumpnail ??
             process.env.PUBLIC_URL + "/img/shoes/run3.jpeg"
           }
           className="h-12 w-12 bg-white rounded-full border"

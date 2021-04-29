@@ -25,11 +25,16 @@ mutation ($id: MongoID!, $record: UpdateOnePRODUCTInput!){
     recordId
   }
 }`
+
 export const UPDATE_STOCK = gql`
   mutation($id: MongoID!, $size: [UpdateOneProductSizeInput]) {
     updateProduct(filter: { _id: $id }, record: { size: $size }) {
       record {
         name
+        size {
+          stock
+          size_number
+        }
       }
     }
   }

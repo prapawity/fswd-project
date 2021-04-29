@@ -6,11 +6,13 @@ import { PRODUCTS_QUERY } from '../../graphql/productQuery'
 import Tabs from '../../Components/Product/Tab'
 import Pagination from '../../Components/General/Pagination'
 import CardProductAdmin from '../../Components/Product/CardProductAdmin'
+import { useSession } from '../../contexts/SessionContext'
 
 const AdminProduct = (props) => {
     const history = useHistory()
+    const { setLoading } = useSession()
     const [reload, setReload] = useState(props?.location?.state?.shouldReload ?? false)
-    const { loading, data, error, refetch} = useQuery(PRODUCTS_QUERY)
+    const { loading, data, error, refetch } = useQuery(PRODUCTS_QUERY)
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
     const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
     const [pageIndex, setPageIndex] = useState(0)
@@ -49,9 +51,9 @@ const AdminProduct = (props) => {
 
     useEffect(() => {
         if (loading) {
-            props?.showLoading(true)
+            setLoading(true)
         } else if (!loading || error) {
-            props?.showLoading(false)
+            setLoading(false)
         }
 
         if (reload) {
@@ -71,7 +73,9 @@ const AdminProduct = (props) => {
     }
     return (
         <Fragment>
-            <CardAdminProduct />
+            <div className="w-full">
+                <CardAdminProduct />
+            </div>
             <div className="mr-10 ml-10 ">
                 <Tabs index={stateIndex} updateIndex={handleUpdateIndex} type={typeOfTab} />
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-10 md:mb-0">

@@ -1,8 +1,10 @@
 import { useHistory } from "react-router-dom"
 import { useCallback } from "react"
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { REMOVE_ORDER } from "../../graphql/orderQuery"
 import { useToasts } from 'react-toast-notifications'
+import { UPDATE_STOCK } from "../../graphql/productMutation"
+import { PRODUCTS_QUERY } from "../../graphql/productQuery"
 
 const CardOrderAdminRow = (props) => {
   const dataOfColumn = props.dataColumn ?? [];
@@ -10,18 +12,53 @@ const CardOrderAdminRow = (props) => {
   const detail = dataOfColumn?._id ?? "";
   const { addToast } = useToasts()
   const [removeOrder] = useMutation(REMOVE_ORDER)
+  const [updateProduct] = useMutation(UPDATE_STOCK)
+  const { data } = useQuery(PRODUCTS_QUERY)
 
   const redirectToOrderDetail = useCallback(() => {
     history.push(`/admin/order-detail/${detail}`);
   }, [history]);
 
+  const updateProductData = async () => {
+    dataOfColumn?.productsID?.map(async (productSize) => {
+      const filteredData = data?.products?.filter((product) => product?._id === productSize?.id)
+      if (filteredData?.length > 0) {
+        console.log(filteredData)
+        const newSize = filteredData[0]?.size ?? []
+
+        const result = newSize.map((size) => {
+          if (size?.size_number === productSize?.size) {
+
+            return { size_number: size?.size_number, stock: size?.stock + 1 }
+          }
+          return size
+        })
+
+        if (result?.length > 0) {
+          try {
+            await updateProduct({ variables: { id: filteredData[0]?._id ?? 0, size: result } })
+            console.log("UPDATE PRODUCT SUCCESS", result, newSize)
+          } catch (error) {
+            console.log(error)
+            alert("UPDATE PRODUCT ERROR")
+          }
+        }
+      }
+    })
+  }
+
   const handleRemoveOrder = async () => {
     console.log(detail)
+    props?.setLoading(true)
+    
     try {
+      await updateProductData()
       await removeOrder({ variables: { id: detail } })
+      props?.setLoading(false)
       props?.refetch()
       addToast(`Remove Order Success`, { appearance: 'success', autoDismiss: true });
     } catch (error) {
+      props?.setLoading(false)
       console.log(error)
       alert("Remove order fail")
     }

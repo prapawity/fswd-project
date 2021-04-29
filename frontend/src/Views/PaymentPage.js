@@ -7,9 +7,9 @@ import { useSession } from "../contexts/SessionContext";
 
 const CustomerPayment = (props) => {
   const history = useHistory();
-  const { cart } = useSession();
-  const [newOrder, setNewOrder] = useState(props?.location?.state?.newOrder  ?? undefined)
-  const showLoading = (show) => props?.showLoading(show)
+  const { cart, setLoading } = useSession();
+  const [newOrder, setNewOrder] = useState(props?.location?.state?.newOrder ?? newOrder ?? undefined)
+  const showLoading = (show) => setLoading(show)
   let dataShow = [];
   let stock = [];
   let product_id = [];
