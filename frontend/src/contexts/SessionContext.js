@@ -19,8 +19,9 @@ export const SessionProvider = (props) => {
   const token = cookies.token
   const userData = cookies.user
   const [loginError, setLoginError] = useState('')
+  const [loadSomething, setLoading] = useState(false)
   const [loadMe, { loading, data }] = useLazyQuery(ME_QUERY, { fetchPolicy: 'network-only' })
-  const [login, { loadingLogin }] = useMutation(LOGIN_MUTATION)
+  const [login, { loading: loadingLogin }] = useMutation(LOGIN_MUTATION)
   const handleLogin = useCallback(
     async (username, password) => {
       try {
@@ -57,10 +58,10 @@ export const SessionProvider = (props) => {
   }
 
   const handleSetCart = (product) => {
-      clearCart()
-      const arrayData = product
-      const json_data = JSON.stringify(arrayData)
-      setCookie('cart', json_data, { maxAge: 86400, path: '/' })
+    clearCart()
+    const arrayData = product
+    const json_data = JSON.stringify(arrayData)
+    setCookie('cart', json_data, { maxAge: 86400, path: '/' })
   }
 
   const clearCart = () => removeCookie('cart', { maxAge: 86400, path: '/' })
@@ -115,7 +116,7 @@ export const SessionProvider = (props) => {
   return (
     <SessionContext.Provider
       value={{
-        loading, user, login: handleLogin, logout: handleLogout, userCookies: userData, cart: cart, clearCart: clearCart, addProductToCart: handleAddCart, setCart: handleSetCart , token: token, loginError: loginError, loginLoading: loadingLogin
+        loading, user, login: handleLogin, logout: handleLogout, userCookies: userData, cart: cart, clearCart: clearCart, addProductToCart: handleAddCart, setCart: handleSetCart, token: token, loginError: loginError, loginLoading: loadingLogin, forceLoading: loadSomething, setLoading: setLoading
       }}
     >
       {children}

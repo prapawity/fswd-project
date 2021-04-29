@@ -3,7 +3,7 @@ import './App.css';
 import Home from './Views/Home';
 import Navbar from './Components/General/NavBar';
 import Footer from './Components/General/Footer'
-import { Suspense, useCallback, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import LoginPage from './Views/LoginPage';
 import Registerpage from './Views/RegisterPage';
 import CustomerOrder from './Views/CustomerOrder';
@@ -29,7 +29,7 @@ import CustomerPayment from './Views/PaymentPage';
 import Checkout from './Views/CheckoutPage';
 
 function App() {
-  const { userCookies } = useSession()
+  const { userCookies, loginLoading, forceLoading } = useSession()
   const [showLoading, setShowLoading] = useState(false)
 
   const PrivateRoute = ({ component: Component, authed, redirectTo, isAdminPath, ...rest }) => {
@@ -41,6 +41,12 @@ function App() {
       />
     )
   }
+
+
+  useEffect(() => {
+    console.log(loginLoading, "CHECK LOAD")
+    setShowLoading(forceLoading)
+  }, [forceLoading])
 
   const NormalRoute = ({ component: Component, ...rest }) => {
     return (
@@ -87,8 +93,8 @@ function App() {
               <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} exact />
               <PrivateRoute authed={passAuthen()} path="/customer/order-detail/:id" redirectTo="/login" component={CustomerOrderDetail} exact />
               <PrivateRoute authed={passAuthen()} path="/customer/payment" redirectTo="/login" component={CustomerPayment} exact />
-              <PrivateRoute authed={passAuthen()} path="/cart" redirectTo="/login" component={CartPage} exact/>
-              <PrivateRoute authed={passAuthen()} path="/checkout" redirectTo="/login" component={Checkout} exact/>
+              <PrivateRoute authed={passAuthen()} path="/cart" redirectTo="/login" component={CartPage} exact />
+              <PrivateRoute authed={passAuthen()} path="/checkout" redirectTo="/login" component={Checkout} exact />
 
 
               {/* MARK:- Admin Zone */}
