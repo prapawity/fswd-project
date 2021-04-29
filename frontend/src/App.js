@@ -27,6 +27,7 @@ import PromotionDetail from './Views/PromotionDetail';
 import CartPage from './Views/CartPage';
 import CustomerPayment from './Views/PaymentPage';
 import Checkout from './Views/CheckoutPage';
+import StockPage from './Views/Admin/AdminStock';
 
 function App() {
   const { userCookies, loginLoading, forceLoading } = useSession()
@@ -96,7 +97,6 @@ function App() {
               <PrivateRoute authed={passAuthen()} path="/cart" redirectTo="/login" component={CartPage} exact />
               <PrivateRoute authed={passAuthen()} path="/checkout" redirectTo="/login" component={Checkout} exact />
 
-
               {/* MARK:- Admin Zone */}
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/dashboard" redirectTo="/login" component={AdminDashboard} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/orders" redirectTo="/login" component={AdminOrder} exact />
@@ -108,6 +108,7 @@ function App() {
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotions" redirectTo="/login" component={AdminPromotion} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotion/create" redirectTo="/login" component={AdminPromotionCreate} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotion/:id" redirectTo="/login" component={AdminPromotionEdit} exact />
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/stocks" redirectTo="/login" component={StockPage} exact />
 
               {/* MARK:- Other URL */}
               <Route render={() => <Redirect to={{ pathname: "/" }} />} />
