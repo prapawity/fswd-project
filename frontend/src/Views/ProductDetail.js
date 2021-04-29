@@ -31,6 +31,7 @@ const ProductDetail = (props) => {
     const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id } , fetchPolicy: 'network-only'})
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
+    const [stock, setStock] = useState(0)
     const [showAlert, setShowAlert] = useState(false)
 
     const handleIndexImage = (index) => {
@@ -39,6 +40,7 @@ const ProductDetail = (props) => {
 
     const handleSize = (index) => {
         setSize(data?.productByID?.size[index].size_number)
+        setStock(data?.productByID?.size[index].stock)
     }
 
     const redirectToProductAll = useCallback(
@@ -47,7 +49,7 @@ const ProductDetail = (props) => {
         },
         [history],
     )
-
+        console.log(stock)
     const redirectToLogin = useCallback(
         () => {
             history.push('/login')
@@ -68,6 +70,8 @@ const ProductDetail = (props) => {
     const handleAddToCart = () => {
         if (userCookies === undefined) {
             redirectToLogin()
+        } else if(stock <= 0){
+            alert("Product is out of stock")
         } else if (data?.productByID) {
             const result = {
                 id: data.productByID._id,

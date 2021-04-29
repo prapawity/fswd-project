@@ -4,6 +4,7 @@ import { PRODUCT_QUERY } from '../../graphql/productQuery'
 import { UPDATE_PRODUCT } from "../../graphql/productMutation"
 import { useHistory } from "react-router"
 import { useToasts } from 'react-toast-notifications'
+import { useSession } from "../../contexts/SessionContext"
 
 const AdminEditProductDetail = (props) => {
     const history = useHistory()
@@ -14,11 +15,13 @@ const AdminEditProductDetail = (props) => {
     const [productData, setProduct] = useState(null)
     const categoryType = ["RUNNING", "FOOTBALL", "CASUAL", "BASKETBALL", "SANDALS", "OTHER"]
     const [sizeData, setSize] = useState({ size_number: "", stock: "" })
+    const { setLoading } = useSession()
+    
     useEffect(() => {
         if (loading) {
-            props?.showLoading(true)
+            setLoading(true)
         } else if (!loading || error) {
-            props?.showLoading(false)
+            setLoading(false)
         }
     }, [loading])
 

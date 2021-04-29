@@ -5,9 +5,11 @@ import { useMutation } from "@apollo/client";
 import { PRODUCTS_QUERY } from "../../graphql/productQuery";
 import ButtonAdminProduct from '../../Components/General/ButtonAdminProduct'
 import { useHistory } from "react-router"
+import { useSession } from "../../contexts/SessionContext";
 
 const AdminCreateProduct = (props) => {
   const history = useHistory()
+  const { setLoading } = useSession()
   const title = "ADMIN FORM:- CREATE PRODUCT";
   const desc = "Please fill all input information";
   const show = true
@@ -28,7 +30,7 @@ const AdminCreateProduct = (props) => {
   const [productCreate, setProduct] = useState({ name: '', price: '1', category: categoryType[0], description: "", imageList: [], thumpnail: '' })
   const handleConfirm = async (e) => {
     e.preventDefault()
-    props?.showLoading(true)
+    setLoading(true)
     await handleUploadThumpnail()
   }
 
@@ -63,7 +65,7 @@ const AdminCreateProduct = (props) => {
         },
         (error) => {
           console.log("ERROR:-", error)
-          props?.showLoading(false)
+          setLoading(false)
           alert("Upload Thumpnail not success")
         }, async () => {
           const url = await storageRef.ref('All_Files/').child(file.name + timestamp).getDownloadURL().catch((error) => { throw error })
@@ -93,12 +95,12 @@ const AdminCreateProduct = (props) => {
           }
         }
       })
-      props?.showLoading(false)
+      setLoading(false)
       alert("Create Product Success")
       clearData()
     } catch (error) {
       console.log(error)
-      props?.showLoading(false)
+      setLoading(false)
       alert("Create Product Fail")
     }
   }
@@ -113,7 +115,7 @@ const AdminCreateProduct = (props) => {
       },
       (error) => {
         console.log("ERROR:-", error)
-        props?.showLoading(false)
+        setLoading(false)
         alert("Upload Images not success")
       }, async () => {
         const url = await storageRef.ref('All_Files/').child(thumpnail.file.name + timestamp).getDownloadURL().catch((error) => { throw error })

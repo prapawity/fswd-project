@@ -5,16 +5,19 @@ import {
   UPDATE_PROMOTION,
   DELETE_PROMOTION,
 } from "../../graphql/promotionMutation";
-import { PRODUCT_FILTER_QUERY, PRODUCT_QUERY } from "../../graphql/productQuery";
+import { PRODUCTS_QUERY } from "../../graphql/productQuery";
 import { PROMOTION_QUERY, PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
+import { useSession } from "../../contexts/SessionContext";
 
 const AdminPromotionEdit = (props) => {
   const history = useHistory();
+  const { setLoading } = useSession()
   const id = props?.match?.params?.id ?? 0
   const { loading, data } = useQuery(PROMOTION_QUERY, {
     variables: { id: id },
     fetchPolicy: 'no-cache'
   });
+  const { loading: loading3, data: test } = useQuery(PRODUCTS_QUERY);
   const refetchQuery = {
     refetchQueries: [{
       query: PROMOTIONS_QUERY
@@ -22,11 +25,10 @@ const AdminPromotionEdit = (props) => {
   }
 
   const [newPromotion, setPromotion] = useState(null);
-  const { loading: loading2, data: query } = useQuery(PRODUCT_FILTER_QUERY, { variables: { name: newPromotion?.productName ?? "" } })
   const [update_promotion] = useMutation(UPDATE_PROMOTION, refetchQuery);
   const [delete_promotion] = useMutation(DELETE_PROMOTION, refetchQuery);
   const redirectToPromotions = useCallback(() => {
-    history.push("/admin/promotions");
+    history.goBack()
   }, [history]);
 
 
@@ -59,8 +61,6 @@ const AdminPromotionEdit = (props) => {
     async (e) => {
       e.preventDefault();
       props?.showLoading(true)
-      try {
-        newPromotion.productID = query.product._id
         try {
           console.log(newPromotion);
           await update_promotion({
@@ -73,20 +73,13 @@ const AdminPromotionEdit = (props) => {
               productID: newPromotion?.productID ?? "0",
             },
           });
-          props?.showLoading(false)
+          setLoading(false)
           redirectToPromotions();
         } catch (err) {
           console.log(err);
-          console.log(query);
           props?.showLoading(false);
           alert("create promo failed");
         }
-      } catch (err) {
-        console.log(err);
-        console.log(query);
-        props?.showLoading(false);
-        alert("Product query failed");
-      }
     },
     [newPromotion]
   );
@@ -95,10 +88,6 @@ const AdminPromotionEdit = (props) => {
     if (!loading || data) {
       if (data && newPromotion === null) {
         setPromotion(data.promotionByID);
-        setPromotion((prev) => ({ ...prev, productName: data?.promotionByID?.productDetail?.name ?? "" }));
-      }
-      if (query !== null) {
-        setPromotion((prev) => ({ ...prev, productID: query?.product?._id ?? "1" }));
       }
     }
   }, [data]);
@@ -141,15 +130,12 @@ const AdminPromotionEdit = (props) => {
                     <label className="block uppercase text-gray-700 text-xs font-bold mb-2">
                       product name
                     </label>
-                    <input
-                      type="text"
-                      className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                      name="productName"
-                      value={newPromotion?.productName ?? "0"}
-                      placeholder="product name"
-                      onChange={handleInputChange}
-                      style={{ transition: "all .15s ease" }}
-                    />
+                    <select name="productID" value={newPromotion.productID} required={true} onChange={handleInputChange} className="border p-2 rounded w-full">
+                      {test?.products?.map((product, index) => <option value={product?._id ?? index} key={product?._id ?? index}>{product?.name ?? "NAME"}, {parseFloat(product?.price ?? 0).toLocaleString('th-TH', {
+                        style: 'currency',
+                        currency: 'THB'
+                      })}</option>)}
+                    </select>
                   </div>
                   <div className="relative w-full mb-3">
                     <label className="block uppercase text-gray-700 text-xs font-bold mb-2">

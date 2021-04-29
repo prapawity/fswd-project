@@ -24,7 +24,7 @@ const CardPieChart = () => {
         labels: ["In Process", "Completed"],
         datasets: [{
           label: "Population (millions)",
-          backgroundColor: ["#81b214", "#ffcc29",],
+          backgroundColor: ["#ffcc29", "#81b214"],
           data: [inprogress, complete]
         }]
       },

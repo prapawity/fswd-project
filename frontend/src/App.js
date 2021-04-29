@@ -3,7 +3,7 @@ import './App.css';
 import Home from './Views/Home';
 import Navbar from './Components/General/NavBar';
 import Footer from './Components/General/Footer'
-import { Suspense, useCallback, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import LoginPage from './Views/LoginPage';
 import Registerpage from './Views/RegisterPage';
 import CustomerOrder from './Views/CustomerOrder';
@@ -24,9 +24,13 @@ import AdminCreateProduct from './Views/Admin/AdminCreateProduct';
 import AdminEditProductDetail from './Views/Admin/AdminEditProductDetail';
 import AdminDashboard from './Views/Admin/AdminDashboard';
 import PromotionDetail from './Views/PromotionDetail';
+import CartPage from './Views/CartPage';
+import CustomerPayment from './Views/PaymentPage';
+import Checkout from './Views/CheckoutPage';
+import StockPage from './Views/Admin/AdminStock';
 
 function App() {
-  const { userCookies } = useSession()
+  const { userCookies, loginLoading, forceLoading } = useSession()
   const [showLoading, setShowLoading] = useState(false)
 
   const PrivateRoute = ({ component: Component, authed, redirectTo, isAdminPath, ...rest }) => {
@@ -34,16 +38,22 @@ function App() {
     return (
       <Route
         {...rest}
-        render={(props) => (authed === true) ? adminPath ? userCookies.type === "Admin" ? <Component showLoading={handleShowLoading} {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} /> : <Component showLoading={handleShowLoading} {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
+        render={(props) => (authed === true) ? adminPath ? userCookies.type === "Admin" ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} /> : <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />}
       />
     )
   }
+
+
+  useEffect(() => {
+    console.log(loginLoading, "CHECK LOAD")
+    setShowLoading(forceLoading)
+  }, [forceLoading])
 
   const NormalRoute = ({ component: Component, ...rest }) => {
     return (
       <Route
         {...rest}
-        render={(props) => <Component showLoading={handleShowLoading} {...props} />}
+        render={(props) => <Component {...props} />}
       />
     )
   }
@@ -83,7 +93,9 @@ function App() {
               <PrivateRoute authed={passAuthen()} path="/customer/info" redirectTo="/login" component={CardCustomerInfo} exact />
               <PrivateRoute authed={passAuthen()} path="/customer/orders" redirectTo="/login" component={CustomerOrder} exact />
               <PrivateRoute authed={passAuthen()} path="/customer/order-detail/:id" redirectTo="/login" component={CustomerOrderDetail} exact />
-
+              <PrivateRoute authed={passAuthen()} path="/customer/payment" redirectTo="/login" component={CustomerPayment} exact />
+              <PrivateRoute authed={passAuthen()} path="/customer/cart" redirectTo="/login" component={CartPage} exact />
+              <PrivateRoute authed={passAuthen()} path="/customer/checkout" redirectTo="/login" component={Checkout} exact />
 
               {/* MARK:- Admin Zone */}
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/dashboard" redirectTo="/login" component={AdminDashboard} exact />
@@ -96,6 +108,7 @@ function App() {
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotions" redirectTo="/login" component={AdminPromotion} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotion/create" redirectTo="/login" component={AdminPromotionCreate} exact />
               <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/promotion/:id" redirectTo="/login" component={AdminPromotionEdit} exact />
+              <PrivateRoute authed={passAuthen()} isAdminPath={true} path="/admin/stocks" redirectTo="/login" component={StockPage} exact />
 
               {/* MARK:- Other URL */}
               <Route render={() => <Redirect to={{ pathname: "/" }} />} />

@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { ORDER_QUERY } from "../graphql/orderQuery";
 import CardOrderDetail from "../Components/CardOrderDetail";
+import { useSession } from "../contexts/SessionContext";
 
 
 const { default: CardTotal } = require("../Components/Order/CardTotal");
@@ -14,15 +15,14 @@ const CustomerOrderDetail = (props) => {
     fetchPolicy: "no-cache",
   });
   const customerHeader = ["Product", "Details", "Size", "Price", "Quantity"];
-
+  const { setLoading } = useSession()
   useEffect(() => {
     if (loading && data) {
-        props?.showLoading(true)
+      setLoading(true)
     } else if (!loading || error) {
-        props?.showLoading(false)
+      setLoading(false)
     }
-}, [loading])
-
+  }, [loading])
   return (
     <>
       <div className="flex flex-wrap">

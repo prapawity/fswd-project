@@ -5,9 +5,11 @@ import { CREATE_PROMOTION } from "../../graphql/promotionMutation";
 import { PRODUCTS_QUERY } from "../../graphql/productQuery";
 import { PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
 import { useToasts } from 'react-toast-notifications'
+import { useSession } from "../../contexts/SessionContext";
 
 const AdminPromotionCreate = (props) => {
   const history = useHistory();
+  const { setLoading } = useSession()
   const { loading, data, error } = useQuery(PRODUCTS_QUERY);
   const { addToast } = useToasts()
   const [newPromotion, setPromotion] = useState({
@@ -70,9 +72,9 @@ const AdminPromotionCreate = (props) => {
 
   useEffect(() => {
     if (loading && data) {
-      props?.showLoading(true)
+      setLoading(true)
     } else if (!loading || error) {
-      props?.showLoading(false)
+      setLoading(false)
     }
   }, [data, loading])
 

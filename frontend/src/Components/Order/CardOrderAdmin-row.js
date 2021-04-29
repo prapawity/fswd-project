@@ -1,14 +1,68 @@
-import { PencilIcon } from "@heroicons/react/solid";
-import { useHistory } from "react-router-dom";
-import { useCallback } from "react";
+import { useHistory } from "react-router-dom"
+import { useCallback } from "react"
+import { useMutation, useQuery } from '@apollo/client'
+import { REMOVE_ORDER } from "../../graphql/orderQuery"
+import { useToasts } from 'react-toast-notifications'
+import { UPDATE_STOCK } from "../../graphql/productMutation"
+import { PRODUCTS_QUERY } from "../../graphql/productQuery"
 
 const CardOrderAdminRow = (props) => {
   const dataOfColumn = props.dataColumn ?? [];
   const history = useHistory();
-  const detail = dataOfColumn?._id ?? {};
+  const detail = dataOfColumn?._id ?? "";
+  const { addToast } = useToasts()
+  const [removeOrder] = useMutation(REMOVE_ORDER)
+  const [updateProduct] = useMutation(UPDATE_STOCK)
+  const { data } = useQuery(PRODUCTS_QUERY)
+
   const redirectToOrderDetail = useCallback(() => {
     history.push(`/admin/order-detail/${detail}`);
   }, [history]);
+
+  const updateProductData = async () => {
+    dataOfColumn?.productsID?.map(async (productSize) => {
+      const filteredData = data?.products?.filter((product) => product?._id === productSize?.id)
+      if (filteredData?.length > 0) {
+        console.log(filteredData)
+        const newSize = filteredData[0]?.size ?? []
+
+        const result = newSize.map((size) => {
+          if (size?.size_number === productSize?.size) {
+
+            return { size_number: size?.size_number, stock: size?.stock + 1 }
+          }
+          return size
+        })
+
+        if (result?.length > 0) {
+          try {
+            await updateProduct({ variables: { id: filteredData[0]?._id ?? 0, size: result } })
+            console.log("UPDATE PRODUCT SUCCESS", result, newSize)
+          } catch (error) {
+            console.log(error)
+            alert("UPDATE PRODUCT ERROR")
+          }
+        }
+      }
+    })
+  }
+
+  const handleRemoveOrder = async () => {
+    console.log(detail)
+    props?.setLoading(true)
+    
+    try {
+      await updateProductData()
+      await removeOrder({ variables: { id: detail } })
+      props?.setLoading(false)
+      props?.refetch()
+      addToast(`Remove Order Success`, { appearance: 'success', autoDismiss: true });
+    } catch (error) {
+      props?.setLoading(false)
+      console.log(error)
+      alert("Remove order fail")
+    }
+  }
 
   return (
     <tr>
@@ -49,20 +103,34 @@ const CardOrderAdminRow = (props) => {
         {dataOfColumn?.address?.substr(0, 40) ?? "ADDRESS"}
       </td>
       {/* Status */}
-      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left ">
-        {dataOfColumn?.status ?? "STATUS"}
+      <td className="pr-4">
+        <div className={`bg-${(dataOfColumn?.status ?? "INPROCESS") === "INPROCESS" ? "yellow" : "green"}-500 active:bg-gray-600 uppercase text-white font-bold shadow text-xs px-5 py-2 rounded text-center`}>
+          {dataOfColumn?.status ?? "STATUS"}
+        </div>
       </td>
       {/* Button */}
-      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-center">
+      <td className="border-t-0 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 px-0 pr-4 text-center">
         <div className="flex items-center ">
           <button
-            className="bg-gray-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
+            className="bg-gray-500 w-full active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
             type="button"
             onClick={redirectToOrderDetail}
           >
             <div className="flex flex-wrap justify-center">
-              <PencilIcon className="text-white-600 h-4 w-4 mr-1" />
-            Manage
+              Manage
+          </div>
+          </button>
+        </div>
+      </td>
+      <td className="border-t-0 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 px-0 pr-4 text-center">
+        <div className="flex items-center ">
+          <button
+            className="bg-red-500 active:bg-red-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none text-center ease-linear transition-all duration-150"
+            type="button"
+            onClick={handleRemoveOrder}
+          >
+            <div className="justify-center w-full">
+              Delete
           </div>
           </button>
         </div>

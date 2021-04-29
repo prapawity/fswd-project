@@ -1,4 +1,4 @@
-import { EyeIcon, TrashIcon } from "@heroicons/react/solid";
+import { EyeIcon, XCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -46,12 +46,13 @@ const CardOrderRow = (props) => {
       </td>
       {/* Button */}
       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 text-left">
-        <div className="grid grid-cols-2">
-          <div className="flex items-center ">
+        <div className="grid grid-cols-1">
+          <div className="flex items-center">
             <button
               className="bg-gray-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
               type="button"
               onClick={redirectToOrderDetail}
+              style={{width: '90%'}}
             >
               <div className="flex flex-wrap justify-center">
                 <EyeIcon className="text-white-600 h-4 w-4 mr-1" />
@@ -59,18 +60,19 @@ const CardOrderRow = (props) => {
             </div>
             </button>
           </div>
-          <div className="flex ">
+          {/* <div className="flex ">
             <button
               className="bg-red-500 active:bg-red-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
               type="button"
               onClick={deleteOrder}
+              style={{width: '90%'}}
             >
               <div className="flex flex-wrap justify-center">
-                <TrashIcon className="text-white-600 h-4 w-4 mr-1" />
+                <XCircleIcon className="text-white-600 h-4 w-4 mr-1" />
               Delete
             </div>
             </button>
-          </div>
+          </div> */}
         </div>
       </td>
     </tr>

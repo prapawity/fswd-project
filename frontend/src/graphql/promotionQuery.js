@@ -28,6 +28,7 @@ export const PROMOTIONS_QUERY = gql`query {
         _id
         totalPrice
         productDetail{
+          _id
           name 
           price 
           category

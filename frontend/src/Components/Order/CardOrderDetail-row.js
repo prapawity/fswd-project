@@ -15,7 +15,7 @@ const CardOrderDetailPdt = (props) => {
       }
     })
   }
-
+  console.log(dataOfColumn.productsID)
   calculateContent()
   return (
     <Fragment>

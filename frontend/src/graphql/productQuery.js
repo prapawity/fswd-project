@@ -8,6 +8,10 @@ export const PRODUCTS_QUERY = gql`query {
       category
       _id
       thumpnail
+      size {
+        stock
+        size_number
+      }
     }
   }`
 
