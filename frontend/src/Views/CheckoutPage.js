@@ -8,7 +8,7 @@ import { USER_QUERY } from "../graphql/userQuery";
 
 const Checkout = (props) => {
   const customerHeader = ["Product", "Details", "Size", "Price", "Quantity"];
-  const { cart, userCookies } = useSession();
+  const { cart, userCookies, setLoading } = useSession();
   const { loading, data, error } = useQuery(USER_QUERY, {
     variables: { id: userCookies._id },
   });
@@ -32,7 +32,7 @@ const Checkout = (props) => {
 
   useEffect(() => {
     if (loading && data) {
-      props?.showLoading(true);
+      setLoading(true);
     } else if (!loading || error) {
       if (newOrder === null) {
         setOrder({
@@ -44,7 +44,7 @@ const Checkout = (props) => {
           address: data?.customerById?.address ?? "",
         });
       }
-      props?.showLoading(false);
+      setLoading(false);
     }
   }, [loading]);
 

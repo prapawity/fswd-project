@@ -1,10 +1,12 @@
 import CardOrder from "../Components/CardOrder";
+import { useSession } from "../contexts/SessionContext";
 
 
 const CustomerOrder = (props) => {
   const header = ["Order Number", "Order Date", "Quantity", "Products", ""]
+  const { setLoading } = useSession()
   const setUpdateLoading = (loading) => {
-    props?.showLoading(loading)
+    setLoading(loading)
   }
 
   return (

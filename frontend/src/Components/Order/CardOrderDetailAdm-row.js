@@ -85,7 +85,7 @@ const CardOrderDetailAdmRow = (props) => {
                   <button
                     className="bg-red-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => deleteData(product?._id ?? 0)}
+                    onClick={() => deleteData(product)}
                   >
                     <div className="flex flex-wrap justify-center">
                       <TrashIcon className="text-white-600 h-4 w-4 mr-1" />

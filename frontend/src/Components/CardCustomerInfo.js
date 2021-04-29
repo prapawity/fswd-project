@@ -14,13 +14,12 @@ import { USER_QUERY } from "../graphql/userQuery"
 import { useSession } from "../contexts/SessionContext"
 import { storageRef } from "../config"
 import { useToasts } from 'react-toast-notifications'
-import { useHistory } from 'react-router-dom'
 import LoadingScreen from "./General/LoadingScreen"
 
 const CardCustomerInfo = (props) => {
-  const { userCookies } = useSession()
+  const { userCookies, setLoading } = useSession()
   const { addToast } = useToasts()
-  const history = useHistory()
+
   const customer = userCookies
   const { loading, data, error, refetch } = useQuery(USER_QUERY)
   const username = data?.customerById?.username ?? ""
@@ -117,9 +116,9 @@ const CardCustomerInfo = (props) => {
 
   useEffect(() => {
     if (loading || data === undefined) {
-      props?.showLoading(true)
+      setLoading(true)
     } else if (!loading || error && data !== undefined || null) {
-      props?.showLoading(false)
+      setLoading(false)
     }
 
   }, [loading, userCookies, data])

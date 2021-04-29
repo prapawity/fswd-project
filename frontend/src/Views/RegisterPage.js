@@ -6,7 +6,7 @@ import {
 } from "../graphql/registerMutation";
 import { useSession } from "../contexts/SessionContext";
 const Registerpage = (props) => {
-  const { login } = useSession();
+  const { login, setLoading } = useSession();
   const [newUser, setNewUser] = useState({
     name_surname: "",
     username: "",
@@ -27,20 +27,20 @@ const Registerpage = (props) => {
     async (e) => {
       e.preventDefault();
       try {
-        props?.showLoading(true);
+        setLoading(true);
         await createUser({ variables: { record: newUser } });
         try {
           await login(newUser.username, newUser.password);
-          props?.showLoading(false);
+          setLoading(false);
           alert("Login success");
         } catch (err) {
           console.log(err);
-          props?.showLoading(false);
+          setLoading(false);
           alert("Login failed");
         }
       } catch (err) {
         console.log(err);
-        props?.showLoading(false);
+        setLoading(false);
         alert("Register failed");
       }
     },

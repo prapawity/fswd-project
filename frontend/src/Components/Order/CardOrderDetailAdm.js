@@ -4,11 +4,14 @@ import {
   CreditCardIcon,
 } from "@heroicons/react/solid";
 import { Fragment, useCallback, useState } from "react";
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { UPDATE_ORDER_PRODUCTS, UPDATE_ORDER_STATUS } from "../../graphql/orderMutation";
 import { useHistory } from 'react-router-dom'
 import { useToasts } from 'react-toast-notifications'
 import { REMOVE_ORDER } from "../../graphql/orderQuery";
+import { UPDATE_STOCK } from "../../graphql/productMutation";
+import { PRODUCTS_QUERY } from "../../graphql/productQuery";
+import { PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
 
 const CardOrderDetailAdm = (props) => {
   const orderDetail = props?.orderDetail ?? {};
@@ -23,7 +26,9 @@ const CardOrderDetailAdm = (props) => {
   const [updateOrderStatus] = useMutation(UPDATE_ORDER_STATUS)
   const [updateOrderProducts] = useMutation(UPDATE_ORDER_PRODUCTS)
   const [removeOrder] = useMutation(REMOVE_ORDER)
-  console.log(orderDetail)
+  const [updateProduct] = useMutation(UPDATE_STOCK)
+  const { data, refetch } = useQuery(PRODUCTS_QUERY)
+  const { data: promotionData } = useQuery(PROMOTIONS_QUERY)
 
   const handleInputChange = useCallback(
     (e) => {
@@ -50,8 +55,43 @@ const CardOrderDetailAdm = (props) => {
     }
   }
 
-  const deleteProduct = async (id) => {
-    const result = orderDetail?.productsID?.filter((product) => product._id !== id)
+  const updateProductData = async (sizeData) => {
+    let resultProduct = data?.products?.filter((prod) => prod?._id === sizeData?.id)[0]
+    if (resultProduct === undefined) {
+      resultProduct = data?.products?.filter((prod) => prod?._id === (promotionData?.promotions?.filter((promo) => promo?._id === sizeData?.id)[0]?.productDetail?._id ?? ""))[0]
+    }
+
+    if (resultProduct !== undefined) {
+      const newSize = resultProduct?.size ?? []
+
+      const result = newSize.map((size) => {
+        if (size?.size_number === sizeData?.size) {
+
+          return { size_number: size?.size_number, stock: size?.stock + 1 }
+        }
+        return size
+      })
+
+      if (result?.length > 0) {
+        try {
+          await updateProduct({ variables: { id: resultProduct?._id ?? 0, size: result } })
+          refetch()
+          console.log("UPDATE DATA SUCCESS")
+        } catch (error) {
+          console.log(error)
+          alert("UPDATE PRODUCT ERROR")
+        }
+      }
+    }
+  }
+
+  const updateProductService = async () => {
+
+  }
+
+  const deleteProduct = async (sizeProduct) => {
+    const result = orderDetail?.productsID?.filter((product) => product._id !== sizeProduct?._id)
+    await updateProductData(sizeProduct)
     try {
       if (result?.length === 0) {
         await removeOrder({ variables: { id: orderNum } })
@@ -65,7 +105,9 @@ const CardOrderDetailAdm = (props) => {
       console.log("Error")
       alert("Update Error")
     }
+
   }
+
 
   return (
     <>

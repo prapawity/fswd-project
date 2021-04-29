@@ -15,7 +15,7 @@ const CardAdminProduct = () => {
     return (
         <Fragment>
             <div className='w-full bg-white mx-auto'>
-                <div className="pt-4 pr-12 w-full md:w-1/6" style={{marginRight: '0', marginLeft: 'auto'}}>
+                <div className="pt-4 px-12 w-full lg:w-2/6" style={{marginRight: '0', marginLeft: 'auto'}}>
                     <ButtonAdminProduct  title='ADD PRODUCT' type='primary' color='blue' onClick={redirectToAdminProductCreate} />
                 </div>
             </div>
