@@ -26,7 +26,7 @@ const AdminPromotionEdit = (props) => {
   const [update_promotion] = useMutation(UPDATE_PROMOTION, refetchQuery);
   const [delete_promotion] = useMutation(DELETE_PROMOTION, refetchQuery);
   const redirectToPromotions = useCallback(() => {
-    history.push("/admin/promotions");
+    history.goBack()
   }, [history]);
 
 
