@@ -25,7 +25,7 @@ const imageStyle = {
 };
 
 const PromotionDetail = (props) => {
-    const { addProductToCart, userCookies, setLoading } = useSession()
+    const { addProductToCart, userCookies, setLoading,cart } = useSession()
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/promotion/detail', '') ?? ""
@@ -41,7 +41,7 @@ const PromotionDetail = (props) => {
 
     const handleSize = (index) => {
         setSize(product.size[index].size_number)
-        setStock(product.size[index].stock)
+        setStock(product.size[index].stock-cart.filter(prod => (prod.id===product._id && prod.size === product?.size[index].size_number)|| (prod.id===id && prod.size===product?.size[index].size_number)).length)
     }
 
     const redirectToProductAll = useCallback(
