@@ -11,6 +11,7 @@ export const PRODUCTS_QUERY = gql`query {
       size {
         stock
         size_number
+        _id
       }
     }
   }`
@@ -37,6 +38,7 @@ export const PRODUCTS_QUERY = gql`query {
       size {
         stock
         size_number
+        _id
       }
       description
       imageList

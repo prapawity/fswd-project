@@ -24,7 +24,7 @@ const imageStyle = {
     width: "100%",
 };
 const ProductDetail = (props) => {
-    const { addProductToCart, userCookies } = useSession()
+    const { addProductToCart, userCookies, cart } = useSession()
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/product/detail', '') ?? ""
@@ -40,7 +40,7 @@ const ProductDetail = (props) => {
 
     const handleSize = (index) => {
         setSize(data?.productByID?.size[index].size_number)
-        setStock(data?.productByID?.size[index].stock)
+        setStock(data?.productByID?.size[index].stock-cart.filter(prod => prod.id===data?.productByID._id && prod.size === data?.productByID?.size[index].size_number).length)
     }
 
     const redirectToProductAll = useCallback(
@@ -49,7 +49,7 @@ const ProductDetail = (props) => {
         },
         [history],
     )
-        console.log(stock)
+
     const redirectToLogin = useCallback(
         () => {
             history.push('/login')

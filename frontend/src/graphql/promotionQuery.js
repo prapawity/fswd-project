@@ -33,6 +33,11 @@ export const PROMOTIONS_QUERY = gql`query {
           price 
           category
           thumpnail
+          size {
+            size_number
+            stock
+            _id
+          }
         }
       }
       }`
