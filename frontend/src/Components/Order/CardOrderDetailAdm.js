@@ -1,13 +1,13 @@
 import CardOrderDetailAdmRow from "./CardOrderDetailAdm-row";
-import {
-  ReceiptTaxIcon,
-  CreditCardIcon,
-} from "@heroicons/react/solid";
+import { ReceiptTaxIcon, CreditCardIcon } from "@heroicons/react/solid";
 import { Fragment, useCallback, useState } from "react";
-import { useMutation, useQuery } from '@apollo/client'
-import { UPDATE_ORDER_PRODUCTS, UPDATE_ORDER_STATUS } from "../../graphql/orderMutation";
-import { useHistory } from 'react-router-dom'
-import { useToasts } from 'react-toast-notifications'
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  UPDATE_ORDER_PRODUCTS,
+  UPDATE_ORDER_STATUS,
+} from "../../graphql/orderMutation";
+import { useHistory } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 import { REMOVE_ORDER } from "../../graphql/orderQuery";
 import { UPDATE_STOCK } from "../../graphql/productMutation";
 import { PRODUCTS_QUERY } from "../../graphql/productQuery";
@@ -15,99 +15,113 @@ import { PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
 
 const CardOrderDetailAdm = (props) => {
   const orderDetail = props?.orderDetail ?? {};
-  const history = useHistory()
-  const { addToast } = useToasts()
+  const history = useHistory();
+  const { addToast } = useToasts();
   const orderNum = orderDetail?._id ?? "Order Num";
-  const username = orderDetail?.user?.username ?? "Username"
-  const name = orderDetail?.user?.name_surname ?? "Name Surname"
+  const username = orderDetail?.user?.username ?? "Username";
+  const name = orderDetail?.user?.name_surname ?? "Name Surname";
   const date = orderDetail?.timestamp ?? "Date";
   const address = orderDetail?.address ?? "Address";
-  const [statusOrder, setStatus] = useState(orderDetail?.status ?? "Status")
-  const [updateOrderStatus] = useMutation(UPDATE_ORDER_STATUS)
-  const [updateOrderProducts] = useMutation(UPDATE_ORDER_PRODUCTS)
-  const [removeOrder] = useMutation(REMOVE_ORDER)
-  const [updateProduct] = useMutation(UPDATE_STOCK)
-  const { data, refetch } = useQuery(PRODUCTS_QUERY)
-  const { data: promotionData } = useQuery(PROMOTIONS_QUERY)
+  const [statusOrder, setStatus] = useState(orderDetail?.status ?? "Status");
+  const [updateOrderStatus] = useMutation(UPDATE_ORDER_STATUS);
+  const [updateOrderProducts] = useMutation(UPDATE_ORDER_PRODUCTS);
+  const [removeOrder] = useMutation(REMOVE_ORDER);
+  const [updateProduct] = useMutation(UPDATE_STOCK);
+  const { data, refetch } = useQuery(PRODUCTS_QUERY);
+  const { data: promotionData } = useQuery(PROMOTIONS_QUERY);
 
-  const handleInputChange = useCallback(
-    (e) => {
-      setStatus(e.target.value)
-    },
-    [],
-  )
+  const handleInputChange = useCallback((e) => {
+    setStatus(e.target.value);
+  }, []);
 
-  const redirectBack = useCallback(
-    () => {
-      history.goBack()
-    },
-    [history],
-  )
+  const redirectBack = useCallback(() => {
+    history.goBack();
+  }, [history]);
 
   const saveOrder = async () => {
     try {
-      await updateOrderStatus({ variables: { id: orderNum, status: statusOrder } })
-      addToast(`Update Order Success`, { appearance: 'success', autoDismiss: true });
-      redirectBack()
+      await updateOrderStatus({
+        variables: { id: orderNum, status: statusOrder },
+      });
+      addToast(`Update Order Success`, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      redirectBack();
     } catch (error) {
-      console.log("Error")
-      alert("Update Error")
+      console.log("Error");
+      alert("Update Error");
     }
-  }
+  };
 
   const updateProductData = async (sizeData) => {
-    let resultProduct = data?.products?.filter((prod) => prod?._id === sizeData?.id)[0]
+    let resultProduct = data?.products?.filter(
+      (prod) => prod?._id === sizeData?.id
+    )[0];
     if (resultProduct === undefined) {
-      resultProduct = data?.products?.filter((prod) => prod?._id === (promotionData?.promotions?.filter((promo) => promo?._id === sizeData?.id)[0]?.productDetail?._id ?? ""))[0]
+      resultProduct = data?.products?.filter(
+        (prod) =>
+          prod?._id ===
+          (promotionData?.promotions?.filter(
+            (promo) => promo?._id === sizeData?.id
+          )[0]?.productDetail?._id ?? "")
+      )[0];
     }
 
     if (resultProduct !== undefined) {
-      const newSize = resultProduct?.size ?? []
+      const newSize = resultProduct?.size ?? [];
 
       const result = newSize.map((size) => {
         if (size?.size_number === sizeData?.size) {
-
-          return { size_number: size?.size_number, stock: size?.stock + 1 }
+          return { size_number: size?.size_number, stock: size?.stock + 1 };
         }
-        return size
-      })
+        return size;
+      });
 
       if (result?.length > 0) {
         try {
-          await updateProduct({ variables: { id: resultProduct?._id ?? 0, size: result } })
-          refetch()
-          console.log("UPDATE DATA SUCCESS")
+          await updateProduct({
+            variables: { id: resultProduct?._id ?? 0, size: result },
+          });
+          refetch();
+          console.log("UPDATE DATA SUCCESS");
         } catch (error) {
-          console.log(error)
-          alert("UPDATE PRODUCT ERROR")
+          console.log(error);
+          alert("UPDATE PRODUCT ERROR");
         }
       }
     }
-  }
+  };
 
-  const updateProductService = async () => {
-
-  }
+  const updateProductService = async () => {};
 
   const deleteProduct = async (sizeProduct) => {
-    const result = orderDetail?.productsID?.filter((product) => product._id !== sizeProduct?._id)
-    await updateProductData(sizeProduct)
+    const result = orderDetail?.productsID?.filter(
+      (product) => product._id !== sizeProduct?._id
+    );
+    await updateProductData(sizeProduct);
     try {
       if (result?.length === 0) {
-        await removeOrder({ variables: { id: orderNum } })
-        addToast(`Remove Order Success`, { appearance: 'success', autoDismiss: true });
-        redirectBack()
+        await removeOrder({ variables: { id: orderNum } });
+        addToast(`Remove Order Success`, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        redirectBack();
       } else {
-        await updateOrderProducts({ variables: { id: orderNum, products: result } })
-        addToast(`Remove Product in Order Success`, { appearance: 'success', autoDismiss: true });
+        await updateOrderProducts({
+          variables: { id: orderNum, products: result },
+        });
+        addToast(`Remove Product in Order Success`, {
+          appearance: "success",
+          autoDismiss: true,
+        });
       }
     } catch (error) {
-      console.log("Error")
-      alert("Update Error")
+      console.log("Error");
+      alert("Update Error");
     }
-
-  }
-
+  };
 
   return (
     <>
@@ -131,7 +145,13 @@ const CardOrderDetailAdm = (props) => {
               </div>
               <div>
                 <div className="ml-2 flex items-center h-full">
-                  <select value={statusOrder} onChange={handleInputChange} className={`bg-${statusOrder === "INPROCESS" ? 'yellow' : 'green'}-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}>
+                  <select
+                    value={statusOrder}
+                    onChange={handleInputChange}
+                    className={`bg-${
+                      statusOrder === "INPROCESS" ? "yellow" : "green"
+                    }-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}
+                  >
                     <option value={"INPROCESS"}>Inprocress</option>
                     <option value={"COMPLETED"}>Completed</option>
                   </select>
@@ -184,9 +204,7 @@ const CardOrderDetailAdm = (props) => {
               <h3 className={"font-semibold text-2xl text-gray-700"}>
                 Address
               </h3>
-              <p className={"text-normal text-gray-700"}>
-                {address}
-              </p>
+              <p className={"text-normal text-gray-700"}>{address}</p>
             </div>
           </div>
         </div>
@@ -203,9 +221,15 @@ const CardOrderDetailAdm = (props) => {
               <h3 className={"font-semibold text-2xl text-gray-700"}>
                 Summary
               </h3>
-              <p className={"text-normal text-gray-700"}>Subtotal: {orderDetail?.subtotal ?? "Subtotal"}</p>
-              <p className={"text-normal text-gray-700"}>Promotion: {orderDetail?.promotion?.name ?? "Promotion"}</p>
-              <p className={"text-normal text-gray-700"}>Discount: {orderDetail?.promotion?.discount ?? "Discount"}</p>
+              <p className={"text-normal text-gray-700"}>
+                Subtotal: {orderDetail?.subtotal ?? "Subtotal"}
+              </p>
+              <p className={"text-normal text-gray-700"}>
+                Promotion: {orderDetail?.promotion?.name ?? "Promotion"}
+              </p>
+              <p className={"text-normal text-gray-700"}>
+                Discount: {orderDetail?.promotion?.discount ?? "Discount"}
+              </p>
               <div className="mt-4 py-4 border-t border-blueGray-200 text-center">
                 <div className="mb-2 text-blueGray-600 text-left flex flex-wrap">
                   <ReceiptTaxIcon className="text-white-600 h-6 w-6 mr-1" />
@@ -219,12 +243,15 @@ const CardOrderDetailAdm = (props) => {
             </div>
           </div>
         </div>
-
       </div>
+
       <div className="w-full">
-        <button onClick={saveOrder} className="w-full bg-green-600 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+        <button
+          onClick={saveOrder}
+          className="w-full bg-green-600 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        >
           Save
-                </button>
+        </button>
       </div>
     </>
   );

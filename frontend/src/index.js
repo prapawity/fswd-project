@@ -13,7 +13,8 @@ import { ToastProvider } from 'react-toast-notifications';
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
   cache: new InMemoryCache({
-    addTypename: false
+    addTypename: false,
+    resultCaching: false
   }),
   credentials: 'include',
 })

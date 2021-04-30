@@ -41,12 +41,12 @@ const StockPage = (props) => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 h-full w-full px-2 md:px-5 mt-0 md:mt-5">
       <div>
         <h3 className={"font-semibold text-2xl text-gray-700 text-center"}>
-          Products
+          Stock Products
         </h3>
         <hr className="my-2" />
         <div className="grid grid-cols-1 gap-2">
           <div className="grid grid-cols-2 gap-2 px-4 py-4 text-center shadow-lg">
-            <h3 className="font-semibold text-md my-auto">Product</h3>
+            <h3 className="font-semibold text-xl my-auto">Product</h3>
             <div className="grid grid-cols-1 text-center">
               <h3 className="font-semibold text-md">Stock</h3>
               <div className="grid grid-cols-2 text-center">
@@ -62,23 +62,23 @@ const StockPage = (props) => {
                 className="grid grid-cols-1 gap-2 px-4 py-4 rounded shadow-md"
                 key={product?._id ?? index}
               >
-                <img
-                  style={{ width: "30%", margin: "auto" }}
-                  src={product?.thumpnail ?? ""}
-                />
                 <div className="grid grid-cols-2 gap-2">
-                  <h3
-                    style={{ margin: "auto" }}
-                    className={
-                      "font-semibold text-xl text-black-700 text-center"
-                    }
+                  <th
+                    className={`border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center`}
                   >
-                    {product?.name ?? ""}
-                  </h3>
+                    <img
+                      src={product?.thumpnail ?? ""}
+                      className="h-24 w-18 bg-white rounded border"
+                      alt="..."
+                    ></img>
+                    <p className={"ml-2 font-bold text-gray-600 text-lg"}>
+                      {product?.name ?? ""}
+                    </p>
+                  </th>
                   <table className="table-auto text-center w-full">
                     <tbody>
                       {product?.size?.map((size) => {
-                        console.log("LOOP SIZE", size);
+                        // console.log("LOOP SIZE", size);
                         return (
                           <tr key={size?.size_number ?? 0}>
                             <td className="p-0">
@@ -106,10 +106,9 @@ const StockPage = (props) => {
                     </tbody>
                   </table>
                 </div>
-                <hr className="my-4" />
+                <hr className="my-2" />
                 <div className="w-full">
                   <div
-                    className="pt-2"
                     style={{ margin: "auto", width: "40%" }}
                   >
                     <button
@@ -127,23 +126,22 @@ const StockPage = (props) => {
           </div>
         </div>
       </div>
-      <div>
-        <h3 className={"font-semibold text-2xl text-gray-700 text-center"}>
-          Promotions
+      <div className="">
+        <h3 className={"font-semibold text-2xl text-gray-700 text-center "}>
+          Stock Promotions
         </h3>
         <hr className="my-2" />
-        <div className="grid grid-cols-1 gap-2 px-4 py-4 shadow-md">
+        <div className="grid grid-cols-1 gap-2 px-4 py-4 shadow-md bg-gray-200">
           <table className="table-auto text-left w-full">
             <thead>
-              <tr>
+              <tr className="">
                 <th>Promotion</th>
-                <th>Product</th>
+                <th >Product</th>
                 <th className="text-center">Discount(%)</th>
                 <th className="text-center">Stock Limit</th>
-                <th className="text-center">Edit Promotion</th>
+                <th className="text-center"></th>
               </tr>
             </thead>
-
             <tbody>
               {promotionData?.promotions?.map((promotion, index) => (
                 <tr key={promotion?._id ?? index}>
@@ -158,7 +156,7 @@ const StockPage = (props) => {
                           redirectToEditPromotion(promotion?._id ?? 0)
                         }
                         style={{ margin: "auto", width: "100%" }}
-                        className="text-black active:bg-gray-600 font-semiBold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                        className="text-black active:bg-gray-500 bg-gray-500 text-white font-semiBold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
                         type="submit"
                       >
                         Edit Detail

@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 import { ReceiptTaxIcon } from "@heroicons/react/outline"
 import { useCallback, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
@@ -7,6 +7,7 @@ import { UPDATE_STOCK } from "../../graphql/productMutation"
 import { UPDATE_PROMOTION } from "../../graphql/promotionMutation"
 import { useHistory } from "react-router-dom"
 import { useSession } from "../../contexts/SessionContext"
+import { useToasts } from 'react-toast-notifications'
 
 const CardSum = (props) => {
   const { clearCart } = useSession()
@@ -16,45 +17,85 @@ const CardSum = (props) => {
   const [update_stock] = useMutation(UPDATE_STOCK);
   const subTotal = props?.newOrder?.subtotal ?? 0;
   const total = props?.newOrder?.total ?? 0;
+  const [newOrder, setOr] = useState(props?.newOrder ?? {})
+  const { addToast } = useToasts()
   let word = "these following product/promotion is out of stock please remove them from your cart \n";
-console.log(props.limit)
+
+  const uploading = async (stockProd) => {
+    console.log("CEHCK PROD", stockProd)
+    if (stockProd.type === "PRODUCT") {
+      try {
+        await update_stock({
+          variables: {
+            id: stockProd?.id, size: stockProd?.size
+          }
+        })
+        console.log("UPDATE PRODUCT SUCCESS")
+      } catch (error) {
+        console.log("ERROR FROM UPDATE PRODUCT", error)
+        alert("Error")
+      }
+    } else if (stockProd.type === "PROMOTION") {
+      try {
+        try {
+          await update_stock({
+            variables: {
+              id: stockProd?.productDetail?._id, size: stockProd?.size
+            }
+          })
+          console.log("UPDATE PRODUCT SUCCESS")
+        } catch (error) {
+          console.log("ERROR FROM UPDATE PRODUCT IN PROMOTION", error)
+          alert("Error")
+        }
+        await update_limit({ variables: { id: stockProd?.id, limit: stockProd?.quantity, status: stockProd?.limit !== 0 } })
+        console.log("UPDATE PROMOTION SUCCESS")
+      } catch (error) {
+        console.log("ERROR FROM UPDATE PROMOTION", error)
+        alert("Error")
+      }
+    }
+  }
+
+  if(props?.type === "Payment") {
+    console.log("CHECK DATA PAYMENT PAGE", props?.getStock(), props?.stock)
+  }
+
   const handleCreateOrder = useCallback(
     async (e) => {
-      let stock_check = true;
       e.preventDefault()
-      props?.stock.map((data,index)=>{
-        data.map((stock)=>{
-          if(stock.stock < 0){
-            word += props.product_name[index]+" size "+stock.size_number+"\n"
-            stock_check = false;
-          }
-        })
-      })
-      if(stock_check){
+
+      let stock = props?.getStock() ?? []
+      console.log("CHECK DATA", props?.stock, "CHECK", stock, props?.newOrder)
       props?.setShowLoading(true)
-      try {
-        console.log(props?.newOrder);
-        props?.product_id?.map(async (id, index) => await update_stock({ variables: { id: id, size: props?.stock[index] ?? [] } }))
-        props?.promo_id?.map(async (id, index) => {
-          let stat = true
-          if(props?.limit[index] < 1){
-            stat = false
-          }
-          await update_limit({ variables: { id: id, limit: props?.limit[index], status: stat } })
-        })
-        await create_order({ variables: { record: props.newOrder } });
+      if (stock?.filter((prod) => {
+        if (prod?.type === "PROMOTION") {
+          return prod?.quantity < 0 && prod?.size?.filter((size) => size?.stock < 0).length > 0
+        } else {
+          return prod?.size?.filter((size) => size?.stock < 0).length > 0
+        }
+      }).length > 0 || stock?.length === 0) {
         clearCart()
-        props?.setShowLoading(false)
-        alert("order suscessful");
-        history.push("/");
-      } catch (err) {
-        console.log(err);
-        props?.setShowLoading(false)
-        alert("order failed");
-      }}
-      else{
-        history.push("/customer/cart");
-        alert(word)
+        console.log("ERROR FROM CHECK STOCK",)
+        props?.setShowLoading(true)
+        history.push("/products");
+        addToast(word, { appearance: 'error', autoDismiss: true })
+      } else {
+        stock?.map((stockProd) => {
+          uploading(stockProd)
+        })
+        try {
+          await create_order({ variables: { record: newOrder } });
+          clearCart()
+          console.log("SUCCESS ALL")
+          props?.setShowLoading(false)
+          alert("order suscessful");
+          history.push("/");
+        } catch (err) {
+          console.log("ERROR FROM UPDATE ORDER", err);
+          props?.setShowLoading(false)
+          alert("order failed");
+        }
       }
     },
     [props?.newOrder]

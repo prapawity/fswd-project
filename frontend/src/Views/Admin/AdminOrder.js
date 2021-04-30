@@ -3,7 +3,7 @@ import { useSession } from "../../contexts/SessionContext"
 
 
 const AdminOrder = () => {
-    const header = ["Order Number", "Date", "Username", "Name-Surname", "Total", "Quantity", "Address", "Status", "" ]
+    const header = ["Order Number", "Date", "Username", "Name-Surname", "Total", "Quantity", "Address", "Status", "", "" ]
     const { setLoading } = useSession()
     const setUpdateLoading = (loading) => {
       console.log("LOADING", loading)

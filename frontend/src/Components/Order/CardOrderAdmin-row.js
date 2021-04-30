@@ -104,15 +104,15 @@ const CardOrderAdminRow = (props) => {
       </td>
       {/* Status */}
       <td className="pr-4">
-        <div className={`bg-${(dataOfColumn?.status ?? "INPROCESS") === "INPROCESS" ? "yellow" : "green"}-500 active:bg-gray-600 uppercase text-white font-bold shadow text-xs px-5 py-2 rounded text-center`}>
+        <div className={`bg-${(dataOfColumn?.status ?? "INPROCESS") === "INPROCESS" ? "yellow" : "green"}-500 active:bg-gray-600 uppercase text-white font-bold shadow text-xs px-3 py-2 rounded text-center`}>
           {dataOfColumn?.status ?? "STATUS"}
         </div>
       </td>
       {/* Button */}
-      <td className="border-t-0 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 px-0 pr-4 text-center">
+      <td className="border-t-0 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 px-0 pr-1 text-left">
         <div className="flex items-center ">
           <button
-            className="bg-gray-500 w-full active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
+            className="bg-gray-500 w-full active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
             type="button"
             onClick={redirectToOrderDetail}
           >
@@ -122,10 +122,10 @@ const CardOrderAdminRow = (props) => {
           </button>
         </div>
       </td>
-      <td className="border-t-0 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 px-0 pr-4 text-center">
+      <td className="border-t-0 align-middle border-l-0 border-r-0 text-normal whitespace-nowrap p-4 px-0  text-center">
         <div className="flex items-center ">
           <button
-            className="bg-red-500 active:bg-red-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-5 py-2 rounded outline-none focus:outline-none text-center ease-linear transition-all duration-150"
+            className="bg-red-500 active:bg-red-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none text-center ease-linear transition-all duration-150"
             type="button"
             onClick={handleRemoveOrder}
           >
