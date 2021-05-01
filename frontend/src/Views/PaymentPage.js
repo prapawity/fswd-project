@@ -115,6 +115,7 @@ const CustomerPayment = (props) => {
 
   useEffect(() => {
     updateData()
+    console.log(stock)
     if (promoLoad || prodLoad) {
       setLoading(true)
     } else if (!prodLoad && !promoLoad) {
