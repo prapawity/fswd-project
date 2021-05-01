@@ -47,25 +47,23 @@ const AdminPromotionCreate = (props) => {
   const handleCreate = useCallback(
     async (e) => {
       e.preventDefault();
-      const price = (data?.products?.filter((prod) => prod?._id === newPromotion?.productID)[0]?.price ?? 0).toString()
+      setLoading(true)
+      const promo = newPromotion
+      promo.price = (data?.products?.filter((prod) => prod?._id === newPromotion?.productID)[0]?.price ?? 0).toString()
 
-      setPromotion((prev) => ({
-        ...prev, price: price
-
-      }));
-      console.log(newPromotion, price)
       setTimeout(async () => {
         try {
-
-          await create_promotion({ variables: { record: newPromotion } });
+          await create_promotion({ variables: { record: promo } });
           addToast(`Create Promotion ${newPromotion.name}`, { appearance: 'success', autoDismiss: true });
+          setLoading(false)
           redirectToPromotions();
 
         } catch (err) {
+          setLoading(false)
           console.log(err);
           alert("Product name query failed");
         }
-      }, 500);
+      }, 1000);
     },
     [newPromotion]
   );

@@ -123,7 +123,7 @@ const CardSum = (props) => {
               currency: "THB",
             })}
           </div>
-          <div className="mb-2 text-gray-600 text-left">
+          <div className="mb-2 text-red-600 text-left">
             <div className="flex flex-wrap">
               <TicketIcon className="text-white-600 h-6 w-6 mr-1" />
                 Discount: {discount.toLocaleString("th-TH", {

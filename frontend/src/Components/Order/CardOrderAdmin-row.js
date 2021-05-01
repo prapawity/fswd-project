@@ -56,7 +56,7 @@ const CardOrderAdminRow = (props) => {
       await removeOrder({ variables: { id: detail } })
       props?.setLoading(false)
       props?.refetch()
-      addToast(`Remove Order Success`, { appearance: 'success', autoDismiss: true });
+      addToast(`Remove Order Success`, { appearance: 'error', autoDismiss: true });
     } catch (error) {
       props?.setLoading(false)
       console.log(error)

@@ -1,6 +1,6 @@
 import CardOrderDetailAdmRow from "./CardOrderDetailAdm-row";
 import { ReceiptTaxIcon, CreditCardIcon } from "@heroicons/react/solid";
-import { Fragment, useCallback, useState } from "react";
+import { Fragment, useCallback, useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   UPDATE_ORDER_PRODUCTS,
@@ -12,6 +12,7 @@ import { REMOVE_ORDER } from "../../graphql/orderQuery";
 import { UPDATE_STOCK } from "../../graphql/productMutation";
 import { PRODUCTS_QUERY } from "../../graphql/productQuery";
 import { PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
+import { useSession } from "../../contexts/SessionContext";
 
 const CardOrderDetailAdm = (props) => {
   const orderDetail = props?.orderDetail ?? {};
@@ -28,8 +29,8 @@ const CardOrderDetailAdm = (props) => {
   const [removeOrder] = useMutation(REMOVE_ORDER);
   const [updateProduct] = useMutation(UPDATE_STOCK);
   const { data, refetch } = useQuery(PRODUCTS_QUERY);
-  const { data: promotionData } = useQuery(PROMOTIONS_QUERY);
-
+  const { data: promotionData, refetch: refetchPromo } = useQuery(PROMOTIONS_QUERY);
+  const { setLoading } = useSession();
   const handleInputChange = useCallback((e) => {
     setStatus(e.target.value);
   }, []);
@@ -84,6 +85,8 @@ const CardOrderDetailAdm = (props) => {
             variables: { id: resultProduct?._id ?? 0, size: result },
           });
           refetch();
+          refetchPromo()
+          props?.refetch()
           console.log("UPDATE DATA SUCCESS");
         } catch (error) {
           console.log(error);
@@ -91,35 +94,41 @@ const CardOrderDetailAdm = (props) => {
         }
       }
     }
-  }
+  };
 
-  console.log("ORDER DETAIL", orderDetail)
+  console.log("ORDER DETAIL", orderDetail);
 
   const deleteProduct = async (sizeProduct) => {
     const result = orderDetail?.productsID?.filter(
       (product) => product._id !== sizeProduct?._id
     );
+    setLoading(true);
     await updateProductData(sizeProduct);
     try {
       if (result?.length === 0) {
         await removeOrder({ variables: { id: orderNum } });
         addToast(`Remove Order Success`, {
-          appearance: "success",
+          appearance: "error",
           autoDismiss: true,
         });
         redirectBack();
+        setLoading(false);
       } else {
         await updateOrderProducts({
           variables: { id: orderNum, products: result },
         });
         addToast(`Remove Product in Order Success`, {
-          appearance: "success",
+          appearance: "error",
           autoDismiss: true,
         });
+
+        props?.refetch();
+        setLoading(false);
       }
     } catch (error) {
       console.log("Error");
       alert("Update Error");
+      setLoading(false);
     }
   };
 
@@ -148,8 +157,9 @@ const CardOrderDetailAdm = (props) => {
                   <select
                     value={statusOrder}
                     onChange={handleInputChange}
-                    className={`bg-${statusOrder === "INPROCESS" ? "yellow" : "green"
-                      }-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}
+                    className={`bg-${
+                      statusOrder === "INPROCESS" ? "yellow" : "green"
+                    }-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}
                   >
                     <option value={"INPROCESS"}>Inprocress</option>
                     <option value={"COMPLETED"}>Completed</option>
@@ -221,22 +231,33 @@ const CardOrderDetailAdm = (props) => {
                 Summary
               </h3>
               <p className={"text-normal text-gray-700"}>
-                Subtotal: {parseFloat(orderDetail?.subtotal ?? 0).toLocaleString("th-TH", {
-                style: "currency",
-                currency: "THB",
-              })}
+                Subtotal:{" "}
+                {parseFloat(orderDetail?.subtotal ?? 0).toLocaleString(
+                  "th-TH",
+                  {
+                    style: "currency",
+                    currency: "THB",
+                  }
+                )}
               </p>
               <p className={"text-normal text-gray-700"}>
-                Promotion: {orderDetail?.products?.filter((prod) => prod?.type === "PROMOTION").map((promo, indexPromo) => {
-                console.log(promo, "CHECK")
-                return (indexPromo === 0 ? "" : ", ") + (promo?.name ?? "")
-              })}
+                Promotion:{" "}
+                {orderDetail?.products
+                  ?.filter((prod) => prod?.type === "PROMOTION")
+                  .map((promo, indexPromo) => {
+                    console.log(promo, "CHECK");
+                    return (indexPromo === 0 ? "" : ", ") + (promo?.name ?? "");
+                  })}
               </p>
               <p className={"text-normal text-red-700"}>
-                Discount: {(parseFloat(orderDetail?.subtotal ?? 0) - parseFloat(orderDetail?.total ?? 0)).toLocaleString("th-TH", {
-                style: "currency",
-                currency: "THB",
-              })}
+                Discount:{" "}
+                {(
+                  parseFloat(orderDetail?.subtotal ?? 0) -
+                  parseFloat(orderDetail?.total ?? 0)
+                ).toLocaleString("th-TH", {
+                  style: "currency",
+                  currency: "THB",
+                })}
               </p>
               <div className="mt-4 py-4 border-t border-blueGray-200 text-center">
                 <div className="mb-2 text-blueGray-600 text-left flex flex-wrap">
@@ -245,7 +266,7 @@ const CardOrderDetailAdm = (props) => {
                 </div>
                 <div className="text-blueGray-600 text-left flex flex-wrap">
                   <CreditCardIcon className="text-white-600 h-6 w-6 mr-1" />
-                  Paid by:
+                  Paid by: Credit-Card
                 </div>
               </div>
             </div>

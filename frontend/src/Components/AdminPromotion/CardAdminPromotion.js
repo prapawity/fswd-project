@@ -6,10 +6,10 @@ const CardAdminPromotion = (props) => {
       <table className="items-center w-full bg-transparent border-collapse">
         <thead>
           <tr>
-            {props?.type?.map((data) => {
+            {props?.type?.map((data, index) => {
               return (
                 <th
-                  key={data?._id}
+                  key={data?._id, index}
                   className={
                     "px-6 align-middle border border-solid py-3 text-normal uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                   }
