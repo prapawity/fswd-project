@@ -67,6 +67,7 @@ const CardCustomerInfo = (props) => {
         },
       })
       addToast(`Update Success `, { appearance: 'success', autoDismiss: true })
+      refetch()
       setForceLoading(false)
     } catch (err) {
       console.log(err)

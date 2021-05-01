@@ -8,19 +8,23 @@ import { useSession } from "../../contexts/SessionContext";
 const AdminOrderDetail = (props) => {
   const adminHeader = ["Product", "Details", "Size", "Price", "Quantity", ""];
   const id = props?.match?.params?.id?.replace("/admin/order-detail/", "") ?? "";
-  const { loading, data, error } = useQuery(ORDER_QUERY, {
+  const { loading, data, error, refetch } = useQuery(ORDER_QUERY, {
     variables: { id },
     fetchPolicy: "no-cache",
   });
   const { setLoading } = useSession()
 
   useEffect(() => {
-    if (loading && data) {
+    if (loading && data !== undefined) {
       setLoading(true)
     } else if (!loading || error) {
       setLoading(false)
     }
-  }, [loading])
+  }, [loading, data])
+
+  const refetchData = () => {
+    refetch()
+  }
 
   if (data) {
     console.log(data);
@@ -31,6 +35,7 @@ const AdminOrderDetail = (props) => {
         <CardOrderDetailAdm
           orderDetail={data?.orderById ?? {}}
           type={adminHeader}
+          refetch={refetchData}
         />
       ) : (
         <Fragment></Fragment>
