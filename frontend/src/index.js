@@ -11,7 +11,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { ToastProvider } from 'react-toast-notifications';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3001/graphql',
+  uri: 'http://ec2-54-179-31-63.ap-southeast-1.compute.amazonaws.com:3001/graphql',
   cache: new InMemoryCache({
     addTypename: false,
     resultCaching: false
