@@ -7,9 +7,9 @@ export const orders = schemaComposer.createResolver({
     type: [OrderTC.getType()],
     resolve: async ({ context }) => {
         if (context.user.type === "Customer") {
-            return await OrderModel.find({ userID: context.user._id })
+            return await OrderModel.find({ userID: context.user._id }).sort({ 'timestamp': 'desc' })
         } else {
-            return await OrderModel.find()
+            return await OrderModel.find().sort({ 'timestamp': 'desc' })
         }
     },
     projection: { _id: true }
