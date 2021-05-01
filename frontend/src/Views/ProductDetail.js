@@ -28,11 +28,10 @@ const ProductDetail = (props) => {
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/product/detail', '') ?? ""
-    const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id } , fetchPolicy: 'network-only'})
+    const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id }, fetchPolicy: 'network-only' })
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
     const [stock, setStock] = useState(0)
-    const [showAlert, setShowAlert] = useState(false)
 
     const handleIndexImage = (index) => {
         setImage(index);
@@ -40,7 +39,11 @@ const ProductDetail = (props) => {
 
     const handleSize = (index) => {
         setSize(data?.productByID?.size[index].size_number)
-        setStock(data?.productByID?.size[index].stock-cart.filter(prod => prod.id===data?.productByID._id && prod.size === data?.productByID?.size[index].size_number).length)
+        if (cart === undefined) {
+            setStock(data?.productByID?.size[index].stock)
+        } else {
+            setStock(data?.productByID?.size[index].stock - cart.filter(prod => prod.id === data?.productByID._id && prod.size === data?.productByID?.size[index].size_number).length)
+        }
     }
 
     const redirectToProductAll = useCallback(
@@ -70,7 +73,7 @@ const ProductDetail = (props) => {
     const handleAddToCart = () => {
         if (userCookies === undefined) {
             redirectToLogin()
-        } else if(stock <= 0){
+        } else if (stock <= 0) {
             alert("Product is out of stock")
         } else if (data?.productByID) {
             const result = {
@@ -134,7 +137,7 @@ const ProductDetail = (props) => {
                     </div>
                     <p className="mt-5">Select Size</p>
                     <div className="grid grid-cols-6 md:grid-cols-12 gap-3 mt-5">
-                        {data && data.productByID.size.map((sz, index) => {
+                        {data && data?.productByID?.size?.map((sz, index) => {
                             const buttonStyle = {
                                 width: '38px',
                                 height: '38px',
@@ -145,8 +148,7 @@ const ProductDetail = (props) => {
                                 overflow: 'hidden',
                                 padding: '5px'
                             }
-
-                            return <button className="focus:outline-none" onClick={() => handleSize(index)} key={index} style={buttonStyle}>{sz.size_number}</button>
+                            return ((parseInt(sz?.stock) <= 0) ? <Fragment></Fragment> : <button className="focus:outline-none" onClick={() => handleSize(index)} key={index} style={buttonStyle}>{sz.size_number}</button>)
                         })}
                     </div>
                     <button onClick={shouldShowAlert} className="focus:outline-none mt-10 mb-10" style={{ backgroundColor: "#111", color: 'white', padding: '10px', width: '100%', borderRadius: '30px' }}>Add to Cart</button>

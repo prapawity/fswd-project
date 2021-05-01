@@ -25,7 +25,7 @@ const imageStyle = {
 };
 
 const PromotionDetail = (props) => {
-    const { addProductToCart, userCookies, setLoading,cart } = useSession()
+    const { addProductToCart, userCookies, setLoading, cart } = useSession()
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/promotion/detail', '') ?? ""
@@ -34,14 +34,18 @@ const PromotionDetail = (props) => {
     const [size, setSize] = useState(0)
     const [stock, setStock] = useState(0)
     const product = data?.promotionByID?.productDetail ?? {}
-
+    const total = parseFloat(data?.promotionByID?.productDetail?.price ?? 0) - (parseFloat(data?.promotionByID?.productDetail?.price ?? 0) * (parseFloat(data?.promotionByID?.discount ?? 0) / 100))
     const handleIndexImage = (index) => {
         setImage(index);
     };
 
     const handleSize = (index) => {
         setSize(product.size[index].size_number)
-        setStock(product.size[index].stock-cart.filter(prod => (prod.id===product._id && prod.size === product?.size[index].size_number)|| (prod.id===id && prod.size===product?.size[index].size_number)).length)
+        if (cart === undefined) {
+            setStock(product.size[index].stock)
+        } else {
+            setStock(product.size[index].stock - cart.filter(prod => (prod.id === product._id && prod.size === product?.size[index].size_number) || (prod.id === id && prod.size === product?.size[index].size_number)).length)
+        }
     }
 
     const redirectToProductAll = useCallback(
@@ -73,7 +77,7 @@ const PromotionDetail = (props) => {
     const handleAddToCart = () => {
         if (userCookies === undefined) {
             redirectToLogin()
-        } else if(stock <= 0){
+        } else if (stock <= 0) {
             alert("Product is out of stock")
         } else if (data?.promotionByID) {
             const result = {
@@ -125,7 +129,7 @@ const PromotionDetail = (props) => {
                                     fontSize: "20px",
                                     textAlign: "end",
                                     color: "red",
-                                }}>{(parseInt(product?.price)).toLocaleString('th-TH', {
+                                }}>{(total).toLocaleString('th-TH', {
                                     style: 'currency',
                                     currency: 'THB'
                                 }) ?? ""}</p>

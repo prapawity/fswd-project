@@ -91,9 +91,9 @@ const CardOrderDetailAdm = (props) => {
         }
       }
     }
-  };
+  }
 
-  const updateProductService = async () => {};
+  console.log("ORDER DETAIL", orderDetail)
 
   const deleteProduct = async (sizeProduct) => {
     const result = orderDetail?.productsID?.filter(
@@ -148,9 +148,8 @@ const CardOrderDetailAdm = (props) => {
                   <select
                     value={statusOrder}
                     onChange={handleInputChange}
-                    className={`bg-${
-                      statusOrder === "INPROCESS" ? "yellow" : "green"
-                    }-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}
+                    className={`bg-${statusOrder === "INPROCESS" ? "yellow" : "green"
+                      }-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}
                   >
                     <option value={"INPROCESS"}>Inprocress</option>
                     <option value={"COMPLETED"}>Completed</option>
@@ -222,13 +221,22 @@ const CardOrderDetailAdm = (props) => {
                 Summary
               </h3>
               <p className={"text-normal text-gray-700"}>
-                Subtotal: {orderDetail?.subtotal ?? "Subtotal"}
+                Subtotal: {parseFloat(orderDetail?.subtotal ?? 0).toLocaleString("th-TH", {
+                style: "currency",
+                currency: "THB",
+              })}
               </p>
               <p className={"text-normal text-gray-700"}>
-                Promotion: {orderDetail?.promotion?.name ?? "Promotion"}
+                Promotion: {orderDetail?.products?.filter((prod) => prod?.type === "PROMOTION").map((promo, indexPromo) => {
+                console.log(promo, "CHECK")
+                return (indexPromo === 0 ? "" : ", ") + (promo?.name ?? "")
+              })}
               </p>
-              <p className={"text-normal text-gray-700"}>
-                Discount: {orderDetail?.promotion?.discount ?? "Discount"}
+              <p className={"text-normal text-red-700"}>
+                Discount: {(parseFloat(orderDetail?.subtotal ?? 0) - parseFloat(orderDetail?.total ?? 0)).toLocaleString("th-TH", {
+                style: "currency",
+                currency: "THB",
+              })}
               </p>
               <div className="mt-4 py-4 border-t border-blueGray-200 text-center">
                 <div className="mb-2 text-blueGray-600 text-left flex flex-wrap">

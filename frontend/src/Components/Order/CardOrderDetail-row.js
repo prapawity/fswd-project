@@ -2,6 +2,10 @@ import { Fragment } from "react";
 
 const CardOrderDetailPdt = (props) => {
   const dataOfColumn = props?.dataColumn ?? {};
+  const description = (product) => {
+    const desc = dataOfColumn?.products?.filter((prod) => prod?._id === product?.id)
+    return desc[0].type === "PRODUCT" ? desc?.description ?? "" : "Promotion"
+  }
   let dataShow = [] 
   console.log(dataOfColumn, props.dataColumn, "CHK")
   const calculateContent = () => {
@@ -40,7 +44,7 @@ const CardOrderDetailPdt = (props) => {
             <td
               className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
             >
-              {dataOfColumn?.products?.filter((prod) => prod?._id === product?.id)[0]?.description ?? "Details"}
+              {description(product)}
             </td>
             {/* Size */}
             <td

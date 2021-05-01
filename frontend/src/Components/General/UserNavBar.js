@@ -104,9 +104,6 @@ const UserNavBar = (props) => {
             >
               <ul className="flex flex-col lg:flex-row list-none ml-auto">
                 <li className="nav-item" style={{ marginRight: "15px" }}>
-                  <SearchIcon className="h-7 w-7 text-white-500" />
-                </li>
-                <li className="nav-item" style={{ marginRight: "15px" }}>
                   <UserDropdown />
                 </li>
                 <li className="nav-item" style={{ marginRight: "15px" }}>

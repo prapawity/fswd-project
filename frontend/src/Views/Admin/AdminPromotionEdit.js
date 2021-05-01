@@ -60,7 +60,7 @@ const AdminPromotionEdit = (props) => {
   const handleEdit = useCallback(
     async (e) => {
       e.preventDefault();
-      props?.showLoading(true)
+      setLoading(true)
         try {
           console.log(newPromotion);
           await update_promotion({
@@ -77,7 +77,7 @@ const AdminPromotionEdit = (props) => {
           redirectToPromotions();
         } catch (err) {
           console.log(err);
-          props?.showLoading(false);
+          setLoading(false);
           alert("create promo failed");
         }
     },

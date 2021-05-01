@@ -52,7 +52,7 @@ const CardCartRow = (props) => {
       {/* Price */}
       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center ">
         {data?.promotionByID?.productDetail?.price !== undefined ? (
-          <div className="line-through">
+          <div className="line-through text-red-500">
             {parseFloat(
               data?.promotionByID?.productDetail?.price
             ).toLocaleString("th-TH", {

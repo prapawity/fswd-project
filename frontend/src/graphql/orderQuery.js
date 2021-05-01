@@ -43,9 +43,12 @@ export const ORDERS_QUERY = gql`
       status
       address
       productsID {
+        name
+        price
+        description
         _id
-        id
-        size
+        thumpnail
+        type
       }
       userID
       _id

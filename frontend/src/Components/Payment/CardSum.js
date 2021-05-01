@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client"
-import { ReceiptTaxIcon } from "@heroicons/react/outline"
+import { ReceiptTaxIcon, TicketIcon } from "@heroicons/react/outline"
 import { useCallback, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { CREATE_ORDER } from "../../graphql/orderMutation"
@@ -15,14 +15,14 @@ const CardSum = (props) => {
   const [update_limit] = useMutation(UPDATE_PROMOTION);
   const history = useHistory();
   const [update_stock] = useMutation(UPDATE_STOCK);
-  const subTotal = props?.newOrder?.subtotal ?? 0;
-  const total = props?.newOrder?.total ?? 0;
+  const subTotal = parseFloat(props?.newOrder?.subtotal ?? 0)
+  const total = parseFloat(props?.newOrder?.total ?? 0)
+  const discount = (subTotal - total) ?? 0;
   const [newOrder, setOr] = useState(props?.newOrder ?? {})
   const { addToast } = useToasts()
   let word = "these following product/promotion is out of stock please remove them from your cart \n";
 
   const uploading = async (stockProd) => {
-    console.log("CEHCK PROD", stockProd)
     if (stockProd.type === "PRODUCT") {
       try {
         await update_stock({
@@ -57,17 +57,16 @@ const CardSum = (props) => {
     }
   }
 
-  if(props?.type === "Payment") {
+  if (props?.type === "Payment") {
     console.log("CHECK DATA PAYMENT PAGE", props?.getStock(), props?.stock)
   }
 
   const handleCreateOrder = useCallback(
     async (e) => {
       e.preventDefault()
-
+      props?.setShowLoading(true)
       let stock = props?.getStock() ?? []
       console.log("CHECK DATA", props?.stock, "CHECK", stock, props?.newOrder)
-      props?.setShowLoading(true)
       if (stock?.filter((prod) => {
         if (prod?.type === "PROMOTION") {
           return prod?.quantity < 0 && prod?.size?.filter((size) => size?.stock < 0).length > 0
@@ -77,7 +76,7 @@ const CardSum = (props) => {
       }).length > 0 || stock?.length === 0) {
         clearCart()
         console.log("ERROR FROM CHECK STOCK",)
-        props?.setShowLoading(true)
+        props?.setShowLoading(false)
         history.push("/products");
         addToast(word, { appearance: 'error', autoDismiss: true })
       } else {
@@ -116,6 +115,15 @@ const CardSum = (props) => {
               style: "currency",
               currency: "THB",
             })}
+          </div>
+          <div className="mb-2 text-gray-600 text-left">
+            <div className="flex flex-wrap">
+              <TicketIcon className="text-white-600 h-6 w-6 mr-1" />
+                Discount: {discount.toLocaleString("th-TH", {
+                style: "currency",
+                currency: "THB",
+              })}
+            </div>
           </div>
           <div className="mb-8 text-blueGray-600 text-left flex flex-wrap ">
             <ReceiptTaxIcon className="text-white-600 h-6 w-6 mr-1" />

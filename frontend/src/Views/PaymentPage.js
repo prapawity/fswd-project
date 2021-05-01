@@ -14,7 +14,9 @@ const CustomerPayment = (props) => {
   const { loading: prodLoad, data: productsQuery, refetch: refetchProd } = useQuery(PRODUCTS_QUERY)
   const { loading: promoLoad, data: promotionsQuery, refetch: refetchPromo } = useQuery(PROMOTIONS_QUERY)
   const [userStock, setStk] = useState([])
-  const showLoading = (show) => setLoading(show)
+  const showLoading = (show) => {
+    setLoading(show)
+  }
   let stock = []
   let dataShow = [];
 
@@ -51,7 +53,7 @@ const CustomerPayment = (props) => {
   const updateData = useCallback(() => {
     stock = []
     cart?.map((prod) => {
-      const prodInStock = stock?.filter((prodInStock) => {
+      let prodInStock = stock?.filter((prodInStock) => {
         if (prodInStock.type === "PROMOTION") {
           return prod?.id === prodInStock?.id
         } else {
@@ -64,11 +66,15 @@ const CustomerPayment = (props) => {
         if (prodInStock[0].type === "PROMOTION") {
           prodInStock[0].qualtity -= 1
         }
+        const mockSize = []
         prodInStock[0]?.size?.map((size, index) => {
           if (size?.size_number === prod?.size) {
-            prodInStock[0].size[index].stock -= 1
+            mockSize.push({ stock: prodInStock[0].size[index].stock - 1, size_number: size?.size_number, _id: size?._id })
+          } else {
+            mockSize.push(size)
           }
         })
+        prodInStock[0].size = mockSize
 
       } else {
         const prodList = productsQuery?.products?.filter((product) => product?._id === prod?.id) ?? []
