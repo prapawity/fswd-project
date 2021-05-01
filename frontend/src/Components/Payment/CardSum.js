@@ -21,7 +21,7 @@ const CardSum = (props) => {
   const [newOrder, setOr] = useState(props?.newOrder ?? {})
   const { addToast } = useToasts()
   let word = "these following product/promotion is out of stock please remove them from your cart \n";
-
+  let check_limit = false;
   const uploading = async (stockProd) => {
     if (stockProd.type === "PRODUCT") {
       try {
@@ -48,7 +48,7 @@ const CardSum = (props) => {
           console.log("ERROR FROM UPDATE PRODUCT IN PROMOTION", error)
           alert("Error")
         }
-        await update_limit({ variables: { id: stockProd?.id, limit: stockProd?.quantity, status: stockProd?.limit !== 0 } })
+        await update_limit({ variables: { id: stockProd?.id, limit: stockProd?.qualtity, status: stockProd?.limit !== 0 } })
         console.log("UPDATE PROMOTION SUCCESS")
       } catch (error) {
         console.log("ERROR FROM UPDATE PROMOTION", error)
@@ -67,13 +67,20 @@ const CardSum = (props) => {
       props?.setShowLoading(true)
       let stock = props?.getStock() ?? []
       console.log("CHECK DATA", props?.stock, "CHECK", stock, props?.newOrder)
+      stock?.map((prod)=>{
+        if (prod?.type === "PROMOTION"){
+          if(prod.qualtity<0){
+            check_limit = true;
+          }
+        }
+      })
       if (stock?.filter((prod) => {
         if (prod?.type === "PROMOTION") {
           return prod?.quantity < 0 && prod?.size?.filter((size) => size?.stock < 0).length > 0
         } else {
           return prod?.size?.filter((size) => size?.stock < 0).length > 0
         }
-      }).length > 0 || stock?.length === 0) {
+      }).length > 0 || stock?.length === 0 || check_limit) {
         clearCart()
         console.log("ERROR FROM CHECK STOCK",)
         props?.setShowLoading(false)

@@ -33,6 +33,7 @@ const PromotionDetail = (props) => {
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
     const [stock, setStock] = useState(0)
+    const [limit, setLimit] = useState(0)
     const product = data?.promotionByID?.productDetail ?? {}
     const total = parseFloat(data?.promotionByID?.productDetail?.price ?? 0) - (parseFloat(data?.promotionByID?.productDetail?.price ?? 0) * (parseFloat(data?.promotionByID?.discount ?? 0) / 100))
     const handleIndexImage = (index) => {
@@ -43,8 +44,10 @@ const PromotionDetail = (props) => {
         setSize(product.size[index].size_number)
         if (cart === undefined) {
             setStock(product.size[index].stock)
+            setLimit(data?.promotionByID?.limit)
         } else {
             setStock(product.size[index].stock - cart.filter(prod => (prod.id === product._id && prod.size === product?.size[index].size_number) || (prod.id === id && prod.size === product?.size[index].size_number)).length)
+            setLimit(data?.promotionByID?.limit- cart.filter(prod => (prod.id === id)).length)
         }
     }
 
@@ -79,6 +82,8 @@ const PromotionDetail = (props) => {
             redirectToLogin()
         } else if (stock <= 0) {
             alert("Product is out of stock")
+        } else if (limit <= 0) {
+            alert("Promotion is out of limit")
         } else if (data?.promotionByID) {
             const result = {
                 id: data.promotionByID._id,
