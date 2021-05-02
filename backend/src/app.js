@@ -20,9 +20,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 const corsOptions = {
-  origin: 'http://ec2-52-221-197-105.ap-southeast-1.compute.amazonaws.com',
+  origin: ['http://ec2-52-221-197-105.ap-southeast-1.compute.amazonaws.com:3000', 'http://localhost:3000'],
   credentials: true,
-  allowedHeaders: ["Content-Type", "authorization", "Content-Length", "X-Reqursted-With", "Accept"]
+  allowedHeaders: ["Content-Type", "authorization", "Content-Length", "X-Reqursted-With", "Accept", "Cookie"]
 }
 app.use(cors(corsOptions))
 app.use(

@@ -12,6 +12,7 @@ export const userIDQueryMiddleware = async (resolve, source, args, context, info
 }
 
 export const needPermission = async (resolve, source, args, context, info) => {
+    console.log(context)
     if (context?.user) {
         return resolve(source, args, context, info);
     }
