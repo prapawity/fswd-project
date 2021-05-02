@@ -6,4 +6,4 @@ export const product = ProductTC.getResolver('findOne')
 export const productByID = ProductTC.getResolver('findById')
 
 export const promotions = PromotionTC.getResolver('findMany')
-export const promotionByID = PromotionTC.getResolver('findById', [needPermission])
+export const promotionByID = PromotionTC.getResolver('findById')
