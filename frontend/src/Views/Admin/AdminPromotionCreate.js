@@ -18,6 +18,7 @@ const AdminPromotionCreate = (props) => {
     name: "",
     discount: 1,
     limit: 1,
+    thumpnail: "https://www.gefu.com/media/image/4e/c0/1e/xPromotion-1000x562.jpg.pagespeed.ic.EI2ZcixaFi.webp"
   });
 
   const refetchQuery = {
