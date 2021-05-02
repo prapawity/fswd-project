@@ -23,7 +23,6 @@ const CardOrderAdminRow = (props) => {
     dataOfColumn?.productsID?.map(async (productSize) => {
       const filteredData = data?.products?.filter((product) => product?._id === productSize?.id)
       if (filteredData?.length > 0) {
-        console.log(filteredData)
         const newSize = filteredData[0]?.size ?? []
 
         const result = newSize.map((size) => {
@@ -37,7 +36,6 @@ const CardOrderAdminRow = (props) => {
         if (result?.length > 0) {
           try {
             await updateProduct({ variables: { id: filteredData[0]?._id ?? 0, size: result } })
-            console.log("UPDATE PRODUCT SUCCESS", result, newSize)
           } catch (error) {
             console.log(error)
             alert("UPDATE PRODUCT ERROR")
@@ -48,9 +46,8 @@ const CardOrderAdminRow = (props) => {
   }
 
   const handleRemoveOrder = async () => {
-    console.log(detail)
     props?.setLoading(true)
-    
+
     try {
       await updateProductData()
       await removeOrder({ variables: { id: detail } })

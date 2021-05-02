@@ -16,7 +16,7 @@ const AdminEditProductDetail = (props) => {
     const categoryType = ["RUNNING", "FOOTBALL", "CASUAL", "BASKETBALL", "SANDALS", "OTHER"]
     const [sizeData, setSize] = useState({ size_number: "", stock: "" })
     const { setLoading } = useSession()
-    
+
     useEffect(() => {
         if (loading) {
             setLoading(true)
@@ -62,7 +62,6 @@ const AdminEditProductDetail = (props) => {
         e.preventDefault()
         let allSize = productData?.size.map((sz) => ({ size_number: sz.size_number, stock: sz.stock })) ?? []
         let inList = allSize.filter((size) => size.size_number === (sizeData?.size_number ?? "30")).length !== 0
-        console.log("CHECK IN LIST", allSize)
         if (inList) {
             let mockSize = []
             allSize.map((size) => {
@@ -86,7 +85,6 @@ const AdminEditProductDetail = (props) => {
 
     const saveProduct = async (e) => {
         e.preventDefault()
-        console.log(productData)
         try {
             await updateProduct({
                 variables: {
@@ -101,10 +99,6 @@ const AdminEditProductDetail = (props) => {
             alert("Update Data Fail")
         }
     }
-
-    useEffect(() => {
-        console.log(productData)
-    }, [productData])
 
     return (
         <Fragment>
@@ -164,7 +158,6 @@ const AdminEditProductDetail = (props) => {
                             </thead>
                             <tbody>
                                 {productData?.size?.map((size) => {
-                                    console.log("LOOP SIZE", size)
                                     return (<tr key={size?.size_number ?? 0}>
                                         <td className="pr-5">
                                             <input

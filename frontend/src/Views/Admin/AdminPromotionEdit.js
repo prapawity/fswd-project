@@ -62,7 +62,6 @@ const AdminPromotionEdit = (props) => {
       e.preventDefault();
       setLoading(true)
         try {
-          console.log(newPromotion);
           await update_promotion({
             variables: {
               id: id,

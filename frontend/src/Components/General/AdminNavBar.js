@@ -10,7 +10,6 @@ const AdminNavBar = () => {
   const [showAlert, setShowAlert] = useState(false);
   const handleActionLogout = () => {
     setShowAlert(!showAlert);
-    console.log("check here", showAlert);
   };
 
   const alertProps = {

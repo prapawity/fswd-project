@@ -15,7 +15,6 @@ const CardOrderDetailAdmRow = (props) => {
         dataShow?.filter(
           (dataProd) => dataProd.id === prod.id && dataProd.size === prod.size
         ).length === 0
-      console.log("CHECK DATA Show", dataShow, inData, (dataOfColumn?.products?.filter((product) => prod?.id === product?._id).length === 1), dataOfColumn.products, prod.id)
       if (inData) {
         dataShow.push(prod);
       }
@@ -23,7 +22,7 @@ const CardOrderDetailAdmRow = (props) => {
   };
 
   calculateContent();
-  console.log(dataShow, dataOfColumn)
+
   const deleteData = (id) => {
     props?.deleteProduct(id)
   }
@@ -32,7 +31,6 @@ const CardOrderDetailAdmRow = (props) => {
     <Fragment>
       {dataShow.map((product, productIndex) => {
         const productDetail = dataOfColumn?.products.filter((prod) => prod?._id === product?.id)[0]
-        console.log(product)
         return (
           <tr key={productIndex}>
             {/* Product */}

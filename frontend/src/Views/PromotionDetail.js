@@ -66,8 +66,6 @@ const PromotionDetail = (props) => {
         [history],
     )
 
-    console.log(data)
-
     useEffect(() => {
         if (id === "") {
             redirectToProductAll()

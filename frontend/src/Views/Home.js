@@ -20,7 +20,6 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    console.log(data);
     if (loading || promotionLoading) {
       setLoading(true);
     } else if ((!loading && !promotionLoading) || error) {

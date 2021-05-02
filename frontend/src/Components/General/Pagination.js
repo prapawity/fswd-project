@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react"
 
 const Pagination = (props) => {
     const [stateIndex, setIndex] = useState(props?.index ?? 0)
-    const numberOfPage = props?.pages ?? 5
+    const numberOfPage = props?.pages ?? 1
     var pages = []
     const content = () => {
         pages = []
@@ -16,6 +16,13 @@ const Pagination = (props) => {
         props?.updateIndex(newIndex)
     }
     content()
+
+    useEffect(() => {
+        if((numberOfPage - 1 ) < stateIndex) {
+            setIndex(0)
+        }
+    }, [stateIndex, pages])
+
     return (
         <Fragment>
             <div className="py-2" style={{ width: 'fit-content', margin: 'auto' }}>
@@ -28,7 +35,7 @@ const Pagination = (props) => {
                                 }} href="#pablo" className={`focus:outline-none first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-gray-500  ${stateIndex === index ? "text-white bg-gray-500" : "text-gray-500"}`}>
                                     {index + 1}
                                 </button>
-                                </li>
+                            </li>
                         })}
                     </ul>
                 </nav>

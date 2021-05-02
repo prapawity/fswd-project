@@ -14,7 +14,6 @@ const CardPieChart = () => {
 
     setInprogress(newProgress)
     setComplete(newComplete)
-    console.log(newComplete, newProgress)
   }, [loading, data, inprogress, complete])
 
   useEffect(() => {

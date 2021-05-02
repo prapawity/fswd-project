@@ -10,7 +10,6 @@ const UserNavBar = (props) => {
   const { cart } = useSession();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
-  console.log(cart, "CHECK Cart");
   const redirectToRegister = useCallback(() => {
     history.push("/register");
   }, [history]);
@@ -109,8 +108,8 @@ const UserNavBar = (props) => {
                 <li className="nav-item" style={{ marginRight: "15px" }}>
                   <div className="w-full">
                     <span className="relative inline-block">
-                    <Link to="/customer/cart">
-                      <ShoppingCartIcon className="h-7 w-7 text-white-500"  /></Link>
+                      <Link to="/customer/cart">
+                        <ShoppingCartIcon className="h-7 w-7 text-white-500" /></Link>
                       <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
                         {cart?.length ?? 0}
                       </span>
@@ -122,7 +121,7 @@ const UserNavBar = (props) => {
           )}
         </div>
       </nav>
-      <hr className="mb-0 mx-auto px-4 border-b-1 border-blueGray-200 shadow-xl" /> 
+      <hr className="mb-0 mx-auto px-4 border-b-1 border-blueGray-200 shadow-xl" />
     </div>
   );
 };

@@ -16,13 +16,12 @@ const CardOrderDetailPdt = (props) => {
       (prod) => prod?._id === product?.id
     )
     return desc[0]?.type === "PROMOTION" ? "Promotion" : desc[0]?.description ?? ""
-    
+
   };
   const price = (product) => {
     const promoList = data?.promotions?.filter(
       (promo) => promo?._id === product?.id
     )
-    console.log("CHECK PROMO", promoList)
     if (promoList?.length > 0) {
       return parseFloat(promoList[0]?.totalPrice).toLocaleString("th-TH", {
         style: "currency",
@@ -39,10 +38,9 @@ const CardOrderDetailPdt = (props) => {
     }
   };
   let dataShow = [];
-  console.log(dataOfColumn, props.dataColumn, "CHK");
   const calculateContent = () => {
     dataShow = [];
-    console.log(dataOfColumn?.productsID);
+
     dataOfColumn?.productsID?.map((prod) => {
       let inData = false;
       inData =
@@ -55,7 +53,7 @@ const CardOrderDetailPdt = (props) => {
       }
     });
   };
-  console.log(dataOfColumn.productsID);
+
   calculateContent();
   return (
     <Fragment>

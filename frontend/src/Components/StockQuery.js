@@ -9,7 +9,7 @@ const StockQuery = (props, all, type) => {
   const { loading: loading1, data: promo } = useQuery(PROMOTION_QUERY, {
     variables: { id: props?.id },
   });
-  //   console.log(data?.productByID?.price)
+
   if (type === "product_id") {
     return promo?.promotionByID?.productDetail?._id
   }
@@ -22,19 +22,17 @@ const StockQuery = (props, all, type) => {
   if (props?.type === "PRODUCT") {
     if (data?.productByID !== undefined) {
       const index = data?.productByID?.size.findIndex(size => (size.size_number) === (props.size))
-      //   console.log(index)
+
       let result = [...data?.productByID?.size]
       let item = { ...result[index] }
       item.stock -= all.filter((prod) => prod.id === props.id && prod.size === props.size).length;
       result[index] = item
-      //   result[index].stock = data.productByID.size[index].stock-1
-      // console.log(result)
-      // console.log(all.filter((prod) => prod.id === props.id &&  prod.size === props.size).length)
+
       let send = []
       result.map((prod) => (
         send.push({ stock: prod.stock, size_number: prod.size_number })
       ))
-      // console.log(send)
+
       return (send);
     }
     // 
@@ -43,7 +41,7 @@ const StockQuery = (props, all, type) => {
   if (props?.type === "PROMOTION") {
     if (promo?.promotionByID !== undefined) {
       const index = promo?.promotionByID?.productDetail?.size.findIndex(size => (size.size_number) === (props.size))
-      //   console.log(promo?.promotionByID?.productDetail)
+
       let result = [...promo?.promotionByID?.productDetail?.size]
       let item = { ...result[index] }
       item.stock -= all.filter((prod) => prod.id === props.id && prod.size === props.size).length;

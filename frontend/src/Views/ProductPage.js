@@ -12,6 +12,7 @@ const ProductPage = (props) => {
     const { loading, data, error } = useQuery(PRODUCTS_QUERY, { fetchPolicy: 'network-only' })
     const typeOfTab = ["ALL", "Running", "Casual", "Football", "Basketball", "Sandals"]
     const pathName = props?.match?.params?.type?.replace('/product/', '') ?? "all"
+    const [mockData, setMock] = useState()
     const [pageIndex, setPageIndex] = useState(0)
     const handleIndex = useMemo(() => {
         let currentIndex = 0
@@ -31,15 +32,17 @@ const ProductPage = (props) => {
         },
         [history],
     )
+    const [stateIndex, setIndex] = useState(indexFromPath)
+    const dataShow = useMemo(() => {
+        return data?.products?.filter((dataIndex) => stateIndex === 0 ? true : typeOfTab[stateIndex].toLowerCase() === dataIndex?.category?.toLowerCase()) ?? []
+    }, [stateIndex, data])
+    const numberOfPages = Math.floor(dataShow.length / 8) + (dataShow.length % 8 === 0 ? 0 : 1)
 
     const updatePageIndex = (newIndex) => {
         setPageIndex(newIndex)
     }
 
-    const [stateIndex, setIndex] = useState(indexFromPath)
-    const dataShow = useMemo(() => {
-        return data?.products?.filter((dataIndex) => stateIndex === 0 ? true : typeOfTab[stateIndex].toLowerCase() === dataIndex?.category?.toLowerCase()) ?? []
-    }, [stateIndex, data])
+
 
     const handleUpdateIndex = (index) => {
         setIndex(index)
@@ -51,7 +54,11 @@ const ProductPage = (props) => {
             setIndex(indexFromPath)
         }
 
-    }, [pathName, stateIndex])
+        if (pageIndex > numberOfPages) {
+            setPageIndex(0)
+        }
+
+    }, [pathName, stateIndex, pageIndex])
 
     return (
         <Fragment>
@@ -64,7 +71,7 @@ const ProductPage = (props) => {
                     })}
                 </div>
                 <div className="w-full mt-5">
-                    <Pagination updateIndex={updatePageIndex} index={pageIndex} pages={Math.floor(dataShow.length / 8) + (dataShow.length % 8 === 0 ? 0 : 1)} />
+                    <Pagination updateIndex={updatePageIndex} index={pageIndex} pages={numberOfPages} />
                 </div>
             </div>
         </Fragment>

@@ -87,7 +87,6 @@ const CardOrderDetailAdm = (props) => {
           refetch();
           refetchPromo()
           props?.refetch()
-          console.log("UPDATE DATA SUCCESS");
         } catch (error) {
           console.log(error);
           alert("UPDATE PRODUCT ERROR");
@@ -95,8 +94,6 @@ const CardOrderDetailAdm = (props) => {
       }
     }
   };
-
-  console.log("ORDER DETAIL", orderDetail);
 
   const deleteProduct = async (sizeProduct) => {
     const result = orderDetail?.productsID?.filter(
@@ -157,9 +154,8 @@ const CardOrderDetailAdm = (props) => {
                   <select
                     value={statusOrder}
                     onChange={handleInputChange}
-                    className={`bg-${
-                      statusOrder === "INPROCESS" ? "yellow" : "green"
-                    }-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}
+                    className={`bg-${statusOrder === "INPROCESS" ? "yellow" : "green"
+                      }-500 active:bg-gray-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-3 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150`}
                   >
                     <option value={"INPROCESS"}>Inprocress</option>
                     <option value={"COMPLETED"}>Completed</option>
@@ -244,10 +240,7 @@ const CardOrderDetailAdm = (props) => {
                 Promotion:{" "}
                 {orderDetail?.products
                   ?.filter((prod) => prod?.type === "PROMOTION")
-                  .map((promo, indexPromo) => {
-                    console.log(promo, "CHECK");
-                    return (indexPromo === 0 ? "" : ", ") + (promo?.name ?? "");
-                  })}
+                  .map((promo, indexPromo) => (indexPromo === 0 ? "" : ", ") + (promo?.name ?? ""))}
               </p>
               <p className={"text-normal text-red-700"}>
                 Discount:{" "}

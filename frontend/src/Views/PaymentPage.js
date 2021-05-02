@@ -10,7 +10,7 @@ import { PROMOTIONS_QUERY } from "../graphql/promotionQuery";
 const CustomerPayment = (props) => {
   const history = useHistory();
   const { cart, setLoading } = useSession();
-  const [newOrder, setNewOrder] = useState(props?.location?.state?.newOrder  ?? undefined)
+  const [newOrder, setNewOrder] = useState(props?.location?.state?.newOrder ?? undefined)
   const { loading: prodLoad, data: productsQuery, refetch: refetchProd } = useQuery(PRODUCTS_QUERY)
   const { loading: promoLoad, data: promotionsQuery, refetch: refetchPromo } = useQuery(PROMOTIONS_QUERY)
   const [userStock, setStk] = useState([])
@@ -79,8 +79,6 @@ const CustomerPayment = (props) => {
       } else {
         const prodList = productsQuery?.products?.filter((product) => product?._id === prod?.id) ?? []
         const promoList = promotionsQuery?.promotions?.filter((promo) => promo?._id === prod?.id) ?? []
-        console.log("PROMO LIST", promoList, prod?.id, promotionsQuery?.promotions)
-        console.log("PROD LIST", prodList, prod?.id, productsQuery?.products)
         if (prod?.type === "PROMOTION") {
 
           const size = []
@@ -115,7 +113,7 @@ const CustomerPayment = (props) => {
 
   useEffect(() => {
     updateData()
-    console.log(stock)
+
     if (promoLoad || prodLoad) {
       setLoading(true)
     } else if (!prodLoad && !promoLoad) {

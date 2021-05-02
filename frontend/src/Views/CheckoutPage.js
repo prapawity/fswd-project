@@ -12,7 +12,7 @@ const Checkout = (props) => {
   const { loading, data, error } = useQuery(USER_QUERY, {
     variables: { id: userCookies._id },
   });
-  //   console.log(data);
+
   let total = 0;
   let subtotal = 0;
   let list = [];
@@ -24,7 +24,6 @@ const Checkout = (props) => {
   cart?.map((data) => list.push({ id: data.id, size: data.size }));
   const [newOrder, setOrder] = useState(null);
 
-  // /console.log(newOrder)
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setOrder((prev) => ({ ...prev, [name]: value }));

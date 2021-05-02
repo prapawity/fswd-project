@@ -47,12 +47,12 @@ export const SessionProvider = (props) => {
   const handleAddCart = (product) => {
     console.log("CART", cart)
     if (cart === undefined) {
-      console.log("FIRST TIME")
+
       const arrayData = [product]
       const json_data = JSON.stringify(arrayData)
       setCookie('cart', json_data, { maxAge: 86400, path: '/' })
     } else {
-      console.log("SECOND TIME")
+
       const response_data = cart
       response_data.push(product)
       setCookie('cart', response_data, { maxAge: 86400, path: '/' })
@@ -117,7 +117,7 @@ export const SessionProvider = (props) => {
   },
     [loadMe, removeCookie],
   )
-  console.log("Session Checking....")
+
   return (
     <SessionContext.Provider
       value={{

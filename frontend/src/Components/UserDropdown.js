@@ -24,7 +24,6 @@ const UserDropdown = (props) => {
 
   const handleActionLogout = () => {
     setShowAlert(!showAlert)
-    console.log("check here", showAlert)
   }
 
   const alertProps = {

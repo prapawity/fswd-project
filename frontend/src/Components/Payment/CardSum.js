@@ -30,9 +30,9 @@ const CardSum = (props) => {
             id: stockProd?.id, size: stockProd?.size
           }
         })
-        console.log("UPDATE PRODUCT SUCCESS")
+
       } catch (error) {
-        console.log("ERROR FROM UPDATE PRODUCT", error)
+
         alert("Error")
       }
     } else if (stockProd.type === "PROMOTION") {
@@ -43,22 +43,18 @@ const CardSum = (props) => {
               id: stockProd?.productDetail?._id, size: stockProd?.size
             }
           })
-          console.log("UPDATE PRODUCT SUCCESS")
+
         } catch (error) {
-          console.log("ERROR FROM UPDATE PRODUCT IN PROMOTION", error)
+
           alert("Error")
         }
         await update_limit({ variables: { id: stockProd?.id, limit: stockProd?.qualtity, status: stockProd?.limit !== 0 } })
-        console.log("UPDATE PROMOTION SUCCESS")
+
       } catch (error) {
-        console.log("ERROR FROM UPDATE PROMOTION", error)
+
         alert("Error")
       }
     }
-  }
-
-  if (props?.type === "Payment") {
-    console.log("CHECK DATA PAYMENT PAGE", props?.getStock(), props?.stock)
   }
 
   const handleCreateOrder = useCallback(
@@ -66,10 +62,10 @@ const CardSum = (props) => {
       e.preventDefault()
       props?.setShowLoading(true)
       let stock = props?.getStock() ?? []
-      console.log("CHECK DATA", props?.stock, "CHECK", stock, props?.newOrder)
-      stock?.map((prod)=>{
-        if (prod?.type === "PROMOTION"){
-          if(prod.qualtity<0){
+
+      stock?.map((prod) => {
+        if (prod?.type === "PROMOTION") {
+          if (prod.qualtity < 0) {
             check_limit = true;
           }
         }
@@ -82,7 +78,7 @@ const CardSum = (props) => {
         }
       }).length > 0 || stock?.length === 0 || check_limit) {
         clearCart()
-        console.log("ERROR FROM CHECK STOCK",)
+
         props?.setShowLoading(false)
         history.push("/products");
         addToast(word, { appearance: 'error', autoDismiss: true })
@@ -93,12 +89,12 @@ const CardSum = (props) => {
         try {
           await create_order({ variables: { record: newOrder } });
           clearCart()
-          console.log("SUCCESS ALL")
+
           props?.setShowLoading(false)
           alert("order suscessful");
           history.push("/");
         } catch (err) {
-          console.log("ERROR FROM UPDATE ORDER", err);
+
           props?.setShowLoading(false)
           alert("order failed");
         }

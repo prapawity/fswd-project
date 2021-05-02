@@ -11,8 +11,6 @@ const CardCartRow = (props) => {
     variables: { id: props?.dataColumn?.id ?? "" },
   })
 
-  // console.log(props?.dataColumn)
-
   const handleDelete = useCallback((e) => {
     e.preventDefault();
     const newList = list.filter((item) => !(item?.id === props?.dataColumn?.id && item?.size === props?.dataColumn?.size))

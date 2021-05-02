@@ -26,9 +26,6 @@ const AdminOrderDetail = (props) => {
     refetch()
   }
 
-  if (data) {
-    console.log(data);
-  }
   return (
     <div className="flex flex-wrap mt-4 w-full mb-12 px-4">
       {data && data?.orderById ? (

@@ -45,7 +45,6 @@ function App() {
 
 
   useEffect(() => {
-    console.log(loginLoading, "CHECK LOAD")
     setShowLoading(forceLoading)
   }, [forceLoading])
 

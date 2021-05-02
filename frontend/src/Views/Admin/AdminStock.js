@@ -78,7 +78,6 @@ const StockPage = (props) => {
                   <table className="table-auto text-center w-full">
                     <tbody>
                       {product?.size?.map((size) => {
-                        // console.log("LOOP SIZE", size);
                         return (
                           <tr key={size?.size_number ?? 0}>
                             <td className="p-0">

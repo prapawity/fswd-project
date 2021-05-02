@@ -30,7 +30,6 @@ const AdminPromotionCreate = (props) => {
     ],
   };
   const [create_promotion] = useMutation(CREATE_PROMOTION, refetchQuery);
-  console.log(data)
   const redirectToPromotions = useCallback(() => {
     history.push("/admin/promotions");
 
