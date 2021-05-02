@@ -10,15 +10,15 @@ import schema from './graphql'
 const path = '/graphql'
 const app = express()
 const server = new ApolloServer({
-    schema,
-    playground: true,
-    context: ({ req }) => ({ user: req.user }),
-  })
+  schema,
+  playground: true,
+  context: ({ req }) => ({ user: req.user }),
+})
 
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.use(cors())
 app.use(
   path,
   jwt({
@@ -49,7 +49,7 @@ app.use(
   },
 )
 
-server.applyMiddleware({ app, path, cors: { origin: 'http://localhost:3000', credentials: true } })
+server.applyMiddleware({ app, path })
 
 const port = process.env.PORT ?? 5001
 app.listen({ port }, () => {
