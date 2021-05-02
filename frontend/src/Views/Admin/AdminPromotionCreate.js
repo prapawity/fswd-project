@@ -5,13 +5,13 @@ import { CREATE_PROMOTION } from "../../graphql/promotionMutation";
 import { PRODUCTS_QUERY } from "../../graphql/productQuery";
 import { PROMOTIONS_QUERY } from "../../graphql/promotionQuery";
 import { useToasts } from 'react-toast-notifications'
-import { useSession } from "../../contexts/SessionContext";
+import LoadingScreen from "../../Components/General/LoadingScreen";
 
 const AdminPromotionCreate = (props) => {
   const history = useHistory();
-  const { setLoading } = useSession()
   const { loading, data, error } = useQuery(PRODUCTS_QUERY);
   const { addToast } = useToasts()
+  const [showLoading, setLoading] = useState(false)
   const [newPromotion, setPromotion] = useState({
     productID: data?.products[0]?._id ?? "",
     price: "",
@@ -50,6 +50,7 @@ const AdminPromotionCreate = (props) => {
       e.preventDefault();
       setLoading(true)
       const promo = newPromotion
+      promo.productID = data?.products[0]?._id ?? ""
       promo.price = (data?.products?.filter((prod) => prod?._id === newPromotion?.productID)[0]?.price ?? 0).toString()
 
       setTimeout(async () => {
@@ -79,6 +80,7 @@ const AdminPromotionCreate = (props) => {
 
   return (
     <section className="section-login" style={{ position: 'relative' }}>
+      <LoadingScreen show={showLoading} />
       <div
         className="w-full h-full bg-login"
         style={{
