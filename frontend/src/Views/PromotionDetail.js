@@ -29,13 +29,14 @@ const PromotionDetail = (props) => {
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/promotion/detail', '') ?? ""
-    const { loading, data, error } = useQuery(PROMOTION_QUERY, { variables: { id } })
+    const { loading, data, error, refetch } = useQuery(PROMOTION_QUERY, { variables: { id } })
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
     const [stock, setStock] = useState(0)
     const [limit, setLimit] = useState(0)
     const product = data?.promotionByID?.productDetail ?? {}
     const total = parseFloat(data?.promotionByID?.productDetail?.price ?? 0) - (parseFloat(data?.promotionByID?.productDetail?.price ?? 0) * (parseFloat(data?.promotionByID?.discount ?? 0) / 100))
+    const [mockData, setMock] = useState()
     const handleIndexImage = (index) => {
         setImage(index);
     };
@@ -107,12 +108,16 @@ const PromotionDetail = (props) => {
     }
 
     useEffect(() => {
-        if (loading) {
+        if (loading && mockData === undefined) {
             setLoading(true)
-        } else if (!loading || error) {
+        } else if (!loading || error || mockData) {
             setLoading(false)
         }
-    }, [loading])
+
+        if (mockData === undefined && data) {
+            setMock(data)
+        }
+    }, [loading, data, mockData])
     return (
         <Fragment>
             <Fragment>
