@@ -30,11 +30,13 @@ export const SessionProvider = (props) => {
         if (res?.data?.login) {
           setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/' })
           setCookie('user', res?.data?.login?.user, { maxAge: 86400, path: '/' })
+          localStorage.setItem('token', res?.data?.login?.token)
           setUser(res?.data?.login?.user)
         }
       } catch (err) {
         console.log("Error form Login: ", err)
         removeCookie('token', { maxAge: 86400, path: '/' })
+        localStorage.removeItem('token')
         removeCookie('user', { maxAge: 86400, path: '/' })
         setLoginError(err)
       }
@@ -81,6 +83,7 @@ export const SessionProvider = (props) => {
       removeCookie('token', { maxAge: 86400, path: '/' })
       removeCookie('user', { maxAge: 86400, path: '/' })
       removeCookie('cart', { maxAge: 86400, path: '/' })
+      localStorage.removeItem('token')
       redirectToHome()
     },
     [user],
@@ -100,11 +103,13 @@ export const SessionProvider = (props) => {
         const res = await loadMe()
         if (res?.data?.login?.token) {
           setCookie('token', res?.data?.login?.token, { maxAge: 86400, path: '/' })
+          localStorage.setItem('token', res?.data?.login?.token)
           setCookie('user', res?.data?.login?.user, { maxAge: 86400, path: '/' })
           setUser(res?.data?.login?.user)
         }
       } catch (err) {
         removeCookie('token', { maxAge: 86400 })
+        localStorage.removeItem('token')
         removeCookie('user', { maxAge: 86400 })
       }
     }

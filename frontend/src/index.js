@@ -7,24 +7,26 @@ import './index.css';
 import { SessionProvider } from './contexts/SessionContext'
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter } from 'react-router-dom'
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
+import { ApolloClient, ApolloLink, ApolloProvider, concat, createHttpLink, InMemoryCache } from '@apollo/client'
 import { ToastProvider } from 'react-toast-notifications';
 
 const httpLink = createHttpLink({
   uri: 'http://ec2-54-179-31-63.ap-southeast-1.compute.amazonaws.com:3001/graphql'
 })
 
-const authLink = setContext((_, { header }) => {
-  const token = localStorage.getItem('token')
-  return {
-    ...header,
-    authorization: token ? `Bearer ${token}` : ""
-  }
+const authLink = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext({
+    headers: {
+      authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : "",
+    }
+  });
+
+  return forward(operation);
 })
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: concat(authLink, httpLink),
   cache: new InMemoryCache({
     addTypename: false,
     resultCaching: false
