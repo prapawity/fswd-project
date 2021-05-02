@@ -48,7 +48,7 @@ const PromotionDetail = (props) => {
             setLimit(data?.promotionByID?.limit)
         } else {
             setStock(product.size[index].stock - cart.filter(prod => (prod.id === product._id && prod.size === product?.size[index].size_number) || (prod.id === id && prod.size === product?.size[index].size_number)).length)
-            setLimit(data?.promotionByID?.limit- cart.filter(prod => (prod.id === id)).length)
+            setLimit(data?.promotionByID?.limit - cart.filter(prod => (prod.id === id)).length)
         }
     }
 
@@ -105,6 +105,10 @@ const PromotionDetail = (props) => {
             }
         }
 
+    }
+
+    if (mockData === undefined && !loading && data === undefined) {
+        refetch()
     }
 
     useEffect(() => {
@@ -179,7 +183,7 @@ const PromotionDetail = (props) => {
                                     padding: '5px'
                                 }
 
-                                return <button className="focus:outline-none" onClick={() => handleSize(index)} key={index} style={buttonStyle}>{sz.size_number}</button>
+                                return <button hidden={parseInt(sz?.stock ?? 0) <= 0} className="focus:outline-none" onClick={() => handleSize(index)} key={index} style={buttonStyle}>{sz.size_number}</button>
                             })}
                         </div>
                         <button onClick={shouldShowAlert} className="focus:outline-none mt-10 mb-10" style={{ backgroundColor: "#111", color: 'white', padding: '10px', width: '100%', borderRadius: '30px' }}>Add to Cart</button>

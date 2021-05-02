@@ -28,7 +28,7 @@ const ProductDetail = (props) => {
     const { addToast } = useToasts()
     const history = useHistory()
     const id = props?.match?.params?.id?.replace('/product/detail', '') ?? ""
-    const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id }, fetchPolicy: 'network-only' })
+    const { loading, data, error } = useQuery(PRODUCT_QUERY, { variables: { id }, fetchPolicy: 'no-cache' })
     const [imageIndex, setImage] = useState(0)
     const [size, setSize] = useState(0)
     const [stock, setStock] = useState(0)

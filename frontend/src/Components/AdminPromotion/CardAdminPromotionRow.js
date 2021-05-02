@@ -18,15 +18,16 @@ const CardAdminPromotionRow = (prop) => {
   const [delete_promotion] = useMutation(DELETE_PROMOTION, refetchQuery);
   // console.log(prop)
   const redirectToPromotion = useCallback(() => {
-    history.push("/admin/promotion/" + prop.data._id);
+    history.push("/admin/promotion/" + prop?.data._id);
   }, [history]);
   const handleDelete = useCallback(async (e) => {
     e.preventDefault();
     try {
       await delete_promotion({ variables: { id: prop.data._id } });
-      // window.location.reload();
+      prop?.refetch()
     } catch (err) {
       console.log(err);
+      prop?.refetch()
       alert("Delete promo failed");
     }
   }, []);

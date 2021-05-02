@@ -14,8 +14,10 @@ const AdminPromotion = (props) => {
     "limit",
     " ",
   ];
-  const { data } = useQuery(PROMOTIONS_QUERY, { fetchPolicy: 'no-cache' })
-
+  const { data, refetch} = useQuery(PROMOTIONS_QUERY, { fetchPolicy: 'no-cache' })
+  const refetchData = () => {
+    refetch()
+  }
   return (
     <div className="flex flex-wrap mt-4 ">
       <div className="w-full mb-12 px-4">
@@ -33,7 +35,7 @@ const AdminPromotion = (props) => {
               </div>
             </div>
           </div>
-          <CardAdminPromotion type={header} data={data} />
+          <CardAdminPromotion refetch={refetchData} type={header} data={data} />
           <div className="rounded-t mb-0 px-4 py-2 border-0 widt">
             <div className="flex flex-wrap items-center">
               <div className="relative w-full px-0 max-w-full flex-grow flex-1">

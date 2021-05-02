@@ -1,6 +1,11 @@
 import CardAdminPromotionRow from "./CardAdminPromotionRow";
 
 const CardAdminPromotion = (props) => {
+
+  const refetchData = () => {
+    props?.refetch()
+  }
+
   return (
     <div className="block w-full overflow-x-auto">
       <table className="items-center w-full bg-transparent border-collapse">
@@ -22,7 +27,7 @@ const CardAdminPromotion = (props) => {
         </thead>
         <tbody>
           {props?.data?.promotions?.map((promotion, index) => {
-            return <CardAdminPromotionRow key={promotion?._id ?? index} data={promotion} />
+            return <CardAdminPromotionRow refetch={refetchData} key={promotion?._id ?? index} data={promotion} />
           })}
           {/* <CardPromotionRow data={query?.data?.promotions}/> */}
         </tbody>
