@@ -10,7 +10,7 @@ import { PROMOTIONS_QUERY } from "../graphql/promotionQuery";
 const CustomerPayment = (props) => {
   const history = useHistory();
   const { cart, setLoading } = useSession();
-  const [newOrder, setNewOrder] = useState(props?.location?.state?.newOrder ?? newOrder ?? undefined)
+  const [newOrder, setNewOrder] = useState(props?.location?.state?.newOrder  ?? undefined)
   const { loading: prodLoad, data: productsQuery, refetch: refetchProd } = useQuery(PRODUCTS_QUERY)
   const { loading: promoLoad, data: promotionsQuery, refetch: refetchPromo } = useQuery(PROMOTIONS_QUERY)
   const [userStock, setStk] = useState([])
